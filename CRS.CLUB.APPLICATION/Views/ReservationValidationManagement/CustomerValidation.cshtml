@@ -1,0 +1,54 @@
+﻿@{
+    ViewBag.Title = "Customer Validation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="flex flex-col gap-[32px] pb-4">
+    <!-- booking information  -->
+    <div class="title-info grid gap-[20px]">
+        <div>
+            <div class="heading-title">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Customer_Validation
+            </div>
+            <div class="span-title-light-gray">
+                @CRS.CLUB.APPLICATION.Resources.Resource.CustomerValidationMsg
+            </div>
+        </div>
+    </div>
+    <div class="px-[32px]">
+        @using (Html.BeginForm("CustomerValidationConfirmation", "ReservationValidationManagement", FormMethod.Get, new { @role = "form", @id = "MyForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="w-[400px] pb-[16px]">
+                <div class="input-field-common">
+                    <input type="text"
+                           id="OTPCode"
+                           name="OTPCode"
+                           class="w-full"
+                           placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Enter_OTP_from_Customer"
+                           oninput="validateNumericInput(this)"
+                           required>
+                </div>
+            </div>
+            <div class="flex gap-[16px]">
+                <button class="btn btn-primary" onclick="SubmitFunction()">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Continue
+                </button>
+            </div>
+        }
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        function SubmitFunction(this) {
+            if (this.checkValidity()) document.getElementById('MyForm').submit();
+        };
+    </script>
+
+    <script>
+        function validateNumericInput(inputElement) {
+            inputElement.value = inputElement.value.replace(/\D/g, '');
+            inputElement.value = inputElement.value.slice(0, 6);
+        }
+    </script>
+}

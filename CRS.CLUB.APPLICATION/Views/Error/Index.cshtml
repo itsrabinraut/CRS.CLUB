@@ -1,0 +1,14 @@
+﻿@model CRS.CLUB.APPLICATION.Models.ErrorModel
+@{
+    ViewBag.Title = "Index";
+    if (Session != null && Session["UserName"] != null)
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "";
+    }
+}
+<h2>An Error Occured</h2>
+<h3>Please contact support and report error id @Model.ErrorId</h3>

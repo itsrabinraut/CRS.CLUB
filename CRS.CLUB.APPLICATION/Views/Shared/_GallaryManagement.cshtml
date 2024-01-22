@@ -1,0 +1,76 @@
+﻿@model CRS.CLUB.APPLICATION.Models.ClubManagement.AddClubImage
+
+<div id="add-new-gallery"
+     class="drawer-close-disable  flex justify-end fixed top-0 right-0 z-40 h-screen overflow-y-auto transition-transform translate-x-full  dark:bg-gray-800"
+     tabindex="-1" aria-labelledby="drawer-right-label">
+    <div class="bg-white w-[574px] drawer-container relative">
+        <div class="drawer-form-container sticky top-0 ">
+            <div class="drawer-form flex justify-between bg-secondary-color-pink py-[16px] px-[24px] h-[56px]">
+                <div>
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Manage_Gallery
+                </div>
+                <button type="button" data-drawer-hide="add-new-gallery" aria-controls="add-new-gallery"
+                        class="text-[20px]" id="CloseId">
+                    <i class="las la-window-close text-white"></i>
+                </button>
+            </div>
+        </div>
+        <div class="p-[24px]">
+            @using (Html.BeginForm("AddClubImage", "ClubManagement", new { }, FormMethod.Post, new { @role = "form", @id = "UploadForm", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                if (!string.IsNullOrEmpty(Model.Sno))
+                {
+                    @Html.HiddenFor(model => model.Sno)
+                }
+                if (!string.IsNullOrEmpty(Model.AgentId))
+                {
+                    @Html.HiddenFor(model => model.AgentId)
+                }
+                <div class="grid grid-cols-1 gap-x-[20px] gap-y-[16px]">
+                    <div class="input-field-common">
+                        <label for="Title"
+                               class="block mb-[12px] text-sm font-medium text-secondary-text-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Title
+                        </label>
+                        @Html.TextBoxFor(model => model.Title, new { @class = "w-full rounded-[4px]", @placeholder = CRS.CLUB.APPLICATION.Resources.Resource.Title_Placeholder, @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off", @maxLength = "50" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Title)
+                        </span>
+                    </div>
+                    <div>
+                        <label for="gallery" class="block mb-[12px] text-sm font-medium text-secondary-text-2 ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Gallery_or_Banner
+                        </label>
+                        <div class="file-upload-common bg-gray-gallery">
+                            <label for="file_input_logo" class="custom-file-upload w-[128px] flex-none ">
+                                <span> @CRS.CLUB.APPLICATION.Resources.Resource.Choose_Logo</span>
+                            </label>
+                            <input id="file_input_logo" class="file-input" name="ImagePath" type="file" style="display:none;">
+                            <p id="file_name_logo"
+                               class="file-name w-max h-[23px] overflow-hidden pl-2 text-xs text-[#686868] leading-[25px]">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen
+                        </div>
+                        <div class="text-xs text-error mt-[8px]">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.ImageNote
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end py-[16px] ">
+                    <div class="flex gap-[24px]">
+                        <div class="btn btn-secondary" data-drawer-hide="add-new-gallery"
+                             aria-controls="add-new-gallery" id="CancelId">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Cancel
+                        </div>
+                        <div class="btn btn-primary">
+                            <button type="submit" onclick="checkImage(event)">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Create
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

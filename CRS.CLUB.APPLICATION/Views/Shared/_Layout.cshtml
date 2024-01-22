@@ -1,0 +1,433 @@
+﻿<!-- #region Header section -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoslog | Club | @ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/assets/css/club/global.css">
+    <link rel="stylesheet" href="~/Content/assets/css/club/layout.css">
+    <link rel="stylesheet" href="~/Content/assets/css/club/booking.css">
+    <link rel="stylesheet" href="~/Content/assets/css/tailwind.css">
+    <link rel="stylesheet" href="~/Content/assets/css/club/payment-management.css">
+    <link rel="stylesheet" href="~/Content/assets/css/club/dashboard.css">
+
+    <link rel="stylesheet" href="~/Content/assets/css/club/form.css">
+    <link rel="stylesheet" href="~/Content/assets/css/club/schedule.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css" />
+    <link rel="stylesheet" href="~/Content/assets/css/club/customer-validation.css">
+    <link rel="stylesheet"
+          href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/Content/assets/js/NotificationMessageToaster.js"></script>
+    <!--export html table to excel js-->
+    <script src="https://cdn.jsdelivr.net/gh/linways/table-to-excel@v1.0.4/dist/tableToExcel.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="~/Content/assets/js/modal.js"></script>
+    <script src="~/Content/assets/js/anychat-exports.min.js"></script>
+    <script src="~/Content/assets/js/anychart-ui.min.js"></script>
+    <script src="~/Content/assets/js/anychart-base.min.js"></script>
+    <script src="~/Content/assets/js/filter.js"></script>
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-100": '#D75A8B',
+                        "primary-200": '#FFB6C1',
+                        "primary-300": '#18181b',
+                        "primary-400": "#667085",
+                        "secondary-100": '#333',
+                        "secondary-200": '#A1A1AA',
+                        "secondary-300": '#7A7A7A',
+                        "secondary-400": "#EFF4FB",
+                        "secondary-text-1": "#3E3E3E",
+                        "secondary-text-2": "#151518",
+                        "secondary-color-pink": "#CC527A",
+                        "gold": '#E3AB00',
+                        "silver": '#A6A6A6',
+                        "copper": '#BD764B',
+                        "white": '#fff',
+                        "background-100": "#15050B",
+                        "gray-200": "#E4E4E7",
+                        "gray-500": "#71717A",
+                        "textColor-100": "#151518",
+                        "textColor-200": "#3E3E3E",
+                        "green-500": "#22c55e",
+                        "error": "#959595",
+                        "secondary-color-pink": " #cc527a",
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="select-checkbox-custom">
+    <div class="flex">
+
+        <div class="leftsidebarContainer">
+            <div class="logo" style="margin-bottom: 24px;">
+                <img src="~/Content/assets/images/logo.svg" alt="logo" />
+            </div>
+            <div class="main-menu-title text-secondary-300 pb-[16px]">@CRS.CLUB.APPLICATION.Resources.Resource.Main_Menu</div>
+
+            <div style="padding-bottom: 24px;" class="grid gap-[8px] ">
+                @{
+                    var CurrentURL = ApplicationUtilities.GetSessionValue("CurrentURL")?.ToString();
+                    var MenuActiveClass = string.Empty;
+                }
+                @if (ApplicationUtilities.HasMenuRight("/BookingRequest/BookingRequestList"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/BOOKINGREQUEST/BOOKINGREQUESTLIST") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <a href="@Url.Action("BookingRequestList","BookingRequest")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/bookingActive.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/booking.svg" />
+                                }
+
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Booking_Request</div>
+                        </div>
+                    </a>
+                }
+                @if (ApplicationUtilities.HasMenuRight("/ReservationValidationManagement/CustomerValidation"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/RESERVATIONVALIDATIONMANAGEMENT/CUSTOMERVALIDATION") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("CustomerValidation","ReservationValidationManagement")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/customer-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/customer.svg" />
+                                }
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Customer_Validation</div>
+                        </div>
+                    </a>
+                }
+                @if (ApplicationUtilities.HasMenuRight("/Home/Dashboard"))
+                {
+                    <!-- -----  -->
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/HOME/DASHBOARD") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <a href="@Url.Action("Dashboard", "Home")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/Dashboard-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/dashboardicon.svg" />
+                                }
+                            </div>
+                            <div class="label"> @CRS.CLUB.APPLICATION.Resources.Resource.Dashboard</div>
+                        </div>
+                    </a>
+                }
+                @if (ApplicationUtilities.HasMenuRight("/ClubManagement/Index"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/CLUBMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("Index","ClubManagement")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/club-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/club.svg" />
+                                }
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Club_Management</div>
+                        </div>
+                    </a>
+                }
+                @if (ApplicationUtilities.HasMenuRight("/ReservationLedger/ReservationLedger"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/RESERVATIONLEDGER/RESERVATIONLEDGER") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("ReservationLedger","ReservationLedger")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/Reservation-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/club.svg" />
+                                }
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Reservation_Ledger</div>
+                        </div>
+                    </a>
+                }
+                @if (ApplicationUtilities.HasMenuRight("/PaymentManagement/Index"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/PAYMENTMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("Index", "PaymentManagement")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/payment-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/payment.svg" />
+                                }
+                            </div>
+                            <div class="label">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Payment_Management
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                @if (ApplicationUtilities.HasMenuRight("/ReviewManagement/Index"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/REVIEWMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("Index", "ReviewManagement")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/payment-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/payment.svg" />
+                                }
+                            </div>
+                            <div class="label">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Review_and_Ratings
+                            </div>
+                        </div>
+                    </a>
+                }
+
+                @if (ApplicationUtilities.HasMenuRight("/RecommendationManagement/Index"))
+                {
+                    if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/RECOMMENDATIONMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                    else { MenuActiveClass = string.Empty; }
+                    <!-- -----  -->
+                    <a href="@Url.Action("Index", "RecommendationManagement")">
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/recommendation-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/recommendation.svg" />
+                                }
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Recommendation_Request</div>
+                        </div>
+                    </a>
+                }
+            </div>
+            <div>
+                <div class="main-menu-title text-secondary-300 pb-[16px]">@CRS.CLUB.APPLICATION.Resources.Resource.Setting</div>
+
+                <div class="grid gap-[8px] ">
+                    @if (ApplicationUtilities.HasMenuRight("/ProfileManagement/Index"))
+                    {
+                        if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/PROFILEMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                        else { MenuActiveClass = string.Empty; }
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/profile-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/profile.svg" />
+                                }
+                            </div>
+                            <a class="label" href="@Url.Action("Index", "ProfileManagement")">@CRS.CLUB.APPLICATION.Resources.Resource.Profile</a>
+                        </div>
+                    }
+                    @if (ApplicationUtilities.HasMenuRight("/ProfileManagement/ChangePassword"))
+                    {
+                        if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/PROFILEMANAGEMENT/CHANGEPASSWORD") { MenuActiveClass = "menuActive"; }
+                        else { MenuActiveClass = string.Empty; }
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/lock-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/lock.svg" />
+                                }
+                            </div>
+                            <a class="label" href="@Url.Action("ChangePassword", "ProfileManagement")">@CRS.CLUB.APPLICATION.Resources.Resource.Security</a>
+                        </div>
+                    }
+                    @if (ApplicationUtilities.HasMenuRight("/LanguageManagement/Index"))
+                    {
+                        if (!string.IsNullOrEmpty(CurrentURL) && CurrentURL.Trim().ToUpper() == "/LANGUAGEMANAGEMENT/INDEX") { MenuActiveClass = "menuActive"; }
+                        else { MenuActiveClass = string.Empty; }
+                        <!-- -----  -->
+                        <div class="menuContainer @MenuActiveClass">
+                            <div class="menu-icon">
+                                @if (MenuActiveClass == "menuActive")
+                                {
+                                    <img src="~/Content/assets/images/language-active.svg" />
+                                }
+                                else
+                                {
+                                    <img src="~/Content/assets/images/language.svg" />
+                                }
+                            </div>
+                            <a class="label" href="@Url.Action("Index", "LanguageManagement")">@CRS.CLUB.APPLICATION.Resources.Resource.Language_Preference</a>
+                        </div>
+                    }
+                    <!-- -----  -->
+                    @*<div class="menuContainer">
+                            <div class="menu-icon">
+                                <img src="~/Content/assets/images/help.svg" />
+                            </div>
+                            <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Help</div>
+                        </div>*@
+                    <!-- -----  -->
+                    <a class="menuContainer" href="@Url.Action("LogOff","Home")">
+                        <div class="menu-icon">
+                            <img src="~/Content/assets/images/logout.svg" />
+                        </div>
+                        <div class="label">@CRS.CLUB.APPLICATION.Resources.Resource.Log_out</div>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+            <div class="navbar  h-[80px] w-full flex justify-end items-center z-10">
+                <div class="flex-none flex gap-[64px]">
+                    <div class="profile-details">
+                        <div class="profile-details-user">
+                            @if (!string.IsNullOrEmpty(ApplicationUtilities.GetSessionValue("ClubName").ToString()))
+                            {
+                                <h3>@ApplicationUtilities.GetSessionValue("ClubName").ToString()</h3>
+                            }
+                            else
+                            {
+                                <span>Club</span>
+                            }
+                            @if (!string.IsNullOrEmpty(ApplicationUtilities.GetSessionValue("ClubNameJp").ToString()))
+                            {
+                                <span>@ApplicationUtilities.GetSessionValue("ClubNameJp").ToString()</span>
+                            }
+                        </div>
+                        <div data-drawer-target="drawer-right-example-profile"
+                             data-drawer-show="drawer-right-example-profile" data-drawer-placement="right"
+                             aria-controls="drawer-right-example-profile" class="cursor-pointer">
+                            <img src="@ApplicationUtilities.GetSessionValue("LogoImage").ToString()" class="rounded-full w-[45px] h-[45px] object-fill" />
+                        </div>
+                        <!--<div class="cursor-pointer">-->
+                        @*<img src="@ApplicationUtilities.GetSessionValue("LogoImage").ToString()" />*@
+                        <!--<img src="~/Content/assets//images/demo-image.jpeg" />
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div class="body-container">
+
+                <!-- #endregion -->
+                <!-- #region Render section -->
+
+                @RenderBody()
+
+                <!-- #endregion -->
+                <!-- #region Section footer -->
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".js-select2").select2({
+            closeOnSelect: false,
+            placeholder: "Placeholder",
+            // allowHtml: true,
+            allowClear: true,
+            tags: true // создает новые опции на лету
+        });
+    </script>
+
+    <script src="~/Content/assets/js/tabs.js"></script>
+    <script src="~/Content/assets/js/toogle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+            integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="~/Content/assets/js/pagination.js"></script>
+    <script>
+
+    $(function () {
+    {
+        @if (TempData["Notifications"] != null)
+        {
+            var messages = TempData["Notifications"] as List<CRS.CLUB.SHARED.NotificationModel>;
+            foreach (var note in messages)
+            {
+                <text>showNotification("@note.Message", "@note.Title", "@note.NotificationType");</text>
+            }
+        }
+        @{
+            ViewBag.Notifications = string.Empty;
+        }
+    }
+    });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+<!-- #endregion -->

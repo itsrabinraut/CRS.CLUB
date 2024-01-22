@@ -1,0 +1,218 @@
+﻿@model CRS.CLUB.APPLICATION.Models.Home.LoginRequestModel
+@{
+    ViewBag.Title = "LOG IN";
+    Layout = "";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoslog | Club | @ViewBag.Title</title>
+    <link rel="stylesheet" href="/Content/assets/css/superadmin/global.css">
+    <link rel="stylesheet" href="/Content/assets/css/superadmin/layout.css">
+    <link rel="stylesheet" href="/Content/assets/css/superadmin/custom.css">
+    <link rel="stylesheet" href="/Content/assets/css/superadmin/form.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.css" />
+    <link rel="stylesheet"
+          href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="~/Content/assets/js/NotificationMessageToaster.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-100": '#D75A8B',
+                        "primary-200": '#FFB6C1',
+                        "primary-300": '#18181b',
+                        "primary-400": "#667085",
+                        "secondary-100": '#333',
+                        "secondary-200": '#A1A1AA',
+                        "secondary-300": '#7A7A7A',
+                        "secondary-400": "#EFF4FB",
+                        "secondary-text-1": "#3E3E3E",
+                        "secondary-text-2": "#151518",
+                        "secondary-color-pink": "#CC527A",
+                        "gold": '#E3AB00',
+                        "silver": '#A6A6A6',
+                        "copper": '#BD764B',
+                        "white": '#fff',
+                        "background-100": "#15050B",
+                        "gray-200": "#E4E4E7",
+                        "gray-500": "#71717A",
+                        "textColor-100": "#151518",
+                        "textColor-200": "#3E3E3E",
+                        "green-500": "#22c55e",
+                        "error": "#959595",
+                        "secondary-color-pink": " #cc527a",
+                        "gray-900": "#18181B",
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="select-checkbox-custom">
+    <div class="flex h-screen overflow-hidden w-full">
+        <div class="w-1/2  h-screen  hidden md:block">
+            <img src="/Content/assets/images/affiliate-login.png" alt="img" class="h-full w-full object-fill">
+        </div>
+        <div class=" w-full md:w-1/2 h-screen  flex justify-center items-start md:items-center">
+            <div class="flex justify-center items-center w-full md:w-[512px] py-8 px-5 rounded-[8px] md:shadow md:shadow-[0px 1px 3px 0px rgba(0, 0, 0, 0.30)]">
+                <div class="w-[328px] flex flex-col">
+                    <div class="flex justify-center">
+                        <img src="/Content/assets/images/logo.svg" alt=""
+                             class="h-[46px] w-[149px] mb-[46px] text-center">
+                    </div>
+                    <div class="mb-6 flex flex-col gap-1">
+                        <div class="text-[#D75A8B] text-base font-semibold leading-[16px] ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Welcome_to_Hoslog
+                        </div>
+                        <div class="text-[#525F70] text-xs font-[400]">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Enter_your_club_credentials_to_continue_
+                        </div>
+                    </div>
+                    @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @role = "form", @id = "Form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="flex flex-col gap-6 ">
+                            <div class="input-field-common w-full">
+                                <label class="block mb-[10px] text-sm font-bold text-[#535353] uppercase">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Username_Phone_Number<span class="text-[#D32F2F] pl-1">*</span>
+                                </label>
+                                @Html.TextBoxFor(model => model.LoginId, new { @class = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500", @placeholder = CRS.CLUB.APPLICATION.Resources.Resource.LoginPlaceholderForUsername, @maxlength = "200" })
+                                <span class="validationMessage">
+                                    @Html.ValidationMessageFor(m => m.LoginId)
+                                </span>
+                            </div>
+                            <!-- for password  -->
+                            <div class="input-field-common w-full ">
+                                <label class="block mb-[10px] text-sm font-bold text-[#535353]  uppercase">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Password <span class="text-[#D32F2F] pl-1">*</span>
+                                </label>
+                                <div class="password-input">
+                                    @Html.TextBoxFor(model => model.Password, new { @class = "appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 txtPassword", @type = "password", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Password, @maxlength = "16" })
+                                    <i class="las la-eye text-[#666666] password-eye " style="color:#666666"
+                                       onclick="togglePassword()"></i>
+                                </div>
+                                <span class="validationMessage">
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </span>
+                            </div>
+                            <!-- for password 3end  -->
+                        </div>
+                        <div class="flex justify-between items-center mb-[24px] mt-[16px]">
+                            <div class="flex items-center checkbox-common py-[8px]">
+                                <input id="default-checkbox" name="RememberMe" type="checkbox" value=""
+                                       class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-[2px]  ">
+                                <label for="default-checkbox" class="ml-2 text-sm font-medium text-[#151B2C] ">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Remember_me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <button class="btn btn-primary-default w-full  rounded-[4px] md:rounded-[8px] px-4 py-[10px] text-sm font-semibold h-[40px]">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Login
+                            </button>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.querySelector('.password-input input');
+            const eyeIcon = document.querySelector('.password-eye');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.classList.remove('la-eye');
+                eyeIcon.classList.add('la-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.classList.remove('la-eye-slash');
+                eyeIcon.classList.add('la-eye');
+            }
+        }
+        //var inputElement = document.getElementById("Password");
+
+        //// Add a keydown event listener
+        //inputElement.addEventListener("keydown", function (event) {
+        //    // Check if the pressed key is Enter (key code 13)
+        //    if (event.keyCode === 13 || event.key === "Enter") {
+        //        alert("Enter key pressed!");
+        //        // You can add your own logic here
+        //    }
+        //});
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('select').select2({
+                minimumResultsForSearch: Infinity
+            });
+        });
+        $('#default-checkbox').click(function () {
+            var myCheckbox = document.getElementById("default-checkbox");
+            if (myCheckbox.checked) $('#default-checkbox').val(true);
+            else $('#default-checkbox').val(false);
+        });
+    </script>
+
+    <script src="/Content/assets/js/tabs.js"></script>
+    <script src="/Content/assets/js/jquery.validate.min.js "></script>
+    <script src="/Content/assets/js/additional-methods.min.js "></script>
+    <script src="/Content/assets/js/jquery.steps.min.js "></script>
+    <script src="/Content/assets/js/main.js "></script>
+    <script src="/Content/assets/js/filter.js "></script>
+    <script src="/Content/assets/js/image-upload.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+            integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        //For toaster Notification
+    $(function () {
+    {
+        @if (TempData["Notifications"] != null)
+        {
+            var messages = (List<CRS.CLUB.SHARED.NotificationModel>)TempData["Notifications"];
+            foreach (var note in messages)
+            {
+                <text>showNotification("@note.Message", "@note.Title", "@note.NotificationType");</text>
+            }
+        }
+        @{
+            ViewBag.Notifications = string.Empty;
+        }
+        }
+    });
+    </script>
+</body>
+</html>

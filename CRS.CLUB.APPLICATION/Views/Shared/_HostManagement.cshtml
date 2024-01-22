@@ -1,0 +1,318 @@
+﻿@model CRS.CLUB.APPLICATION.Models.ClubManagement.HostManagement
+
+<!-- drawer component -->
+<div id="add-new-host"
+     class="drawer-close-disable  flex justify-end fixed top-0 right-0 z-40 h-screen overflow-y-auto transition-transform translate-x-full  "
+     tabindex="-1" aria-labelledby="drawer-right-label">
+    <div class="bg-white w-[574px] drawer-container relative">
+        <div class="drawer-form-container sticky top-0 ">
+            <div class="drawer-form flex justify-between bg-secondary-color-pink py-[16px] px-[24px] h-[56px]">
+                <div>
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Manage_Host
+                </div>
+                <button type="button" data-drawer-hide="add-new-host" aria-controls="add-new-host" class="text-[20px]" id="HostClose">
+                    <i class="las la-window-close text-white"></i>
+                </button>
+            </div>
+        </div>
+        <div class="p-[24px]">
+            @using (Html.BeginForm("AddClubHost", "ClubManagement", new { }, FormMethod.Post, new { @role = "form", @id = "UploadForm", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                if (!string.IsNullOrEmpty(Model.HostID))
+                {
+                    @Html.HiddenFor(model => model.HostID)
+                }
+                if (!string.IsNullOrEmpty(Model.AgentID))
+                {
+                    @Html.HiddenFor(model => model.AgentID)
+                }
+                if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    @Html.HiddenFor(model => model.ImagePath)
+                }
+                <input name="@Model.HostID" hidden />
+                <input name="@Model.AgentID" hidden />
+                <div class="grid grid-cols-2 gap-x-[20px] gap-y-[16px]">
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Host_Name
+                        </label>
+                        @Html.TextBoxFor(model => model.HostName, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Host_Name, @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off", @maxLength = "50" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.HostName)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Position
+                        </label>
+                        @Html.TextBoxFor(model => model.Position, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Position, @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off", @maxLength = "50" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Position)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Rank
+                        </label>
+                        @Html.TextBoxFor(model => model.Rank, new { @class = "w-full rounded-[4px]", @placeholder = "1", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Rank)
+                        </span>
+                    </div>
+                </div>
+                <div class="divider-common"></div>
+                <div class="social-links-form grid gap-[16px]">
+                    <div class="flex items-center justify-end checkbox-common py-[8px]">
+                        <input id="default-checkbox" type="checkbox" value=""
+                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  ">
+                        <label for="default-checkbox"
+                               class="ml-2 text-sm font-medium text-secondary-100 ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Hide_Host_info
+                        </label>
+                    </div>
+                    <div class="font-semibold text-base">
+                        SNS
+                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Social_Links*@
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Twitter
+                        </label>
+                        @Html.TextBoxFor(model => model.Twitter, new { @class = "w-full rounded-[4px]", @placeholder = "@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Twitter)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Instagram
+                        </label>
+                        @Html.TextBoxFor(model => model.Instagram, new { @class = "w-full rounded-[4px]", @placeholder = "www.instagram.com/host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Instagram)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Tiktok
+                        </label>
+                        @Html.TextBoxFor(model => model.TikTok, new { @class = "w-full rounded-[4px]", @placeholder = "www.tiktok.com/@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.TikTok)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Line
+                        </label>
+                        @Html.TextBoxFor(model => model.Line, new { @class = "w-full rounded-[4px]", @placeholder = "www.line.com/@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Line)
+                        </span>
+                    </div>
+                </div>
+                <div class="divider-common"></div>
+                <div class="social-links-form grid gap-[16px]">
+                    <div class="flex items-center justify-end checkbox-common py-[8px]">
+                        <input id="default-checkbox" type="checkbox" value=""
+                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300   ">
+                        <label for="default-checkbox"
+                               class="ml-2 text-sm font-medium text-secondary-100 ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Hide_Host_info
+                        </label>
+                    </div>
+                    <div>
+                        <label for="Gallery" class="block mb-[12px] text-sm font-medium text-secondary-100 ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Gallery
+                        </label>
+                        <div class="file-upload-common">
+                            <label for="file_input" class="custom-file-upload" name="HostImage">
+                                <span> @CRS.CLUB.APPLICATION.Resources.Resource.Choose_Images</span>
+                            </label>
+                            <input id="file_input" type="file" style="display:none;" name="ImagePath">
+                            <p id="file_name_display"> @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen</p>
+                        </div>
+                        <div class="text-xs text-error mt-[8px]">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.ImageNote
+                        </div>
+                    </div>
+                </div>
+                <div class="divider-common"></div>
+                <div class="grid gap-[16px]">
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Birth_date
+                        </label>
+                        <div class="select-date-common flex gap-[16px]" name="DateOfBirth">
+                            <select id="large" class="select-common block w-[100px] Addyear" value="@Model.Year" name="DateOfBirth">
+                                @for (int year = DateTime.Now.Year; year >= 1900; year--)
+                                {
+                                    <option value="@year" @(year.ToString() == Model.Year ? "selected" : "")>@year</option>
+                                }
+                            </select>
+                            <select id="large" class="select-common block w-[100px] Addmonth" value="@Model.Month" name="Addmonth">
+                                @for (int month = 1; month <= 12; month++)
+                                {
+                                    <option value="@month" @(month.ToString("D2") == Model.Month ? "selected" : "")>@month</option>
+                                }
+                            </select>
+                            <select id="large" class="select-common block w-[100px] Addday" value="@Model.Day" name="AddDay">
+                                @for (int day = 1; day <= 32; day++)
+                                {
+                                    <option value="@day" @(day.ToString("D2") == Model.Month ? "selected" : "")>@day</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="toogle-common">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" value="" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-secondary-color-pink"> </div>
+                            <span class=" pl-2 text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Hide
+                            </span>
+                        </label>
+                    </div>
+                    <div class="flex gap-[24px]">
+                        <div class="flex items-center checkbox-common py-[8px]">
+                            <input id="default-checkbox-year" type="checkbox" value=""
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  ">
+                            <label for="default-checkbox-year"
+                                   class="ml-2 text-sm font-medium text-secondary-100 ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Year
+                            </label>
+                        </div>
+                        <div class="flex items-center checkbox-common py-[8px]">
+                            <input id="default-checkbox-month" type="checkbox" value=""
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 ">
+                            <label for="default-checkbox-month"
+                                   class="ml-2 text-sm font-medium text-secondary-100 ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Month
+                            </label>
+                        </div>
+                        <div class="flex items-center checkbox-common py-[8px]">
+                            <input id="default-checkbox-date" type="checkbox" value=""
+                                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300  ">
+                            <label for="default-checkbox-date"
+                                   class="ml-2 text-sm font-medium text-secondary-100 ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Date
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end checkbox-common py-[8px]">
+                        <input id="default-checkbox" type="checkbox" value=""
+                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300   ">
+                        <label for="default-checkbox"
+                               class="ml-2 text-sm font-medium text-secondary-100 ">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Hide_Host_info
+                        </label>
+                    </div>
+                </div>
+                <div class="grid gap-[16px]">
+                    <div class="grid grid-cols-2 gap-x-[20px] gap-y-[16px]">
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Constellation_Group
+                            </label>
+                            @Html.DropDownListFor(model => model.ConstellationGroup, new SelectList(ViewBag.Zodiac, "Value", "Text"))
+                            <span class="validationMessage">
+                                @Html.ValidationMessageFor(model => model.ConstellationGroup)
+                            </span>
+                        </div>
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Address
+                            </label>
+                            @Html.TextBoxFor(model => model.Address, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Address, @style = "border-radius:4px !important" })
+                            <span class="error">@Html.ValidationMessageFor(model => model.Address)</span>
+                        </div>
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Height
+                            </label>
+                            @Html.TextBoxFor(model => model.Height, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Height, @style = "border-radius:4px !important", @onkeypress = "return isNumberOnly(event)", autocomplete = "off", @maxlength = 7 })
+                            <span class="error">@Html.ValidationMessageFor(model => model.Height)</span>
+                        </div>
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.BloodType
+                            </label>
+                            @Html.DropDownListFor(model => model.BloodType, new SelectList(ViewBag.BloodType, "Value", "Text"))
+                            <span class="validationMessage">
+                                @Html.ValidationMessageFor(model => model.BloodType)
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-end checkbox-common py-[8px]">
+                        <input id="default-checkbox" type="checkbox" value=""
+                               class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300">
+                        <label for="default-checkbox"
+                               class="ml-2 text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Hide_Host_info
+                        </label>
+                    </div>
+                    <div class="grid grid-cols-2 gap-x-[20px] gap-y-[16px]">
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Former_Job
+                            </label>
+                            @Html.DropDownListFor(model => model.PreviousOccupation, new SelectList(ViewBag.PreviousOccupation, "Value", "Text"))
+                            <span class="validationMessage">
+                                @Html.ValidationMessageFor(model => model.PreviousOccupation)
+                            </span>
+                        </div>
+                        <div class="input-field-common">
+                            <label for="email"
+                                   class="block mb-[12px] text-sm font-medium text-secondary-100">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.LiquorStrength
+                            </label>
+                            @Html.DropDownListFor(model => model.Liquor, new SelectList(ViewBag.LiquoreStrength, "Value", "Text"))
+                            <span class="validationMessage">
+                                @Html.ValidationMessageFor(model => model.Liquor)
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <span class="error">@Html.ValidationMessageFor(model => model.ExtraMessage)</span>
+                <div class="flex justify-end py-[16px] ">
+                    <div class="flex gap-[24px]">
+                        <div class="btn btn-secondary AddHostClear" data-drawer-hide="add-new-host" aria-controls="add-new-host" id="HostCancel">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Cancel
+                        </div>
+                        <div class="btn btn-primary">
+                            <button type="submit" onclick="checkImageHost(event)">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    const fileInput = document.getElementById("file_input");
+    const fileNameDisplay = document.getElementById("file_name_display");
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `${fileInput.files[0].name}`;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    });
+</script>

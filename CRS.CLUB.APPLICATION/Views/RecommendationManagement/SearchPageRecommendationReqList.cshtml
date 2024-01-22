@@ -1,0 +1,254 @@
+﻿@model CRS.CLUB.APPLICATION.Models.RecommendationManagement.RecommendationReqCommonModel
+@{
+    ViewBag.Title = "SearchPageRecommendationReqList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string approved = "Approved";
+    string pending = "Pending";
+    string rejected = "Rejected";
+}
+<div class="px-8 py-4 flex flex-col gap-8">
+    <!-- booking information  -->
+    @Html.AntiForgeryToken()
+    <div class="flex justify-between items-center">
+        <div>
+            <div class="heading-title">@CRS.CLUB.APPLICATION.Resources.Resource.Pages</div>
+            <div class="span-title-light-gray">@CRS.CLUB.APPLICATION.Resources.Resource.Page_List_Supporting_Text</div>
+        </div>
+        <div class="flex gap-3">
+            <div class="btn btn-primary-default h-[40px] gap-2" onclick="CreateRequestForSearch()">
+                <i class="las la-plus-circle"></i> @CRS.CLUB.APPLICATION.Resources.Resource.New_Request
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col gap-8">
+        <div class="table-tab">
+            @*<div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                <div class="flex items-center">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
+                    <select id="countries" class="select-entires">
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">100</option>
+                    </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                </div>
+            </div>*@
+            <div class="relative overflow-x-auto">
+                <table class="w-full  text-left club-table">
+                    <thead class="club-table-thead">
+                        <tr>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    S.N
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Club_Profile
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Location
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Status
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Requested_Date
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Updated_Date
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Host
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Display_Page
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                            <th scope="col" class="p-[12px]">
+                                <div class="flex justify-center">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Action
+                                    <div class="relative pl-[5px]">
+                                        <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                        <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int sno = 1;
+                            foreach (var item in Model.GetClubSearchPageRecommendationReqList)
+                            {
+                                <tr class="bg-white border-b ">
+                                    <td class="p-[12px]">
+                                        @sno
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="round-image-text flex gap-[12px] w-max ">
+                                            <img class="w-[32px] h-[32px] rounded-full"
+                                                 src="@item.ClubLogo" />
+                                            <div class="flex justify-between w-full">
+                                                <div class="text-image grid flex-none">
+                                                    <div class="text-sm font-semibold text-[#101828] ">@item.ClubName</div>
+                                                    <div class="platinum ">@item.ClubCategory</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        Tokyo
+                                    </td>
+                                    @if (item.Status == "Approved")
+                                    {
+                                        <td class="p-[12px]">
+                                            <div class="approved">
+                                                @approved
+                                            </div>
+                                        </td>
+                                    }
+                                    else if (item.Status == "Pending")
+                                    {
+                                        <td class="p-[12px]">
+                                            <div class="pending">
+                                                @pending
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="p-[12px]">
+                                            <div class="rejected">
+                                                @rejected
+                                            </div>
+                                        </td>
+                                    }
+                                    <td class="p-[12px]">
+                                        <div class="w-max">
+                                            @item.RequestedDate
+                                        </div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="w-max">
+                                            @item.UpdatedDate
+                                        </div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="w-max">
+                                            @item.HostName
+                                        </div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="w-max">
+                                            @item.DisplayPageLabel
+                                        </div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="flex gap-2 items-center justify-center">
+                                            <i class="fa-solid fa-trash-can text-primary-100 text-[20px] cursor-pointer" onclick="DeleteSearchPageRequest('@item.RecommendationHoldId','@item.DisplayId')"></i>
+                                        </div>
+                                    </td>
+                                </tr>
+                                sno++;
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @*<div class="pagination-club">
+                <div class="show-entry">@CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of 301 @CRS.CLUB.APPLICATION.Resources.Resource.Entries</div>
+                <div class="flex gap-[12px]">
+                    <div class="btn btn-secondary-box-shadow ">@CRS.CLUB.APPLICATION.Resources.Resource.Previous</div>
+                    <div class="flex gap-[12px]">
+                        <div class="pagination-number active">
+                            1
+                        </div>
+                        <div class="pagination-number">
+                            2
+                        </div>
+                        <div class="pagination-number">
+                            3
+                        </div>
+                        <div class="pagination-number">
+                            ..
+                        </div>
+                        <div class="pagination-number">
+                            10
+                        </div>
+
+                    </div>
+                    <div class="btn btn-secondary-box-shadow ">@CRS.CLUB.APPLICATION.Resources.Resource.Next</div>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function CreateRequestForSearch() {
+            window.location.href = "/RecommendationManagement/ManageSearchPageRecommendationReq?pageid=" + '@ViewBag.PageId';
+        }
+        function DeleteSearchPageRequest(recommendationHoldId, displayId) {
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: "/RecommendationManagement/DeleteSearchPageRequest?displayid=" + displayId + "&recommendationholdid=" + recommendationHoldId,
+                dataType: 'json',
+                data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                },
+                success: function (responseData) {
+                    window.location.reload();
+                },
+                error: function (ex) {
+
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,1094 @@
+﻿@model CRS.CLUB.APPLICATION.Models.BookingRequest.CommonBookingRequestList
+@{
+    ViewBag.Title = "Booking Request List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int countRowAllBookingList = 1;
+    int countRowPendingBookingList = 1;
+    int countRowApproveBookingList = 1;
+    string approved = CRS.CLUB.APPLICATION.Resources.Resource.Approved;
+    string pending = CRS.CLUB.APPLICATION.Resources.Resource.Pending;
+    string reject = CRS.CLUB.APPLICATION.Resources.Resource.Rejected;
+    var bookingAnalyticsDetails = ViewBag.BookingRequestAnalytics;
+    int countRow = 0;
+    string today = DateTime.Now.ToString("yyyy-MM-dd");
+    string tomorrow = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
+    string dayAfterTomorrow = DateTime.Now.AddDays(2).ToString("yyyy-MM-dd");
+    var GetApprovedBookingRequestLists = Model.GetApprovedBookingRequestLists;
+    var GetPendingBookingLists = Model.GetPendingBookingRequestLists;
+    var GetAllBookingLists = Model.GetAllBookingRequestLists;
+    string ApprovedBookingCount = "0";
+    string PendingBookingCount = "0";
+    string AllBookingCount = "0";
+    if (GetApprovedBookingRequestLists != null && GetApprovedBookingRequestLists.Count > 0)
+    {
+        ApprovedBookingCount = GetApprovedBookingRequestLists[0].RowTotal;
+    }
+    if (GetPendingBookingLists != null && GetPendingBookingLists.Count > 0)
+    {
+        PendingBookingCount = GetPendingBookingLists[0].RowTotal;
+    }
+    if (GetAllBookingLists != null && GetAllBookingLists.Count > 0)
+    {
+        AllBookingCount = GetAllBookingLists[0].RowTotal;
+    }
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+<div class="flex flex-col gap-[32px] pb-4">
+    @Html.AntiForgeryToken()
+    <!-- booking information  -->
+    <div class="bg-gray-200 booking-info grid gap-[20px]">
+        <div>
+            <div class="heading-title">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Booking_Request
+            </div>
+            <div class="span-title-light-gray">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Manage_club_booking_request
+            </div>
+        </div>
+        <div class="flex gap-[32px] ">
+            <div class="booking-card">
+                <div class="booking-card-title">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Total_Bookings
+                </div>
+                <div class="booking-card-total">
+                    @Model.GetBookingRequestAnalyticData.TotalBooking
+                    <span>+ 0% <img src="~/Content/assets/images/club/arrow-up.svg" /> </span>
+                </div>
+            </div>
+            <div class="booking-card">
+                <div class="booking-card-title">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Todays_Bookings
+                </div>
+                <div class="booking-card-total">
+                    @Model.GetBookingRequestAnalyticData.TodayBooking
+                    <span>+ 0% <img src="~/Content/assets/images/club/arrow-up.svg" /> </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- booking information  -->
+    <!-- serach date information  -->
+    <div class="px-[32px] mt-[-25px] flex justify-between">
+        <form action="/BookingRequest/BookingRequestList" method="get">
+            <div class="relative input-search-wrapper">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-[16px] pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                        <path d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
+                              stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                <input type="search" id="default-searchText" class="input-search block w-full"
+                       placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Search" name="SearchFilter" value="@ViewBag.SearchText">
+            </div>
+        </form>
+        <div class="flex gap-[24px]">
+            @*<div class="bg-white ">
+                <form action="/BookingRequest/BookingRequestList" method="get">
+                    <div class="flex tab-container">
+                        <button id="tab1Button" class="tab-button tab-link active" name="Today" value="@today">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Today
+                        </button>
+                        <button id="tab2Button" class="tab-button tab-link" name="Tomorrow" value="@tomorrow">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Tomorrow
+                        </button>
+                        <button id="tab3Button" class="tab-button tab-link" name="DayAfterTomorrow" value="@dayAfterTomorrow">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Day_After_Tomorrow
+                        </button>
+                    </div>
+                </form>
+            </div>*@
+        </div>
+    </div>
+    <div class="mb-4 filter_by" style="padding-left:35px">
+        <div id="filter" class="export-button h-[40px] text-[#3E3E3E] w-max" onclick="showFilterContainer()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                <path d="M5 10.5H15M2.5 5.5H17.5M7.5 15.5H12.5" stroke="#3E3E3E" stroke-width="1.67"
+                      stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            @CRS.CLUB.APPLICATION.Resources.Resource.Filter_By
+        </div>
+        <div id="filter-container" class="px-6 py-5 rounded-[5px] border border-[#D0D5DD]" style="display: none;">
+            <form action="/BookingRequest/BookingRequestList" method="get">
+                <div class="flex flex-col gap-4">
+                    <div class="flex text-[#3E3E3E] gap-1 items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                             height="21" viewBox="0 0 20 21" fill="none">
+                            <path d="M5 10.5H15M2.5 5.5H17.5M7.5 15.5H12.5" stroke="#3E3E3E" stroke-width="1.67"
+                                  stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Filter_By
+                    </div>
+                    <div class="grid grid-cols-3 gap-[27px]">
+                        <div class="input-field-common">
+                            <label class="block mb-[12px] text-sm font-medium text-secondary-100 ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.From_date
+                            </label>
+                            <input type="text" class="w-full" id="fromdatepicker" placeholder="YYYY-MM-DD" name="FromDate" value="@ViewBag.FromDate" readonly>
+                        </div>
+                        <div class="input-field-common">
+                            <label class="block mb-[12px] text-sm font-medium text-secondary-100 ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.From_date
+                            </label>
+                            <input type="text" class="w-full" id="todatepicker" placeholder="YYYY-MM-DD" name="ToDate" value="@ViewBag.ToDate" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class=" flex gap-4 mt-4">
+                    <div id="cancelFilter" class="btn btn-primary-normal gap-1 rounded-[4px]">
+                        <i class="las la-times"></i> @CRS.CLUB.APPLICATION.Resources.Resource.Cancel
+                    </div>
+                    <button id="applyFilter" class="btn btn-primary-default gap-1 rounded-[4px]"
+                            onclick="ApplyFilter()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="19"
+                             viewBox="0 0 18 19" fill="none">
+                            <path d="M5.25 14.75V10.25H12.75V14.75H14.25V6.371L12.129 4.25H3.75V14.75H5.25ZM3 2.75H12.75L15.75 5.75V15.5C15.75 15.6989 15.671 15.8897 15.5303 16.0303C15.3897 16.171 15.1989 16.25 15 16.25H3C2.80109 16.25 2.61032 16.171 2.46967 16.0303C2.32902 15.8897 2.25 15.6989 2.25 15.5V3.5C2.25 3.30109 2.32902 3.11032 2.46967 2.96967C2.61032 2.82902 2.80109 2.75 3 2.75ZM6.75 11.75V14.75H11.25V11.75H6.75Z"
+                                  fill="white" />
+                        </svg>@CRS.CLUB.APPLICATION.Resources.Resource.Apply
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="bg-white px-[32px]">
+        <div id="tab1" class="tab-content">
+            <div class="flex gap-[8px] no-scrollbar overflow-y-scroll">
+                @if (Model.GetClubTimeList != null)
+                {
+                    foreach (var item in Model.GetClubTimeList)
+                    {
+                        <div class="select-time">
+                            @item.TimeRange (@item.BookingCount)
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+    <div id="tab2" class="bg-white px-[32px] tab-content hidden">
+        <!-- Content for Tab 2 -->
+        <div class="flex gap-[8px]">
+            @if (Model.GetClubTimeList != null)
+            {
+                foreach (var item in Model.GetClubTimeList)
+                {
+                    <div class="select-time">
+                        @item.TimeRange (@item.BookingCount)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div id="tab3" class="bg-white px-[32px] tab-content hidden">
+        <!-- Content for Tab 3 -->
+        <div class="flex gap-[8px]">
+            @if (Model.GetClubTimeList != null)
+            {
+                foreach (var item in Model.GetClubTimeList)
+                {
+                    <div class="select-time">
+                        @item.TimeRange (@item.BookingCount)
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <!-- serach date information  -->
+    <!-- table --->
+    <div class="px-[32px]">
+        <div class="flex gap-[24px]" style="border-bottom: 1px solid #f4f4f4;">
+            <div class="flex tab-container-plane bg-white gap-[16px]">
+                <button id="tab1Button" class="tab-button-plane tab-link active">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.All
+                </button>
+                <button id="tab2Button" class="tab-button-plane tab-link">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Approved
+                </button>
+                <button id="tab3Button" class="tab-button-plane tab-link">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Pending
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="px-[32px]">
+        <div class="bg-white">
+            <div id="tab1" class="tab-content-plane table-tab">
+                <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                    <div class="flex items-center">
+                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires" onchange="updateSelectedValue()">
+                            @{
+                                var selectedValue = ViewBag.Limit as string;
+                            }
+                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
+                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
+                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
+                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
+                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    </div>
+                    <div class="export-button" id="btnExportAllBooking">
+                        <img src="/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
+                    </div>
+                </div>
+                <div class="relative overflow-x-auto">
+                    <!--all booking request table grid section-->
+                    <table class="w-full  text-left club-table" id="table_allBookingRequest" data-total="@AllBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                        <thead class="club-table-thead">
+                            <tr>
+                                <th scope="col" class="p-[12px] th_class">
+                                    <div class="flex w-max">
+                                        S.N
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Nickname
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Plan
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.People
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.No_of_Hosts
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Date
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Time
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Status
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Price
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Created_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Updated_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GetAllBookingRequestLists)
+                            {
+                                <tr class="bg-white border-b ">
+                                    <td class="p-[12px]">
+                                        @countRowAllBookingList
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CustomerName
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="plan-a">@item.PlanName</div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.People
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.NoOfHosts
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedTime
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @if (item.Status == "A" || item.Status == "S")
+                                        {
+                                            <div class="approved">
+                                                @approved
+                                            </div>
+                                        }
+                                        else if (item.Status == "P")
+                                        {
+                                            <div class="pending">
+                                                @pending
+                                            </div>
+                                        }
+                                        else if (item.Status == "R")
+                                        {
+                                            <div class="rejected">
+                                                @reject
+                                            </div>
+                                        }
+                                    </td>
+                                    <td class="p-[12px]">
+                                        ¥@item.Price
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CreatedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.UpdatedDate
+                                    </td>
+                                </tr>
+                                countRowAllBookingList++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-club">
+                    <!--<div class="show-entry">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @AllBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    </div>
+                    <div class="flex gap-[12px]">-->
+                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                            </div>*@
+                        <!--<div class="flex gap-[12px]" id="pagination_all">
+
+                        </div>-->
+                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>*@
+                    <!--</div>-->
+                </div>
+            </div>
+            <div id="tab2" class="tab-content-plane table-tab hidden">
+                <!--aproved tab section-->
+                <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                    <div class="flex items-center">
+                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires" onchange="updateSelectedValue()">
+                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
+                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
+                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
+                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
+                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    </div>
+                    <div class="export-button" id="btnApprovedExport">
+                        <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
+                    </div>
+                </div>
+                <div class="relative overflow-x-auto">
+                    <!--approved booking request table grid section-->
+                    <table class="w-full  text-left club-table" id="table_apporvedBookingRequest" data-total="@ApprovedBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                        <thead class="club-table-thead">
+                            <tr>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        S.N
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Nickname
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Plan
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.People
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.No_of_Hosts
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Date
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Time
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Status
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Price
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Created_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Updated_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GetApprovedBookingRequestLists)
+                            {
+                                <tr class="bg-white border-b ">
+                                    <td class="p-[12px]">
+                                        @countRowApproveBookingList
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CustomerName
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="plan-a">@item.PlanName</div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.People
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.NoOfHosts
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedTime
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @if (item.Status == "A")
+                                        {
+                                            <div class="approved">
+                                                @approved
+                                            </div>
+                                        }
+                                    </td>
+                                    <td class="p-[12px]">
+                                        ¥@item.Price
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CreatedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.UpdatedDate
+                                    </td>
+                                </tr>
+                                countRowApproveBookingList++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-club">
+                    <!--<div class="show-entry">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @ApprovedBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    </div>
+                    <div class="flex gap-[12px]">-->
+                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                            </div>*@
+                        <!--<div class="flex gap-[12px]" id="pagination_approved">
+
+                        </div>-->
+                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>*@
+                    <!--</div>-->
+                </div>
+            </div>
+            <div id="tab3" class="tab-content-plane table-tab hidden">
+                <!--pending tab sections-->
+                <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                    <div class="flex items-center">
+                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
+                        <select id="countries" class="select-entires" onchange="updateSelectedValue()">
+                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
+                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
+                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
+                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
+                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    </div>
+                    <div class="export-button" id="btn_pendingBookingRequestExport">
+                        <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
+                    </div>
+                </div>
+                <div class="relative overflow-x-auto">
+                    <!--pending booking request table grid section-->
+                    <table class="w-full  text-left club-table" id="table_pendingBookingRequest" data-total="@PendingBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                        <thead class="club-table-thead">
+                            <tr>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        S.N
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Nickname
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Plan
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.People
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.No_of_Hosts
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Date
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Visit_Time
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Status
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Price
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Created_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Updated_On
+                                        <div class="relative pl-[5px]">
+                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="col" class="p-[12px]">
+                                    <div class="flex">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Action
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.GetPendingBookingRequestLists)
+                            {
+                                <tr class="bg-white border-b ">
+                                    <td class="p-[12px]">
+                                        @countRowPendingBookingList
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CustomerName
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="plan-a">@item.PlanName</div>
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.People
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.NoOfHosts
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.VisitedTime
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @if (item.Status == "P")
+                                        {
+                                            <div class="pending">
+                                                @pending
+                                            </div>
+                                        }
+                                    </td>
+                                    <td class="p-[12px]">
+                                        ¥@item.Price
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.CreatedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        @item.UpdatedDate
+                                    </td>
+                                    <td class="p-[12px]">
+                                        <div class="flex gap-2 items-center">
+                                            <i class="las la-window-close text-[24px] text-[#CB3F3F] cursor-pointer " data-modal-target="booking-rejectconfirmation" data-modal-toggle="booking-rejectconfirmation" onclick="reject('@item.Id')"></i>
+                                            <img src="/Content/assets/images/check-square.svg" data-modal-target="booking-acceptconfirmation" data-modal-toggle="booking-acceptconfirmation" alt="" class="cursor-pointer" onclick="approve('@item.Id')">
+                                        </div>
+                                    </td>
+                                </tr>
+                                countRowPendingBookingList++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination-club">
+                    <!--<div class="show-entry">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @PendingBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    </div>
+                    <div class="flex gap-[12px]">-->
+                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                            </div>*@
+                        <!--<div class="flex gap-[12px]" id="pagination_pending">
+
+                        </div>-->
+                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>*@
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--accept confirmation-->
+<div id="booking-acceptconfirmation" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full
+     p-4 overflow-x-hidden overflow-y-auto
+     md:inset-0 h-[calc(100%-1rem)] max-h-full " style="align-items: flex-start;">
+    <div class="relative max-w-2xl max-h-full w-[412px] px-4 pt-[40px] pb-[46px] mt-24">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center absolute top-[24px] right-[20px] "
+                    data-modal-hide="booking-acceptconfirmation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <rect y="0.621094" width="24" height="24" rx="12" fill="#FAFAFA" />
+                    <path d="M5.41406 4.95703L4.33594 6.03516L10.9219 12.6211L4.33594 19.207L5.41406 20.2852L12 13.6992L18.5859 20.2852L19.6641 19.207L13.0781 12.6211L19.6641 6.03516L18.5859 4.95703L12 11.543L5.41406 4.95703Z"
+                          fill="#7A7A7A" />
+                </svg>
+            </button>
+            <!-- Modal body -->
+            <div class="grid gap-6 px-[20px] py-8">
+                <div class="text-[#333] font-semibold pb-[11px] border-b border-[#eeeeee]">@CRS.CLUB.APPLICATION.Resources.Resource.Confirmation</div>
+                <div class="grid gap-[20px] text-[#062937] mb-[45px]">
+                    <div class="text-[14px] text-secondary-text-2 text-start">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.RequestAcceptMsz
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="flex gap-2 justify-end mt-[45px]">
+                        <input id="request_id" value="" hidden />
+                        <div class="btn btn-secondary w-[110px]" data-modal-hide="booking-acceptconfirmation">@CRS.CLUB.APPLICATION.Resources.Resource.Cancel</div>
+                        <div class="btn btn-primary w-[110px]" onclick="AcceptConfirmationform()">@CRS.CLUB.APPLICATION.Resources.Resource.Yes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--reject confirmation-->
+
+
+<div id="booking-rejectconfirmation" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full
+     p-4 overflow-x-hidden overflow-y-auto
+     md:inset-0 h-[calc(100%-1rem)] max-h-full " style="align-items: flex-start;">
+    <div class="relative max-w-2xl max-h-full w-[412px] px-4 pt-[40px] pb-[46px] mt-24">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center absolute top-[24px] right-[20px] "
+                    data-modal-hide="booking-rejectconfirmation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <rect y="0.621094" width="24" height="24" rx="12" fill="#FAFAFA" />
+                    <path d="M5.41406 4.95703L4.33594 6.03516L10.9219 12.6211L4.33594 19.207L5.41406 20.2852L12 13.6992L18.5859 20.2852L19.6641 19.207L13.0781 12.6211L19.6641 6.03516L18.5859 4.95703L12 11.543L5.41406 4.95703Z"
+                          fill="#7A7A7A" />
+                </svg>
+            </button>
+            <!-- Modal body -->
+            <div class="grid gap-6 px-[20px] py-8">
+                <div class="text-[#333] font-semibold pb-[11px] border-b border-[#eeeeee]">@CRS.CLUB.APPLICATION.Resources.Resource.Confirmation</div>
+                <div class="grid gap-[20px] text-[#062937] mb-[45px]">
+                    <div class="text-[14px] text-secondary-text-2 text-start">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.RequestRejectMsz
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="flex gap-2 justify-end mt-[45px]">
+                        <input id="request_id" value="" hidden />
+                        <div class="btn btn-secondary w-[110px]" data-modal-hide="booking-rejectconfirmation">@CRS.CLUB.APPLICATION.Resources.Resource.Cancel</div>
+                        <div class="btn btn-primary w-[110px]" onclick="RejectConfirmationform()">@CRS.CLUB.APPLICATION.Resources.Resource.Yes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+        function approve(rId) {
+            $('#request_id').val(rId);
+        }
+        function AcceptConfirmationform(id) {
+            let RId = $('#request_id').val();
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: "/BookingRequest/ApproveBookingRequest?id=" + RId,
+                dataType: 'json',
+                data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                },
+                success: function () {
+                    window.location.href = "/BookingRequest/BookingRequestList";
+                },
+                error: function (ex) {
+                }
+            });
+        }
+        function reject(rId) {
+            $('#request_id').val(rId);
+        }
+        function RejectConfirmationform() {
+            let RId = $('#request_id').val();
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: "/BookingRequest/RejectBookingRequest?id=" + RId,
+                dataType: 'json',
+                data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                },
+                success: function () {
+                    window.location.href = "/BookingRequest/BookingRequestList";
+                },
+                error: function (ex) {
+                }
+            });
+        }
+
+        $('#tab1Button').click('click', function () {
+            var today = $(this).attr('value');
+            $.ajax({
+                type: 'GET',
+                async: true,
+                url: "/BookingRequest/BookingRequestList",
+                dataType: 'json',
+                data: {
+                    Today: today,
+                },
+                success: function () {
+
+                },
+                error: function (ex) {
+                }
+            });
+
+        });
+        $('#tab2Button').click('click', function () {
+            var tomToday = $(this).attr('value');
+            $.ajax({
+                type: 'GET',
+                async: true,
+                url: "/BookingRequest/BookingRequestList",
+                dataType: 'json',
+                data: {
+                    Tomorrow: tomToday,
+                },
+                success: function () {
+                },
+                error: function (ex) {
+                }
+            });
+
+        })
+        $('#tab3Button').click('click', function () {
+            var dayAfterTomorrow = $(this).attr('value');
+            $.ajax({
+                type: 'GET',
+                async: true,
+                url: "/BookingRequest/BookingRequestList",
+                dataType: 'json',
+                data: {
+                    DayAfterTomorrow: dayAfterTomorrow,
+                },
+                success: function () {
+                },
+                error: function (ex) {
+                }
+            });
+
+        })
+
+        //export html table to excel jQuery code section
+        $(document).ready(function () {
+            $("#btnExportAllBooking").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[0], {
+                    name: `AllBookingRequest.xlsx`,
+                    sheet: {
+                        name: 'AllBookingRequest'
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#btnApprovedExport").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[1], {
+                    name: `ApprovedBookingRequest.xlsx`,
+                    sheet: {
+                        name: 'ApprovedBookingRequest'
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#btn_pendingBookingRequestExport").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[2], {
+                    name: `PendingBookingRequest.xlsx`,
+                    sheet: {
+                        name: 'PendingBookingRequest'
+                    }
+                });
+            });
+        });
+        //time slot jquery code section
+        $(document).ready(function () {
+            //$("#datepicker").datepicker($.datepicker.regional["ja"]);
+            jQuery(function ($) {
+                $.datepicker.regional['ja'] = {
+                    closeText: '閉じる',
+                    prevText: '&#x3c;前',
+                    nextText: '次&#x3e;',
+                    currentText: '今日',
+                    monthNames: ['1月', '2月', '3月', '4月', '5月', '6月',
+                        '7月', '8月', '9月', '10月', '11月', '12月'],
+                    monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月',
+                        '7月', '8月', '9月', '10月', '11月', '12月'],
+                    dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
+                    dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+                    dayNamesMin: ['日', '月', '火', '水', '木', '金', '土'],
+                    weekHeader: '週',
+                    dateFormat: 'yy-mm-dd',
+                    firstDay: 0,
+                    isRTL: false,
+                    showMonthAfterYear: true,
+                    yearSuffix: '年'
+                };
+                $.datepicker.setDefaults($.datepicker.regional['ja']);
+                $("#fromdatepicker").datepicker();
+                $("#todatepicker").datepicker();
+            });
+        });
+        $('#cancelFilter').click('click', function () {
+            var filterDiv = document.getElementById("filter");
+            var filterContainer = document.getElementById("filter-container");
+            filterContainer.style.display = "none";
+            filterDiv.style.display = "flex";
+            filterDiv.classList.add("slide-in-animation");
+            document.getElementById('fromdatepicker').value = '';
+            document.getElementById('todatepicker').value = '';
+        });
+    </script>
+    <script>
+        $('.tab-link').click('click', function () {
+            var id = $(this).attr('id');
+            var name = $(this).text().trim();
+            localStorage.setItem("tablink-id", id);
+            localStorage.setItem("tablink-name", name);
+        });
+        $(document).ready(function () {
+            var id = localStorage.getItem("tablink-id");
+            var name = localStorage.getItem("tablink-name");
+            $('.tab-link').each(function (index) {
+                var valueId = $(this).attr('id').trim();
+                var valueName = $(this).text().trim();
+                if (id == valueId && name == valueName) {
+                    $(this).click();
+                    //console.log(valueId + valueName);
+                }
+            })
+        })
+    </script>
+
+    <script>
+
+        @*var totalData = $('#table_allBookingRequest').attr('data-total');
+        var currentPage = $('#table_allBookingRequest').attr('data-currentpage');
+        var currentUrl = $('#table_allBookingRequest').attr('data-url');
+        generatePaginationNumbers(totalData, currentPage, currentUrl, 'pagination_all', '@ViewBag.Limit');
+
+        function updateSelectedValue() {
+            var selectElement = document.getElementById('countries');
+            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
+            var url = currentUrl + '?Limit=' + selectedValue;
+            window.location.href = url;
+        }
+
+        var approvedTotalData = $('#table_apporvedBookingRequest').attr('data-total');
+        var approvedCurrentPage = $('#table_apporvedBookingRequest').attr('data-currentpage');
+        var approvedCurrentUrl = $('#table_apporvedBookingRequest').attr('data-url');
+        generatePaginationNumbers(approvedTotalData, approvedCurrentPage, approvedCurrentUrl, 'pagination_approved', '@ViewBag.Limit');
+
+        var pendingTotalData = $('#table_pendingBookingRequest').attr('data-total');
+        var pendingCurrentPage = $('#table_pendingBookingRequest').attr('data-currentpage');
+        var pendingCurrentUrl = $('#table_pendingBookingRequest').attr('data-url');
+        generatePaginationNumbers(pendingTotalData, pendingCurrentPage, pendingCurrentUrl, 'pagination_pending', '@ViewBag.Limit');*@
+    </script>
+
+}

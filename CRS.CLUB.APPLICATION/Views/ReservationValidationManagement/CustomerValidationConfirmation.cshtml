@@ -1,0 +1,235 @@
+﻿@model CRS.CLUB.APPLICATION.Models.ReservationValidationManagement.ReservationDetailViaOTPModel
+@{
+    ViewBag.Title = "Customer Validation Confirmation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="flex flex-col gap-[32px] pb-4">
+    <!-- booking information  -->
+    <div class="title-info grid gap-[20px]">
+        <div>
+            <div class="heading-title">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Customer_Validation
+            </div>
+            <div class="span-title-light-gray">
+                @CRS.CLUB.APPLICATION.Resources.Resource.CustomerValidationMsg
+            </div>
+        </div>
+    </div>
+    <div class="px-[32px]">
+        @using (Html.BeginForm("CustomerValidationConfirmation", "ReservationValidationManagement", FormMethod.Post, new { @role = "form", @id = "MyForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.OTPCode)
+            @Html.HiddenFor(model => model.ReservationId)
+            <div class="w-[400px] pb-[16px]">
+                <div class="input-field-common">
+                    <input type="text" class=" w-full"
+                           placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Enter_OTP_from_Customer"
+                           required
+                           value="@Model.OTPCode"
+                           disabled>
+                </div>
+            </div>
+            <div class="flex gap-[16px]">
+                @if (!string.IsNullOrEmpty(Model.TransactionStatus) && Model.TransactionStatus.Trim().ToUpper() == "APPROVED")
+                {
+                    <button class="btn btn-primary" onclick="SubmitFunction()">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Continue
+                    </button>
+                }
+                <button class="btn btn-secondary" type="button" onclick="ClearFunction()">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Clear
+                </button>
+            </div>
+        }
+    </div>
+
+    <div class="px-[32px] ">
+        <div class="reservation-container">
+            <div class="reservation-header flex justify-between items-center">
+                <div class="title">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Reservation_Details
+                </div>
+                <button class="btn btn-primary-normal" id="exportButton">
+                    <img src='~/Content/assets/images/download-solid-active.svg' />
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Export
+                </button>
+                <div id="editor"></div>
+            </div>
+            <div id="html_to_pdf">
+                <div class="reservation-details " id="reservation-content">
+                    <div class="left-reservation-details">
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Customer_Name__Nickname_
+                            </div>
+                            <div class="label">
+                                @Model.CustomerName
+                            </div>
+                        </div>
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Reservation_Number
+                            </div>
+                            <div class="label">
+                                @Model.InvoiceId
+                            </div>
+                        </div>
+                        <div class="list-container ">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Club_Name
+                            </div>
+                            <div class="label">
+                                @Model.StoreName
+                            </div>
+                        </div>
+                        <div class="list-container ">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Plan
+                            </div>
+                            <div class="label approved gap-1">
+                                <img src="~/Content/assets/images/crown-solid.svg" />
+                                @Model.PlanName
+                            </div>
+                        </div>
+                        <div class="list-container ">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Status
+                            </div>
+                            @*<div class="label approved gap-1">
+                                <img src="~/Content/assets/images/check-circle-solid.svg" />*@
+                            @{
+                                string status = Model.TransactionStatus.ToLower();
+
+                                if (status.ToUpper().Trim() == "PENDING")
+                                {
+                                    <div class="label pending gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Pending
+                                    </div>
+                                }
+                                else if (status.ToUpper().Trim() == "APPROVED")
+                                {
+                                    <div class="label information gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Approved
+                                    </div>
+                                }
+                                else if (status.ToUpper().Trim() == "SUCCESS")
+                                {
+                                    <div class="label approved gap-1">
+                                        Success
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="label rejected gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Rejected
+                                    </div>
+                                }
+                            }
+
+                            @*</div>*@
+                        </div>
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Date
+                            </div>
+                            <div class="label">
+                                @Model.VisitDateTime
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="right-reservation-details">
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Club_Verification_Status
+                            </div>
+
+                            @*<img src="~/Content/assets/images/check-circle-solid.svg" />*@
+                            @{
+                                string clubVerificationStatus = Model.OTPVerificationStatus.ToLower();
+
+                                if (clubVerificationStatus.ToUpper().Trim() == "PENDING")
+                                {
+                                    <div class="label pending gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Pending
+                                    </div>
+
+                                }
+                                else if (clubVerificationStatus.ToUpper().Trim() == "APPROVED")
+                                {
+                                    <div class="label approved gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Approved
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="label rejected gap-1">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Rejected
+                                    </div>
+                                }
+                            }
+                        </div>
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Location
+                            </div>
+                            <div class="label">
+                                @Model.LocationName
+                            </div>
+                        </div>
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Payment_Method
+                            </div>
+                            <div class="label">
+                                @Model.PaymentType
+                            </div>
+                        </div>
+                        <div class="list-container">
+                            <div class="title uppercase">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Host
+                            </div>
+                            <div class="label grid gap-[12px] grid-cols-3">
+                                @foreach (var item in Model.ReservationHostListModel)
+                                {
+                                    <div class="round-image-text">
+                                        <img class="w-[28px] h-[28px] rounded-full"
+                                             src="@item.HostLogo" />
+                                        <div class="text-image">
+                                            @item.HostName
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <script>
+        function SubmitFunction() {
+            document.getElementById('MyForm').submit();
+        };
+        function ClearFunction() {
+            window.location.href = '@Url.Action("CustomerValidation", "ReservationValidationManagement")';
+        };
+    </script>
+    <script>
+
+        $('#exportButton').click(function () {
+            var currentdate = new Date().toJSON();
+            var element = document.getElementById('html_to_pdf');
+            html2pdf().from(element).set({
+                margin: [30, 10, 5, 10],
+                jsPDF: { orientation: 'landscape', unit: 'pt', format: 'letter', compressPDF: true }
+            }).save('CRS_' + currentdate + '.pdf');
+        });
+    </script>
+}

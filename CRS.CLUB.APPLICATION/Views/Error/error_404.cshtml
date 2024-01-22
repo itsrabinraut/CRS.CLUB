@@ -1,0 +1,13 @@
+﻿@{
+    ViewBag.Title = "Index";
+    if (Session != null && Session["UserName"] != null)
+    {
+        Layout = "/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "";
+    }
+}
+
+<h2>error_404</h2>

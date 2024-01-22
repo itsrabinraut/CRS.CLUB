@@ -1,0 +1,542 @@
+﻿@model CRS.CLUB.APPLICATION.Models.PaymentManagement.PaymentManagementModel
+@{
+    ViewBag.Title = "Payment Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string received = "Received";
+    string processing = "Processing";
+}
+
+<div class="flex flex-col gap-[32px] pb-4">
+    <!-- booking information  -->
+    @Html.AntiForgeryToken()
+    <div class="title-info flex justify-between gap-[20px]">
+        <div>
+            <div class="heading-title">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Payment_Management
+            </div>
+            <div class="span-title-light-gray">
+                @CRS.CLUB.APPLICATION.Resources.Resource.Payment_Management_Supporting_Text
+            </div>
+        </div>
+    </div>
+    <div class="px-[32px]">
+        <div class="flex gap-[24px]" style="border-bottom: 1px solid #f4f4f4;">
+            <div class="flex tab-container-plane bg-white gap-[16px]">
+                <button id="tab1Button" class="tab-button-plane tab-link active">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Overview
+                </button>
+                <button id="tab2Button" class="tab-button-plane tab-link ">
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Payment_Logs
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="px-[32px]">
+        <div class="bg-white">
+            <div id="tab1" class="tab-content-plane">
+                <div class="grid gap-[32px]">
+                    <div class="payment-details flex gap-[45px]">
+                        <div class="payment-details-card w-[268px]">
+                            <div class="title flex gap-[8px] mb-[12px] items-center">
+                                <div class="logo h-[32px] w-[32px] flex justify-center items-center rounded-full bg-[#FDE0EB]">
+                                    <img src="~/Content/assets/images/payment-booking.svg" />
+                                </div>
+                                <div class="text-lg font-semibold">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Total_Bookings
+                                </div>
+                            </div>
+                            <div class="text-2xl font-semibold">
+                                @Model.PaymentOverviewModel.TotalBookings
+                            </div>
+                            <div class="flex justify-between mb-[6.5px]">
+                                <p class="text-xs  text-[#7A7A7A]">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Approved:
+                                    <span class="text-[#3E3E3E]">
+                                        @Model.PaymentOverviewModel.ApprovedBookings
+                                    </span>
+                                </p>
+                                <p class="text-xs  text-[#EF4444]">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.Pending:
+                                    <span class="text-[#EF4444]">
+                                        @Model.PaymentOverviewModel.PendingBookings
+                                    </span>
+                                </p>
+                            </div>
+                            <hr class="bg-[#F4F4F4] mb-[12px]" />
+                            <a href="/BookingRequest/BookingRequestList">
+                                <div class="text-center text-xs cursor-pointer text-[#1C2434]">
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.View_all
+                                    <i class="las la-angle-right"></i>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="payment-details-card w-[268px] flex justify-between flex-col ">
+                            <div>
+                                <div class="title flex gap-[8px] mb-[12px] items-center">
+                                    <div class="logo h-[32px] w-[32px] flex justify-center items-center rounded-full bg-[#C4F7C6]">
+                                        <img src="~/Content/assets/images/money-bill-solid.svg" />
+                                    </div>
+                                    <div class="text-lg font-semibold">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.Pending_Payments
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-semibold">
+                                    ¥ @Model.PaymentOverviewModel.PendingPayments
+                                </div>
+                            </div>
+                            <div>
+                                @*<hr class="bg-[#F4F4F4] mb-[12px]" />*@
+                                @*<div class="text-center text-xs cursor-pointer text-[#1C2434]">
+                                        @CRS.CLUB.APPLICATION.Resources.Resource.View_all
+                                        <i class="las la-angle-right"></i>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div id="tab2" class="tab-content-plane hidden ">
+                <div class="flex justify-between pb-[24px]">
+                    @using (Html.BeginForm("Index", "PaymentManagement", FormMethod.Get, new { @id = "PaymentLogForm" }))
+                    {
+                        <div class="relative input-search-wrapper">
+                            <div class="absolute inset-y-0 left-0 flex items-center pl-[16px] pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 20 21" fill="none">
+                                    <path d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
+                                          stroke="#667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                            <input type="search"
+                                   class="input-search block w-full "
+                                   placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Search"
+                                   name="searchText" value="@ViewBag.SearchText">
+                        </div>
+
+                    }
+                    <div class="custom-date " data-drawer-target="drawer-right-example" data-drawer-show="drawer-right-example"
+                         data-drawer-placement="right" aria-controls="drawer-right-example">
+                        <img src="~/Content/assets/images/club/calendar-week-solid.svg" alt="date" />
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Custom_Date
+                    </div>
+                </div>
+                <div class="table-tab">
+                    <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                        <div class="flex items-center">
+                            @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">100</option>
+                            </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                        </div>
+                        <div class="export-button" id="btnExport">
+                            <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
+                        </div>
+                    </div>
+                    <div class="relative overflow-x-auto">
+                        <table class="w-full  text-left club-table">
+                            <thead class="club-table-thead">
+                                <tr>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            S.N
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Date
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Payement_Status
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Club_Amount
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Total_Commission
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Grand_Total
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Remarks
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex ">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Action
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    int rowCount = 1;
+                                    foreach (var paymentlog in Model.PaymentLogModels)
+                                    {
+                                        <tr class="bg-white border-b ">
+                                            <td class="p-[12px]">
+                                                @rowCount
+                                            </td>
+                                            <td class="p-[12px]">
+                                                @paymentlog.TransactionDate
+                                            </td>
+                                            <td class="p-[12px]">
+                                                @if (!string.IsNullOrEmpty(paymentlog.PaymentStatus) && paymentlog.PaymentStatus.Trim().ToUpper() == "I")
+                                                {
+                                                    <div class="pending">
+                                                        @processing
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="approved">
+                                                        @received
+                                                    </div>
+
+                                                }
+                                            </td>
+                                            <td class="p-[12px]">
+                                                @paymentlog.ClubAmount
+                                            </td>
+                                            <td class="p-[12px]">
+                                                @paymentlog.TotalCommissionAmount
+                                            </td>
+                                            <td class="p-[12px]">
+                                                @paymentlog.GrandTotal
+                                            </td>
+                                            <td class="p-[12px]">
+                                                <div class="">
+                                                    @paymentlog.Remarks
+                                                </div>
+                                            </td>
+                                            @if (!string.IsNullOrEmpty(paymentlog.PaymentStatus) && paymentlog.PaymentStatus.Trim().ToUpper() == "I")
+                                            {
+                                                <td class="p-[12px]">
+                                                    <div class="flex gap-2 items-center justify-center">
+                                                        <i class="las la-eye text-[24px] text-[#e3ab00] cursor-pointer" onclick="GotoDetail('@paymentlog.ClubId','')"></i>
+                                                        <button class="approved cursor-pointer" data-modal-target="markpaid-confirmation" data-modal-toggle="markpaid-confirmation" onclick="submit('@paymentlog.ReservationId')">
+                                                            Mark Paid
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            }
+                                            else if (!string.IsNullOrEmpty(paymentlog.PaymentStatus) && paymentlog.PaymentStatus.Trim().ToUpper() == "A" || paymentlog.PaymentStatus.Trim().ToUpper() == "S")
+                                            {
+                                                <td class="p-[12px]">
+                                                    <div class="flex gap-2 items-center justify-center">
+                                                        <i class="las la-eye text-[24px] text-[#e3ab00] cursor-pointer" onclick="GotoDetail('@paymentlog.ClubId','')"></i>
+                                                    </div>
+                                                </td>
+                                            }
+                                        </tr>
+                                        rowCount++;
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-club">
+                        @*<div class="show-entry">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of 301 @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                        </div>
+                        <div class="flex gap-[12px]">
+                            <div class="btn btn-secondary-box-shadow ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                            </div>
+                            <div class="flex gap-[12px]">
+                                <div class="pagination-number active">
+                                    1
+                                </div>
+                                <div class="pagination-number">
+                                    2
+                                </div>
+                                <div class="pagination-number">
+                                    3
+                                </div>
+                                <div class="pagination-number">
+                                    ..
+                                </div>
+                                <div class="pagination-number">
+                                    10
+                                </div>
+                            </div>
+                            <div class="btn btn-secondary-box-shadow ">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="tab-content-plane hidden">
+                <div id="linkedBank">
+                    <div class="flex py-[12px] px-[64px] bg-[#FAFAFA] justify-between">
+                        <div class="text-base font-semibold text-[#3E3E3E]">Linked Bank Account</div>
+                        <div class="flex gap-8">
+                            <div class="btn btn-primary-normal gap-2" id="edit_form"> <i class="las la-edit text-lg"></i>Edit</div>
+                            <div class="btn btn-primary-normal gap-2"><i class="las la-share-alt-square text-lg"></i>Share</div>
+
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 py-[24px] px-[64px]">
+                        <div class="w-[211px] mb-[24px]">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Bank Name
+                            </div>
+                            <div class="text-sm text-[#333] font-semibold">
+                                例銀行 (Rirei Bank)
+                            </div>
+                        </div>
+                        <div class="w-[211px] mb-[24px]">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                BANK ACCOUNT Holder’s name
+                            </div>
+                            <div class="text-sm text-[#333] font-semibold">
+                                本店 (Honten Branch)
+                            </div>
+                        </div>
+                        <div class="w-[211px] mb-[24px]">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Branch Code
+                            </div>
+                            <div class="text-sm text-[#333] font-semibold">
+                                123
+                            </div>
+                        </div>
+                        <div class="w-[211px] mb-[24px]">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                account Holder’s Name
+                            </div>
+                            <div class="text-sm text-[#333] font-semibold">
+                                Global Square
+                            </div>
+                        </div>
+                        <div class="w-[211px]">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                ACCOUNT NUMBER
+                            </div>
+                            <div class="text-sm text-[#333] font-semibold">
+                                1234 1234 1234 1234
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="editable_form" id="editable_form" style="display:none">
+                    <div class="flex py-[12px] px-[64px] w-full items-center">
+                        <div class="text-sm font-semibold text-[#001118] w-[120px]">Link Bank</div>
+                        <hr class="h-px  bg-gray-200 border-0 dark:bg-gray-700 w-full">
+                    </div>
+                    <div class="grid grid-cols-3 py-[24px] px-[64px] gap-[24px]">
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Bank Name
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="bank-name" class=" w-full" placeholder="例銀行 (Rirei Bank)" required>
+                            </div>
+
+                        </div>
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Branch Name
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="bank-account" class=" w-full" placeholder="本店 (Honten Branch)" required>
+                            </div>
+
+                        </div>
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Branch Code
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="bank-account" class=" w-full" placeholder="123" required>
+                            </div>
+                        </div>
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Account Holder’s Name
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="bank-account-name" class=" w-full" placeholder="Global Square" required>
+                            </div>
+                        </div>
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Account Number
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="account-number" class=" w-full" placeholder="1234 1234 1234 1234" required>
+                            </div>
+                        </div>
+                        <div class="w-[272px] ">
+                            <div class="text-xs text-[#A1A1AA] font-semibold mb-[14px] uppercase">
+                                Phone Number
+                            </div>
+                            <div class="input-field-common">
+                                <input type="text" name="phone-number" class=" w-full" placeholder="+81 0123456789" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 px-[64px]">
+                        <div class="btn btn-primary">Save</div>
+                        <div class="btn btn-secondary">Remove</div>
+                        <div class="btn btn-secondary" id="cancel_link_bank">Cancel</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="markpaid-confirmation" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full
+     p-4 overflow-x-hidden overflow-y-auto
+     md:inset-0 h-[calc(100%-1rem)] max-h-full " style="align-items: flex-start;">
+    <div class="relative max-w-2xl max-h-full w-[412px] px-4 pt-[40px] pb-[46px] mt-24">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow">
+            <!-- Modal header -->
+            <button type="button"
+                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center absolute top-[24px] right-[20px] "
+                    data-modal-hide="markpaid-confirmation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                    <rect y="0.621094" width="24" height="24" rx="12" fill="#FAFAFA" />
+                    <path d="M5.41406 4.95703L4.33594 6.03516L10.9219 12.6211L4.33594 19.207L5.41406 20.2852L12 13.6992L18.5859 20.2852L19.6641 19.207L13.0781 12.6211L19.6641 6.03516L18.5859 4.95703L12 11.543L5.41406 4.95703Z"
+                          fill="#7A7A7A" />
+                </svg>
+            </button>
+            <!-- Modal body -->
+            <div class="grid gap-6 px-[20px] py-8">
+                <div class="text-[#333] font-semibold pb-[11px] border-b border-[#eeeeee]">Confirmation</div>
+                <div class="grid gap-[20px] text-[#062937] mb-[45px]">
+                    <div class="input-field-common w-[400]">
+                        <label class="block mb-4 text-sm font-medium text-secondary-100 ">
+                            Remarks
+                        </label>
+                        <textarea type="text" class="" placeholder="Remarks" name="Remarks" value="" id="remarks_id"></textarea>
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="flex gap-2 justify-end mt-[45px]">
+                        <input id="reservationTxnId" value="" hidden />
+                        <div class="btn btn-secondary w-[110px]" data-modal-hide="markpaid-confirmation">No</div>
+                        <div class="btn btn-primary w-[110px]" onclick="Confirm()">Yes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        function GotoDetail(clubid, date) {
+            window.location.href = "/PaymentManagement/PaymentLedger?clubId=" + clubid + '&Date=' + date;
+        }
+        $('#edit_form').click('click', function () {
+            $("#editable_form").css("display", "block");
+            $('#linkedBank').css("display", "none");
+        });
+        $('#cancel_link_bank').click('click', function () {
+            $('#linkedBank').css("display", "block");
+            $("#editable_form").css("display", "none");
+        });
+        function Confirm() {
+            let RTId = $('#reservationTxnId').val();
+            let Rvalue = document.getElementById('remarks_id');
+            var Remarks = Rvalue.value
+            $.ajax({
+                type: 'POST',
+                async: true,
+                url: "/PaymentManagement/UpdatePaymentLogs",
+                dataType: 'json',
+                data: {
+                    __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(), ReservationId: RTId, Remarks: Remarks
+                },
+                success: function () {
+                    window.location.reload();
+                },
+                error: function (ex) {
+                    window.location.reload();
+                }
+            });
+        }
+        function submit(reservationTxnid) {
+            $('#reservationTxnId').val(reservationTxnid);
+        }
+        $(document).ready(function () {
+            $("#btnExport").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[0], {
+                    name: `Payment.xlsx`,
+                    sheet: {
+                        name: 'Payment'
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $('.tab-link').click('click', function () {
+            var id = $(this).attr('id');
+            var name = $(this).text().trim();
+            localStorage.setItem("tablink-id", id);
+            localStorage.setItem("tablink-name", name);
+        });
+        $(document).ready(function () {
+            var id = localStorage.getItem("tablink-id");
+            var name = localStorage.getItem("tablink-name");
+            $('.tab-link').each(function (index) {
+                var valueId = $(this).attr('id').trim();
+                var valueName = $(this).text().trim();
+                if (id == valueId && name == valueName) {
+                    $(this).click();
+                    //console.log(valueId + valueName);
+                }
+            })
+        })
+    </script>
+}

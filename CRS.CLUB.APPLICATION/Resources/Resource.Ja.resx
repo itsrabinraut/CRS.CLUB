@@ -1,0 +1,1150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Accompanying fee" xml:space="preserve">
+    <value>同伴料</value>
+    <comment>Profile Management-&gt;Plans Details</comment>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>アクション</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Add New" xml:space="preserve">
+    <value>新しく追加する</value>
+    <comment>Data Table</comment>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>地元</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Admin Payment" xml:space="preserve">
+    <value>アドミンの支払い</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>全て</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>適用する</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>承認された</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Are you sure you want to change the language" xml:space="preserve">
+    <value>言語を変更してもよろしいですか?</value>
+    <comment>Language Preference</comment>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="Basic Details" xml:space="preserve">
+    <value>基本的な詳細</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Basic Information" xml:space="preserve">
+    <value>基本情報</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Bio" xml:space="preserve">
+    <value>バイオ</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Birth date" xml:space="preserve">
+    <value>生年月日</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="BloodType" xml:space="preserve">
+    <value>血液型</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Booking Request" xml:space="preserve">
+    <value>予約リクエスト</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Building and Room No" xml:space="preserve">
+    <value>建物と部屋番号</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Calendar" xml:space="preserve">
+    <value>カレンダー</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Choose Images" xml:space="preserve">
+    <value>画像の選択</value>
+  </data>
+  <data name="Choose Logo" xml:space="preserve">
+    <value>ロゴ</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Choose_Banner_logo" xml:space="preserve">
+    <value>選択</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="City" xml:space="preserve">
+    <value>市</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>クリア</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Club" xml:space="preserve">
+    <value>クラブ名</value>
+    <comment>Recommendation Request</comment>
+  </data>
+  <data name="Club Amount" xml:space="preserve">
+    <value>現地払い額</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Club Info" xml:space="preserve">
+    <value>クラブ情報</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Club Location" xml:space="preserve">
+    <value>クラブ位置</value>
+    <comment>Recommendation Request</comment>
+  </data>
+  <data name="Club Management" xml:space="preserve">
+    <value>クラブ運営</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Club Management Supporting Texts" xml:space="preserve">
+    <value>クラブの詳細情報を管理します。</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Club Name" xml:space="preserve">
+    <value>クラブ名</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Club Profile" xml:space="preserve">
+    <value>クラブ情報</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="Club Verification Status" xml:space="preserve">
+    <value>初証ステータス</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="ClubNameEng" xml:space="preserve">
+    <value>クラブ名（英語）</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="ClubNameKatakana" xml:space="preserve">
+    <value>クラブ名（カタカナ）</value>
+    <comment>Profle Management</comment>
+  </data>
+  <data name="Commission" xml:space="preserve">
+    <value>手数料</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>確認する</value>
+  </data>
+  <data name="Confirm New Password" xml:space="preserve">
+    <value>新しいパスワードを確認</value>
+    <comment>Security page</comment>
+  </data>
+  <data name="Confirmation" xml:space="preserve">
+    <value>確認</value>
+    <comment>Recommendation Request</comment>
+  </data>
+  <data name="ConfirmNewPassword" xml:space="preserve">
+    <value>新しいパスワードを確認</value>
+    <comment>Home Controller</comment>
+  </data>
+  <data name="Constellation Group" xml:space="preserve">
+    <value>星座</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>続く</value>
+  </data>
+  <data name="Cover Picture" xml:space="preserve">
+    <value>バナー写真</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>作成する</value>
+    <comment>Gallery Management</comment>
+  </data>
+  <data name="Create New Password" xml:space="preserve">
+    <value>新しいパスワードを作成する</value>
+    <comment>Home Controller</comment>
+  </data>
+  <data name="Created On" xml:space="preserve">
+    <value>作成日</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Current Password" xml:space="preserve">
+    <value>現在のパスワード</value>
+    <comment>Security Page</comment>
+  </data>
+  <data name="Custom Date" xml:space="preserve">
+    <value>カレンダー</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Customer" xml:space="preserve">
+    <value>お客様</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Customer Name (Nickname)" xml:space="preserve">
+    <value>ニックネーム</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Customer Validation" xml:space="preserve">
+    <value>顧客の初認</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="CustomerValidationMsg" xml:space="preserve">
+    <value>電話確認に送信された OTP コードを入力して、顧客の予約を初認します。</value>
+    <comment>Reservation Validation Management</comment>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>ダッシュボード</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>日付</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Date of Birth" xml:space="preserve">
+    <value>生年月日</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Day After Tomorrow" xml:space="preserve">
+    <value>明後日</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>日々</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Display Order" xml:space="preserve">
+    <value>表示順</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="Display Page" xml:space="preserve">
+    <value>表示順</value>
+    <comment>Recommendation Management</comment>
+  </data>
+  <data name="Edit Profile" xml:space="preserve">
+    <value>プロファイル編集</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>メールアドレス</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Enter building &amp; room no." xml:space="preserve">
+    <value>建物と部屋番号を入力してください</value>
+    <comment>ProfileManagement</comment>
+  </data>
+  <data name="Enter Event Title" xml:space="preserve">
+    <value>イベントタイトルを入力してください</value>
+    <comment>Club Management-&gt; Event Management</comment>
+  </data>
+  <data name="Enter OTP from Customer" xml:space="preserve">
+    <value>顧客からの OTP を入力</value>
+    <comment>Reservation Validation Management</comment>
+  </data>
+  <data name="Enter street" xml:space="preserve">
+    <value>町を入力してください</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Enter your club credentials to continue." xml:space="preserve">
+    <value>続行するにはクラブのユーザー情報を入力してください</value>
+    <comment>Login Page</comment>
+  </data>
+  <data name="Entries" xml:space="preserve">
+    <value>件</value>
+    <comment>Data Table</comment>
+  </data>
+  <data name="Event Management" xml:space="preserve">
+    <value>イベント管理</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Event Title" xml:space="preserve">
+    <value>イベントタイトル</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Excel" xml:space="preserve">
+    <value>エクスポート</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>エクスポート</value>
+    <comment>Data Table</comment>
+  </data>
+  <data name="Export Pdf" xml:space="preserve">
+    <value>エクスポート</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Filter_By" xml:space="preserve">
+    <value>フィルタ</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>ファーストネーム</value>
+  </data>
+  <data name="Former Job" xml:space="preserve">
+    <value>前職</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>金</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="From_date" xml:space="preserve">
+    <value>日付から</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>フルネーム</value>
+  </data>
+  <data name="Gallery" xml:space="preserve">
+    <value>写真</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Gallery Management" xml:space="preserve">
+    <value>ギャラリー管理</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Gallery or Banner" xml:space="preserve">
+    <value>ギャラリー/バナー</value>
+    <comment>Gallery Management</comment>
+  </data>
+  <data name="GallerySupportMsg" xml:space="preserve">
+    <value>ホストの写真を管理する</value>
+    <comment>Host Management-&gt;Gallery Management</comment>
+  </data>
+  <data name="Google Maps" xml:space="preserve">
+    <value>グーグルマップ</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Grand Total" xml:space="preserve">
+    <value>総合金額</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Group Name" xml:space="preserve">
+    <value>グループ名</value>
+    <comment>Profle Management</comment>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>身長</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>ヘルプ</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Hide" xml:space="preserve">
+    <value>隠くす</value>
+  </data>
+  <data name="Hide Host info" xml:space="preserve">
+    <value>ホスト情報を非表示にする</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Holiday" xml:space="preserve">
+    <value>店休日</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Host" xml:space="preserve">
+    <value>ホスト</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Host Info" xml:space="preserve">
+    <value>ホスト名</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Host List Supporting Text" xml:space="preserve">
+    <value>ホストの推薦注文を管理する。</value>
+    <comment>Host List</comment>
+  </data>
+  <data name="Host Management" xml:space="preserve">
+    <value>ホスト管理</value>
+    <comment>agement</comment>
+  </data>
+  <data name="Host Name" xml:space="preserve">
+    <value>ホスト名</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>画像</value>
+    <comment>ClubManagement</comment>
+  </data>
+  <data name="ImageNote" xml:space="preserve">
+    <value>注: 画像は HEIF 形式である必要があり、最大ファイル サイズは 5 MB です。</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>インスタグラム</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Japanese" xml:space="preserve">
+    <value>日本語</value>
+    <comment>Language Preference</comment>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>言語</value>
+    <comment>Language Management</comment>
+  </data>
+  <data name="Language Preference" xml:space="preserve">
+    <value>言語の設定</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Language Preference Supporting Text" xml:space="preserve">
+    <value>システム言語設定を選択して下さい。</value>
+    <comment>Language Preference</comment>
+  </data>
+  <data name="Language updated successfully" xml:space="preserve">
+    <value>言語が正常に更新されました</value>
+    <comment>Language Preference</comment>
+  </data>
+  <data name="Last Entry Time" xml:space="preserve">
+    <value>最終入店時間</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Last Order Time" xml:space="preserve">
+    <value>ラストオーダー時間</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Last updated on" xml:space="preserve">
+    <value>最終更新日</value>
+    <comment>Security Page</comment>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>苗字</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>ライン</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="LiquorStrength" xml:space="preserve">
+    <value>酒の強さ</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>住所</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Log out" xml:space="preserve">
+    <value>ログアウト</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>ログイン</value>
+    <comment>Login</comment>
+  </data>
+  <data name="loginMsg" xml:space="preserve">
+    <value>Welcome to Hoslog</value>
+    <comment>Home Controller</comment>
+  </data>
+  <data name="LoginPlaceholderForUsername" xml:space="preserve">
+    <value>ユーザー名</value>
+    <comment>Login Page</comment>
+  </data>
+  <data name="Main Menu" xml:space="preserve">
+    <value>メインメニュー</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Manage club booking request" xml:space="preserve">
+    <value>クラブ予約リクエストの管理</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Manage Event" xml:space="preserve">
+    <value>イベントの管理</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Manage Gallery" xml:space="preserve">
+    <value>ギャラリーの管理</value>
+    <comment>Gallery Management</comment>
+  </data>
+  <data name="Manage Host" xml:space="preserve">
+    <value>ホストの管理</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Manage host recommendation orders." xml:space="preserve">
+    <value>ホストの推薦注文を管理する。</value>
+    <comment>Recommendation Management-&gt;Host List Page</comment>
+  </data>
+  <data name="Manage_your_profile_informations" xml:space="preserve">
+    <value>プロフィール情報を管理します。</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Maximum length is 16 characters" xml:space="preserve">
+    <value>最大長は 16 文字です</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>メッセージ</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Minimum length is 8 characters" xml:space="preserve">
+    <value>最小長は 8 文字です</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>月</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>月</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="New Event" xml:space="preserve">
+    <value>新しいイベント</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="New Host" xml:space="preserve">
+    <value>新しいホスト</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="New Password" xml:space="preserve">
+    <value>新しいパスワード</value>
+    <comment>Security Page</comment>
+  </data>
+  <data name="New Request" xml:space="preserve">
+    <value>新しいリクエスト</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>新しいパスワード</value>
+    <comment>Home Controller</comment>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>次</value>
+  </data>
+  <data name="Nickname" xml:space="preserve">
+    <value>ニックネーム</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="No File Choosen" xml:space="preserve">
+    <value>ファイルが選択されていません</value>
+  </data>
+  <data name="No of Hosts" xml:space="preserve">
+    <value>ホスト数</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="No of Show" xml:space="preserve">
+    <value>ショーの数</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Nomination fee" xml:space="preserve">
+    <value>指名料</value>
+    <comment>Profile Management-&gt;Plans Details</comment>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>通知</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="On-site nomination" xml:space="preserve">
+    <value>場内指名</value>
+    <comment>Profile Management-&gt;Plans Details</comment>
+  </data>
+  <data name="Our top booked hosts" xml:space="preserve">
+    <value>最も予約の多いホスト。</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Overview" xml:space="preserve">
+    <value>概要</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Page List Supporting Text" xml:space="preserve">
+    <value>管理者に対してトップのおすすめを管理リクエストする。</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="Pages" xml:space="preserve">
+    <value>ページ</value>
+    <comment>Recommendation List</comment>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>パスワード</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>パスワードが必要</value>
+  </data>
+  <data name="Payement Status" xml:space="preserve">
+    <value>支払状況</value>
+    <comment>Payement Management</comment>
+  </data>
+  <data name="Paymemt Ledgers" xml:space="preserve">
+    <value>支払管理</value>
+    <comment>Payment Managament-&gt;Payment Ledger page</comment>
+  </data>
+  <data name="Payment Ledger Supporting Text" xml:space="preserve">
+    <value>特定の日付に関する支払い情報。</value>
+    <comment>Payment Management-&gt;Payment Ledger Page</comment>
+  </data>
+  <data name="Payment Logs" xml:space="preserve">
+    <value>支払いログ</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Payment Management" xml:space="preserve">
+    <value>支払い管理</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Payment Management Supporting Text" xml:space="preserve">
+    <value>顧客とアドミン間の支払いに関する情報。</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>支払い方法</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Payment Option" xml:space="preserve">
+    <value>支払いオプション</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>保留中</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Pending Payments" xml:space="preserve">
+    <value>未払金額額</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="People" xml:space="preserve">
+    <value>人数</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>電話番号</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Plan" xml:space="preserve">
+    <value>プランの内容</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Plan Price" xml:space="preserve">
+    <value>プラン料金</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Position" xml:space="preserve">
+    <value>役職</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Postal code" xml:space="preserve">
+    <value>郵便番号</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Prefecture" xml:space="preserve">
+    <value>県</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Premium" xml:space="preserve">
+    <value>プレミアム</value>
+    <comment>Reservation Management</comment>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="PreviousOccupation" xml:space="preserve">
+    <value>ぜんしょく</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>価格</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>プロフィール</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Profile Picture" xml:space="preserve">
+    <value>プロフィールの写真</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Rank" xml:space="preserve">
+    <value>ランク</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Ratings" xml:space="preserve">
+    <value>星評価</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Recommendation List" xml:space="preserve">
+    <value>おすすめリスト</value>
+    <comment>Recommendation List</comment>
+  </data>
+  <data name="Recommendation List Supporting Text" xml:space="preserve">
+    <value>管理者に対してトップのおすすめを管理リクエストする。</value>
+    <comment>Recommendation List Supporting Text</comment>
+  </data>
+  <data name="Recommendation Request" xml:space="preserve">
+    <value>推薦リクエスト</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Recommendation Request Confirm Text" xml:space="preserve">
+    <value>オススメの依頼を確認してよろしいですか。</value>
+    <comment>Recommendation Request</comment>
+  </data>
+  <data name="Recommendation Request Supporting Text" xml:space="preserve">
+    <value>管理者にトップのおすすめをリクエストしてください。</value>
+    <comment>Recommendation Request</comment>
+  </data>
+  <data name="Regular Price 1 hour" xml:space="preserve">
+    <value>通常料金	1時間</value>
+    <comment>Profile Management-&gt;Plans Detail</comment>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>拒否されました</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>レマクス</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>パスワードを覚える</value>
+    <comment>Login</comment>
+  </data>
+  <data name="RequestAcceptMsz" xml:space="preserve">
+    <value>予約リクエストを承認しますか？</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Requested Date" xml:space="preserve">
+    <value>登録日</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="RequestRejectMsz" xml:space="preserve">
+    <value>予約リクエストを拒否しますか？</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Required" xml:space="preserve">
+    <value>必須</value>
+  </data>
+  <data name="Reservation Details" xml:space="preserve">
+    <value>予約詳細</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Reservation Ledger" xml:space="preserve">
+    <value>予約台帳</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Reservation Ledger Supporting Texts" xml:space="preserve">
+    <value>予約に関する情報、予約の日付、時間、および予約の期間について</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Reservation Number" xml:space="preserve">
+    <value>予約番号</value>
+    <comment>Customer Validation</comment>
+  </data>
+  <data name="Reservations" xml:space="preserve">
+    <value>予約</value>
+    <comment>Reservation Management</comment>
+  </data>
+  <data name="Review and rating supporting text" xml:space="preserve">
+    <value>クラブとそのホストのレビューと評価を管理する。</value>
+    <comment>Review And Rating Management</comment>
+  </data>
+  <data name="Review and Ratings" xml:space="preserve">
+    <value>口コミ管理</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Reviewed_On" xml:space="preserve">
+    <value>投稿日時</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Reviews" xml:space="preserve">
+    <value>レビュー</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Review_and_Ratings" xml:space="preserve">
+    <value>口コミ管理</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Review_and_rating_supporting_text" xml:space="preserve">
+    <value>クラブとそのホストのレビューと評価を管理する。</value>
+    <comment>Review and Rating Management</comment>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>役割</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="S.N" xml:space="preserve">
+    <value>S.N</value>
+  </data>
+  <data name="Sales Report" xml:space="preserve">
+    <value>売上グラブ</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>土</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>変更内容を保存</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Schedule Management" xml:space="preserve">
+    <value>スケジュール管理</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Schedule Status" xml:space="preserve">
+    <value>スケジュールの状況</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Security" xml:space="preserve">
+    <value>セキュリティ－</value>
+    <comment>Security Page</comment>
+  </data>
+  <data name="SecuritySupportMsz" xml:space="preserve">
+    <value>プロフィールのセキュリティを管理</value>
+    <comment>Manage your profile security</comment>
+  </data>
+  <data name="See All Hosts" xml:space="preserve">
+    <value>すべてのホストを表示</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Select" xml:space="preserve">
+    <value>選択する</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Select Language" xml:space="preserve">
+    <value>言語を選択する</value>
+    <comment>Languate Preference</comment>
+  </data>
+  <data name="Set up a new password to login" xml:space="preserve">
+    <value>ログインするための新しいパスワードを設定する</value>
+    <comment>Home Controller</comment>
+  </data>
+  <data name="Setting" xml:space="preserve">
+    <value>設定</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>見せる</value>
+    <comment>Data Table</comment>
+  </data>
+  <data name="Showing" xml:space="preserve">
+    <value>表示中</value>
+    <comment>Data Table Report</comment>
+  </data>
+  <data name="Social Links" xml:space="preserve">
+    <value>ソーシャルリンク</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状態</value>
+    <comment>Booking Request</comment>
+  </data>
+  <data name="Street" xml:space="preserve">
+    <value>町</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>提出する</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>日</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Tax" xml:space="preserve">
+    <value>税金</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>木</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Tiktok" xml:space="preserve">
+    <value>チックトック</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>タイトル</value>
+    <comment>Gallery Management</comment>
+  </data>
+  <data name="Title Placeholder" xml:space="preserve">
+    <value>バナー</value>
+    <comment>Gallery Management</comment>
+  </data>
+  <data name="Today" xml:space="preserve">
+    <value>今日</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Todays Bookings" xml:space="preserve">
+    <value>本日のご予約状況</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Tomorrow" xml:space="preserve">
+    <value>明日</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Top Ranking Hosts" xml:space="preserve">
+    <value>トップランキングホスト</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Total Bookings" xml:space="preserve">
+    <value>総予約数</value>
+    <comment>Reservation Management</comment>
+  </data>
+  <data name="Total Commission" xml:space="preserve">
+    <value>総合手数料</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Total Hosts" xml:space="preserve">
+    <value>合計ホスト数</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Total Sales" xml:space="preserve">
+    <value>総売上高</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Total service tax and consumption tax" xml:space="preserve">
+    <value>サービス税・消費税合計</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="Total Visitors" xml:space="preserve">
+    <value>総来場者数</value>
+    <comment>Reservation Management</comment>
+  </data>
+  <data name="To_date" xml:space="preserve">
+    <value>現在まで</value>
+    <comment>Booking Request Management</comment>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>火</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Twitter" xml:space="preserve">
+    <value>ツイッター</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Update Profile" xml:space="preserve">
+    <value>プロフィールを更新する</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Updated Date" xml:space="preserve">
+    <value>更新日</value>
+    <comment>Page List</comment>
+  </data>
+  <data name="Updated On" xml:space="preserve">
+    <value>更新日</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="UpdateProfileAlert" xml:space="preserve">
+    <value>この特権を保存してもよろしいですか?</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="User Info" xml:space="preserve">
+    <value>クラブ情報</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>ユーザー名</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Username/Phone Number" xml:space="preserve">
+    <value>ユーザー名／電話番号</value>
+    <comment>Login Page</comment>
+  </data>
+  <data name="Various drinks" xml:space="preserve">
+    <value>場内指名</value>
+    <comment>Profile Management-&gt;Plans Details</comment>
+  </data>
+  <data name="View all" xml:space="preserve">
+    <value>すべて見る</value>
+    <comment>Home Dashboard</comment>
+  </data>
+  <data name="View Calendar" xml:space="preserve">
+    <value>カレンダー</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Visit Date" xml:space="preserve">
+    <value>訪問日</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Visit Time" xml:space="preserve">
+    <value>訪問時間</value>
+    <comment>Payment Management</comment>
+  </data>
+  <data name="Website" xml:space="preserve">
+    <value>Webサイト</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>水</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>週</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>歓迎</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Welcome to Hoslog" xml:space="preserve">
+    <value>ホスログへようこそ</value>
+    <comment>Login Page</comment>
+  </data>
+  <data name="Working Hours From" xml:space="preserve">
+    <value>開店時間</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Working Hours To" xml:space="preserve">
+    <value>閉店時間</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>年</value>
+    <comment>Host Management</comment>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>はい</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="Your" xml:space="preserve">
+    <value>あなたの</value>
+  </data>
+  <data name="Your Message" xml:space="preserve">
+    <value>あなたのメッセージ</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Your Message Placeholder" xml:space="preserve">
+    <value>例えば。クラブについての説明</value>
+    <comment>Event Management</comment>
+  </data>
+  <data name="Zip" xml:space="preserve">
+    <value>郵便番号</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="ZipCode_placeholder" xml:space="preserve">
+    <value>〒173-0015</value>
+    <comment>Profile Management</comment>
+  </data>
+  <data name="zodiac" xml:space="preserve">
+    <value>黄道帯</value>
+    <comment>Club Management</comment>
+  </data>
+  <data name="Zodiac Sign" xml:space="preserve">
+    <value>星座</value>
+    <comment>Host Management</comment>
+  </data>
+</root>

@@ -1,0 +1,78 @@
+﻿@model CRS.CLUB.APPLICATION.Models.ClubManagement.EventManagementModel
+
+<!-- drawer component -->
+<div id="add-new-event"
+     class="drawer-close-disable  flex justify-end fixed top-0 right-0 z-40 h-screen overflow-y-auto transition-transform translate-x-full  dark:bg-gray-800"
+     tabindex="-1" aria-labelledby="drawer-right-label">
+
+    <div class="bg-white w-[574px] drawer-container relative">
+        <div class="drawer-form-container sticky top-0 ">
+            <div class="drawer-form flex justify-between bg-secondary-color-pink py-[16px] px-[24px] h-[56px]">
+                <div>
+                    @CRS.CLUB.APPLICATION.Resources.Resource.Manage_Event
+                </div>
+                <button type="button" data-drawer-hide="add-new-event" aria-controls="add-new-event"
+                        class="text-[20px]" id="EventClose">
+                    <i class="las la-window-close text-white" onclick="CancelFunction();"></i>
+                </button>
+            </div>
+        </div>
+        <div class="p-[24px]">
+            @using (Html.BeginForm("AddEvent", "ClubManagement", new { }, FormMethod.Post, new { @role = "form", @id = "UploadForm", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                if (!string.IsNullOrEmpty(Model.EventId))
+                {
+                    @Html.HiddenFor(model => model.EventId)
+                }
+                if (!string.IsNullOrEmpty(Model.AgentId))
+                {
+                    @Html.HiddenFor(model => model.AgentId)
+                }
+                <div class="grid grid-cols-2 gap-x-[20px] gap-y-[16px]">
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-text-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Event_Title
+                        </label>
+                        @Html.TextBoxFor(model => model.EventTitle, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Enter_Event_Title, @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off", @maxLength = "50" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.EventTitle)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email"
+                               class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Date
+                        </label>
+                        <input type="text" class="w-full editEventDate" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Date" name="EventDate" required id="datepicker" readonly>
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.EventDate)
+                        </span>
+                    </div>
+                    <div class="input-field-common">
+                        <label for="email" class="block mb-[12px] text-sm font-medium text-secondary-100">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Your_Message
+                        </label>
+                        @Html.TextAreaFor(model => model.Description, new { @class = "w-full rounded-[4px]", @placeholder = CRS.CLUB.APPLICATION.Resources.Resource.Your_Message_Placeholder, @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off", @maxLength = "500" })
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Description)
+                        </span>
+                    </div>
+                </div>
+                <div class="flex justify-end py-[16px] ">
+                    <div class="flex gap-[24px]">
+                        <div class="btn btn-secondary AddCancel" id="EventCancel" onclick="CancelFunction();">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Cancel
+                        </div>
+                        <div class="btn btn-primary">
+                            <button type="submit" onclick="checkEventFields(event)">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
