@@ -15,9 +15,9 @@ namespace CRS.CLUB.BUSINESS.ReviewManagement
             return _repo.DeleteReview(reviewId, actionUser, actionIp);
         }
 
-        public List<ReviewManagementCommon> GetReviews(string clubId, string reviewId = "", string searchText = "")
+        public List<ReviewManagementCommon> GetReviews(string clubId, SearchFilterCommonModel dbRequest, string reviewId = "")
         {
-            return _repo.GetReviews(clubId, reviewId, searchText);
+            return _repo.GetReviews(clubId, dbRequest, reviewId);
         }
     }
 }

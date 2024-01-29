@@ -6,7 +6,7 @@ namespace CRS.CLUB.BUSINESS.ReviewManagement
 {
     public interface IReviewManagementBusiness
     {
-        List<ReviewManagementCommon> GetReviews(string clubId, string reviewId = "", string searchText = "");
+        List<ReviewManagementCommon> GetReviews(string clubId, SearchFilterCommonModel dbRequest, string reviewId = "");
         CommonDbResponse DeleteReview(string reviewId, string actionUser, string actionIp);
     }
 }

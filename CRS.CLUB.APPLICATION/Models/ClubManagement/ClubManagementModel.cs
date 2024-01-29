@@ -28,6 +28,8 @@ namespace CRS.CLUB.APPLICATION.Models.ClubManagement
         public string Status { get; set; }
         public string Sno { get; set; }
         public string ImagePath { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class AddClubImage
     {
@@ -98,6 +100,8 @@ namespace CRS.CLUB.APPLICATION.Models.ClubManagement
         public string Year { get; set; }
         public string Month { get; set; }
         public string Day { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     #endregion
 
@@ -117,6 +121,8 @@ namespace CRS.CLUB.APPLICATION.Models.ClubManagement
         public string EventDate { get; set; }
         public string CreatedDate { get; set; }
         public string Message { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     #endregion
 

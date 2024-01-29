@@ -10,8 +10,6 @@ namespace CRS.CLUB.APPLICATION.Models.BookingRequest
         public string Today { get; set; }
         public string Tomorrow { get; set; }
         public string DayAfterTomorrow { get; set; }
-        public string Offset { get; set; } = "0";
-        public string Limit { get; set; } = "10";
         public List<PendingBookingRequestList> GetPendingBookingRequestLists { get; set; }
         public List<ApprovedBookingRequestList> GetApprovedBookingRequestLists { get; set; }
         public List<AllBookingRequestList> GetAllBookingRequestLists { get; set; }
@@ -32,8 +30,8 @@ namespace CRS.CLUB.APPLICATION.Models.BookingRequest
         public string CreatedDate { get; set; }
         public string Action { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class ApprovedBookingRequestList
     {
@@ -49,8 +47,8 @@ namespace CRS.CLUB.APPLICATION.Models.BookingRequest
         public string CreatedDate { get; set; }
         public string Action { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class AllBookingRequestList
     {
@@ -66,8 +64,8 @@ namespace CRS.CLUB.APPLICATION.Models.BookingRequest
         public string CreatedDate { get; set; }
         public string Action { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
 
     public class BookingRequestAnalyticsModel

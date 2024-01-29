@@ -27,6 +27,10 @@
                 {
                     @Html.HiddenFor(model => model.AgentId)
                 }
+                if (!string.IsNullOrEmpty(Model.ImagePath))
+                {
+                    @Html.HiddenFor(model => model.ImagePath)
+                }
                 <div class="grid grid-cols-1 gap-x-[20px] gap-y-[16px]">
                     <div class="input-field-common">
                         <label for="Title"
@@ -43,13 +47,21 @@
                             @CRS.CLUB.APPLICATION.Resources.Resource.Gallery_or_Banner
                         </label>
                         <div class="file-upload-common bg-gray-gallery">
-                            <label for="file_input_logo" class="custom-file-upload w-[128px] flex-none ">
+                            <label for="file_input" class="custom-file-upload w-[128px] flex-none ">
                                 <span> @CRS.CLUB.APPLICATION.Resources.Resource.Choose_Logo</span>
                             </label>
-                            <input id="file_input_logo" class="file-input" name="ImagePath" type="file" style="display:none;">
-                            <p id="file_name_logo"
+                            <input id="file_input" class="file-input" name="ImagePaths" type="file" style="display:none;">
+                            <p id="file_name_display"
                                class="file-name w-max h-[23px] overflow-hidden pl-2 text-xs text-[#686868] leading-[25px]">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen
+                                @if (string.IsNullOrEmpty(Model.ImagePath))
+                                {
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen
+                                }
+                                else
+                                {
+                                    string fileName = Path.GetFileName(Model.ImagePath);
+                                    @fileName
+                                }
                         </div>
                         <div class="text-xs text-error mt-[8px]">
                             @CRS.CLUB.APPLICATION.Resources.Resource.ImageNote
@@ -74,3 +86,14 @@
         </div>
     </div>
 </div>
+<script>
+    const fileInput = document.getElementById("file_input");
+    const fileNameDisplay = document.getElementById("file_name_display");
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `${fileInput.files[0].name}`;
+        } else {
+            fileNameDisplay.textContent = "";
+        }
+    });
+</script>

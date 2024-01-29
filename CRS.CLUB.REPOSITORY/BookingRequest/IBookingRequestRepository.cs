@@ -1,5 +1,6 @@
 ﻿using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.BookingRequest;
+using CRS.CLUB.SHARED.PaginationManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,11 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
     public interface IBookingRequestRepository
     {
         CommonDbResponse ApproveBookingRequest(string newId, string actionUser, string actionIp, string actionPlatform);
-        List<AllBookingRequestListCommon> GetAllBookingRequestList( string AgentId, SearchFilterCommon request);
-        List<ApprovedBookingRequestListCommon> GetApprovedBookingList(string AgentId, SearchFilterCommon request);
+        List<AllBookingRequestListCommon> GetAllBookingRequestList(string AgentId, SearchFilterCommon request, PaginationFilterCommon AllRequest);
+        List<ApprovedBookingRequestListCommon> GetApprovedBookingList(string AgentId, SearchFilterCommon request, PaginationFilterCommon ApprovedRequest);
         BookingRequestAnalyticsModelCommon GetBookingRequestAnalytics(string AgentId);
         List<ClubTimeInfoModelCommon> GetClubTimeList(string agentId);
-        List<PendingBookingRequestListCommon> GetPendingBookingList(string AgentId, SearchFilterCommon request);
+        List<PendingBookingRequestListCommon> GetPendingBookingList(string AgentId, SearchFilterCommon request, PaginationFilterCommon PendingRequest);
         CommonDbResponse RejectBookingRequest(string newId, string actionUser, string actionIp, string actionPlatform);
     }
 }

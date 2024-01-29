@@ -1,6 +1,7 @@
 ﻿using CRS.CLUB.REPOSITORY.ClubManagement;
 using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.ClubManagement;
+using CRS.CLUB.SHARED.PaginationManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,9 @@ namespace CRS.CLUB.BUSINESS.ClubManagement
             return _clubMgmtRepo.DeleteImage(CSNO, AID, commonRequest);
         }
 
-        public List<ClubManagementCommon> GetClubImages(string AgentId,string GallerySearchFilter)
+        public List<ClubManagementCommon> GetClubImages(string AgentId,PaginationFilterCommon GalleryReq)
         {
-            return _clubMgmtRepo.GetClubImages(AgentId, GallerySearchFilter);
+            return _clubMgmtRepo.GetClubImages(AgentId, GalleryReq);
         }
 
         public CommonDbResponse InsertClubImage(AddClubImageCommon clubImageCommon)
@@ -37,9 +38,9 @@ namespace CRS.CLUB.BUSINESS.ClubManagement
             return _clubMgmtRepo.GetClubImage(ACC);
         }
 
-        public List<HostManagementCommon> GetHostList(string AgentID, string HostSearchFilter)
+        public List<HostManagementCommon> GetHostList(string AgentID, PaginationFilterCommon HostReq)
         {
-            return _clubMgmtRepo.GetHostList(AgentID, HostSearchFilter);
+            return _clubMgmtRepo.GetHostList(AgentID, HostReq);
         }
 
         public CommonDbResponse DeleteHost(string HID, string AID, Common commonRequest)
@@ -57,9 +58,9 @@ namespace CRS.CLUB.BUSINESS.ClubManagement
             return _clubMgmtRepo.AddClubHost(common);
         }
 
-        public List<EventManagementCommon> GetEventList(string agentId,string SearchFilter)
+        public List<EventManagementCommon> GetEventList(string agentId,PaginationFilterCommon EventReq)
         {
-            return _clubMgmtRepo.GetEventList(agentId, SearchFilter);
+            return _clubMgmtRepo.GetEventList(agentId, EventReq);
         }
 
         public CommonDbResponse DeleteEvent(string EID, string aID, Common commonRequest)

@@ -10,6 +10,6 @@ namespace CRS.CLUB.BUSINESS.ReservationLedger
     public interface IReservationLedgerBusiness
     {
         ReservationLedgerAnalyticDetailModelCommon GetLedgerAnalyticDetail(string ClubId);
-        List<ReservationLedgerCommon> GetReservationLedgerListDetail(string ClubId,SearchFilterModel request);
+        List<ReservationLedgerCommon> GetReservationLedgerListDetail(string ClubId, SearchFilterModel request);
     }
 }

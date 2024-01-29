@@ -1,24 +1,21 @@
 ﻿using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.ClubManagement;
-using System;
+using CRS.CLUB.SHARED.PaginationManagement;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CRS.CLUB.BUSINESS.ClubManagement
 {
     public interface IClubManagementBussiness
     {
         CommonDbResponse DeleteImage(string cSNO, string aID, Common commonRequest);
-        List<ClubManagementCommon> GetClubImages(string AgentId,string GallerySearchFilter);
+        List<ClubManagementCommon> GetClubImages(string AgentId, PaginationFilterCommon GalleryReq);
         CommonDbResponse InsertClubImage(AddClubImageCommon clubImageCommon);
         AddClubImageCommon GetClubImage(AddClubImageCommon ACC);
-        List<HostManagementCommon> GetHostList(string AgentID, string HostSearchFilter);
+        List<HostManagementCommon> GetHostList(string AgentID, PaginationFilterCommon HostReq);
         CommonDbResponse DeleteHost(string HID, string AID, Common commonRequest);
         HostManagementCommon GetHostByID(HostManagementCommon EHC);
         CommonDbResponse AddClubHost(HostManagementCommon common);
-        List<EventManagementCommon> GetEventList(string agentId,string SearchFilter);
+        List<EventManagementCommon> GetEventList(string agentId, PaginationFilterCommon EventReq);
         CommonDbResponse DeleteEvent(string EID, string aID, Common commonRequest);
         CommonDbResponse AddEvent(EventManagementCommon common);
         EventManagementCommon GetEventById(EventManagementCommon eMC);

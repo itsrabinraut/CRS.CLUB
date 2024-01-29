@@ -6,7 +6,7 @@ using CRS.CLUB.BUSINESS.CommonManagement;
 using CRS.CLUB.BUSINESS.ScheduleManagement;
 using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.ClubManagement;
-using DocumentFormat.OpenXml;
+using CRS.CLUB.SHARED.PaginationManagement;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
@@ -32,24 +32,36 @@ namespace CRS.CLUB.APPLICATION.Controllers
             _common = comm;
             _scheduleBuss = scheduleBuss;
         }
-        public ActionResult Index(string SearchFilter = "", string HostSearchFilter = "", string GallerySearchFilter = "")
+        public ActionResult Index(string SearchFilter = "", string HostSearchFilter = "", string GallerySearchFilter = "", int StartIndex = 0, int PageSize = 10, int StartIndex1 = 0, int PageSize1 = 10, int StartIndex2 = 0, int PageSize2 = 10)
         {
             Session["CurrentURL"] = "/ClubManagement/Index";
             var AgentId = Session["AgentID"]?.ToString().DecryptParameter();
             string FileLocationPath = "";
 
-            var response = _buss.GetClubImages(AgentId, GallerySearchFilter);
-            var responseHost = _buss.GetHostList(AgentId, HostSearchFilter);
-            var responseEvent = _buss.GetEventList(AgentId, SearchFilter);
-            ClubManagementModel clubMgmtModel = new ClubManagementModel();
-
-            #region Dropdown List
-            ViewBag.LiquoreStrength = ApplicationUtilities.SetDDLValue(LoadDropdownList("liqStrength", "9") as Dictionary<string, string>, "", "--- 選択 ---");
-            ViewBag.BloodType = ApplicationUtilities.SetDDLValue(LoadDropdownList("bloodtype", "18") as Dictionary<string, string>, "", "--- 選択 ---");
-            ViewBag.PreviousOccupation = ApplicationUtilities.SetDDLValue(LoadDropdownList("preOcc", "12") as Dictionary<string, string>, "", "--- 選択 ---");
-            ViewBag.Zodiac = ApplicationUtilities.SetDDLValue(LoadDropdownList("constellation", "13") as Dictionary<string, string>, "", "--- 選択 ---");
-            ViewBag.Rank = ApplicationUtilities.SetDDLValue(LoadDropdownList("rank", "14") as Dictionary<string, string>, "", "--- 選択 ---");
+            #region PAGINATION
+            PaginationFilterCommon GalleryReq = new PaginationFilterCommon()
+            {
+                Skip = StartIndex,
+                Take = PageSize,
+                SearchFilter = GallerySearchFilter
+            };
+            PaginationFilterCommon HostReq = new PaginationFilterCommon()
+            {
+                Skip = StartIndex1,
+                Take = PageSize1,
+                SearchFilter = HostSearchFilter
+            };
+            PaginationFilterCommon EventReq = new PaginationFilterCommon()
+            {
+                Skip = StartIndex2,
+                Take = PageSize2,
+                SearchFilter = SearchFilter
+            };
             #endregion
+            var response = _buss.GetClubImages(AgentId, GalleryReq);
+            var responseHost = _buss.GetHostList(AgentId, HostReq);
+            var responseEvent = _buss.GetEventList(AgentId, EventReq);
+            ClubManagementModel clubMgmtModel = new ClubManagementModel();
 
             #region Club Management
             clubMgmtModel.clubManagement = response.MapObjects<clubManagement>();
@@ -75,7 +87,6 @@ namespace CRS.CLUB.APPLICATION.Controllers
             clubMgmtModel.clubManagement.ForEach(x => x.ImagePath = FileLocationPath + x.ImagePath);
             clubMgmtModel.HostManagement.ForEach(x => x.ImagePath = FileLocationPath + x.ImagePath);
 
-
             string RenderId = "";
 
             if (TempData.ContainsKey("ClubImage")) clubMgmtModel.ClubImage = TempData["ClubImage"] as AddClubImage;
@@ -91,10 +102,34 @@ namespace CRS.CLUB.APPLICATION.Controllers
             Response.ForEach(x => x.ScheduleId = x.ScheduleId.EncryptParameter());
             string scheduleJsonData = JsonConvert.SerializeObject(Response);
             ViewBag.ClubSchedulesJson = scheduleJsonData;
-            ViewBag.ClubScheduleDDL = ApplicationUtilities.SetDDLValue(ApplicationUtilities.LoadDropdownList("CLUBSCHEDULE") as Dictionary<string, string>, "", "--- Select ---");
+            ViewBag.ClubScheduleDDL = ApplicationUtilities.SetDDLValue(ApplicationUtilities.LoadDropdownList("CLUBSCHEDULE") as Dictionary<string, string>, "", "--- 選択 ---");
+
+            #region Dropdown List
+            ViewBag.LiquoreStrength = ApplicationUtilities.SetDDLValue(LoadDropdownList("liqStrength", "9") as Dictionary<string, string>, "", "--- 選択 ---");
+            ViewBag.LiquoreStrengthDDLKey = clubMgmtModel.HostMgmt.Liquor;
+            ViewBag.BloodType = ApplicationUtilities.SetDDLValue(LoadDropdownList("bloodtype", "18") as Dictionary<string, string>, "", "--- 選択 ---");
+            ViewBag.BloodTypeDDLKey = clubMgmtModel.HostMgmt.BloodType;
+            ViewBag.PreviousOccupation = ApplicationUtilities.SetDDLValue(LoadDropdownList("preOcc", "12") as Dictionary<string, string>, "", "--- 選択 ---");
+            ViewBag.PreviousOccupationDDLKey = clubMgmtModel.HostMgmt.PreviousOccupation;
+            ViewBag.Zodiac = ApplicationUtilities.SetDDLValue(LoadDropdownList("constellation", "13") as Dictionary<string, string>, "", "--- 選択 ---");
+            ViewBag.ZodiacDDLKey = clubMgmtModel.HostMgmt.ConstellationGroup;
+            ViewBag.Rank = ApplicationUtilities.SetDDLValue(LoadDropdownList("rank", "14") as Dictionary<string, string>, "", "--- 選択 ---");
+            #endregion
+
             ViewBag.SearchText = SearchFilter;
             ViewBag.HostSearchText = HostSearchFilter;
             ViewBag.GallerySearchText = GallerySearchFilter;
+            ViewBag.StartIndex = StartIndex;
+            ViewBag.PageSize = PageSize;
+            ViewBag.TotalRecords = response != null && response.Any() ? response[0].TotalRecords : 0;
+
+            ViewBag.StartIndex1 = StartIndex1;
+            ViewBag.PageSize1 = PageSize1;
+            ViewBag.TotalRecords1 = responseHost != null && responseHost.Any() ? responseHost[0].TotalRecords : 0;
+
+            ViewBag.StartIndex2 = StartIndex2;
+            ViewBag.PageSize2 = PageSize2;
+            ViewBag.TotalRecords2 = responseEvent != null && responseEvent.Any() ? responseEvent[0].TotalRecords : 0;
             return View(clubMgmtModel);
         }
 
@@ -106,12 +141,9 @@ namespace CRS.CLUB.APPLICATION.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult AddClubImage(AddClubImage model, HttpPostedFileBase ImagePath)
+        public ActionResult AddClubImage(AddClubImage model, HttpPostedFileBase ImagePaths)
         {
             Session["CurrentURL"] = "/ClubManagement/Index";
-            var ClubImageCommon = new AddClubImageCommon();
-            var response = new CommonDbResponse();
-
             if (string.IsNullOrEmpty(model.Title))
             {
                 AddNotificationMessage(new NotificationModel()
@@ -123,7 +155,31 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 TempData["RenderId"] = "ManagePlan";
                 return RedirectToAction("Index");
             }
-
+            if (ImagePaths == null)
+            {
+                if (string.IsNullOrEmpty(model.ImagePath))
+                {
+                    bool allowRedirect = false;
+                    var ErrorMessage = string.Empty;
+                    if (ImagePaths == null && string.IsNullOrEmpty(model.ImagePath))
+                    {
+                        ErrorMessage = "Image required";
+                        allowRedirect = true;
+                    }
+                    if (allowRedirect)
+                    {
+                        this.AddNotificationMessage(new NotificationModel()
+                        {
+                            NotificationType = NotificationMessage.INFORMATION,
+                            Message = ErrorMessage ?? "Something went wrong. Please try again later.",
+                            Title = NotificationMessage.INFORMATION.ToString(),
+                        });
+                        TempData["GalleryManagementModel"] = model;
+                        TempData["RenderId"] = "ManageClubGallery";
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
             string FileLocationPath = "/Content/userupload/ClubManagement/";
             string FileLocation = FileLocationPath;
             HttpPostedFileBase file = Request.Files["imageFile"];
@@ -131,49 +187,42 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 && ConfigurationManager.AppSettings["Phase"].ToString().ToUpper() != "DEVELOPMENT")
                 FileLocation = ConfigurationManager.AppSettings["ImageVirtualPath"].ToString() + FileLocationPath;
 
-            if (ImagePath != null && ImagePath.ContentLength > 0)
+            if (ImagePaths != null)
             {
                 string imgPath;
                 var allowedContenttype = new[] { ".heif", ".jpg", ".png", ".jpeg" };
-                var ext = Path.GetExtension(ImagePath.FileName);
+                var ext = Path.GetExtension(ImagePaths.FileName);
                 if (allowedContenttype.Contains(ext.ToLower()))
                 {
                     string datet = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                     string myfilename = "ClubManagementImg_" + datet + ext.ToLower();
                     imgPath = Path.Combine(Server.MapPath("~/Content/userupload/ClubManagement/"), myfilename);
-                    ClubImageCommon.ImagePath = "/Content/userupload/ClubManagement/" + myfilename;
+                    model.ImagePath = "/Content/userupload/ClubManagement/" + myfilename;
                 }
                 else
                 {
                     AddNotificationMessage(new NotificationModel()
                     {
                         NotificationType = NotificationMessage.INFORMATION,
-                        Message = "File Must be must be in jpeg, jpg, heif or png format",
+                        Message = "Invalid image format.",
                         Title = NotificationMessage.INFORMATION.ToString()
                     });
                     return RedirectToAction("Index");
                 }
-                ClubImageCommon.ActionUser = Session["username"]?.ToString();
-                ClubImageCommon.ImageTitle = model.Title;
-                ClubImageCommon.Sno = model.Sno;
-                ClubImageCommon.AgentId = Session["AgentId"]?.ToString().DecryptParameter();
-                var serviceResp = _buss.InsertClubImage(ClubImageCommon);
-                if (serviceResp.Code == ResponseCode.Success)
-                {
-                    if (ImagePath != null) ApplicationUtilities.ResizeImage(ImagePath, imgPath);
-                    AddNotificationMessage(new NotificationModel()
-                    {
-                        NotificationType = NotificationMessage.SUCCESS,
-                        Message = serviceResp.Message,
-                        Title = NotificationMessage.SUCCESS.ToString()
-                    });
-                    return RedirectToAction("Index");
-                }
+            }
+            var ClubImageCommon = model.MapObject<AddClubImageCommon>();
+            ClubImageCommon.ActionUser = Session["username"]?.ToString();
+            ClubImageCommon.AgentId = Session["AgentId"]?.ToString().DecryptParameter();
+            ClubImageCommon.ActionIP = ApplicationUtilities.GetIP();
+            ClubImageCommon.ImageTitle = model.Title;
+            var serviceResp = _buss.InsertClubImage(ClubImageCommon);
+            if (serviceResp.Code == ResponseCode.Success)
+            {
                 AddNotificationMessage(new NotificationModel()
                 {
-                    NotificationType = NotificationMessage.ERROR,
-                    Message = "Something went wrong",
-                    Title = NotificationMessage.ERROR.ToString()
+                    NotificationType = NotificationMessage.SUCCESS,
+                    Message = serviceResp.Message,
+                    Title = NotificationMessage.SUCCESS.ToString()
                 });
                 return RedirectToAction("Index");
             }
@@ -182,10 +231,9 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 AddNotificationMessage(new NotificationModel()
                 {
                     NotificationType = NotificationMessage.ERROR,
-                    Message = "Image File is missing",
+                    Message = "Something went wrong",
                     Title = NotificationMessage.ERROR.ToString()
                 });
-                TempData["RenderId"] = "ManagePlan";
                 return RedirectToAction("Index");
             }
         }
@@ -277,15 +325,39 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 TempData["HostManagement"] = model;
                 return RedirectToAction("Index");
             }
-
-            string FileLocationPath = "/Content/userupload/Host/Gallery/";
-            string FileLocation = FileLocationPath;
+            if (ImagePath == null)
+            {
+                if (string.IsNullOrEmpty(model.ImagePath))
+                {
+                    bool allowRedirect = false;
+                    var ErrorMessage = string.Empty;
+                    if (ImagePath == null && string.IsNullOrEmpty(model.ImagePath))
+                    {
+                        ErrorMessage = "Image is required";
+                        allowRedirect = true;
+                    }
+                    if (allowRedirect)
+                    {
+                        this.AddNotificationMessage(new NotificationModel()
+                        {
+                            NotificationType = NotificationMessage.INFORMATION,
+                            Message = ErrorMessage ?? "Something went wrong. Please try again later.",
+                            Title = NotificationMessage.INFORMATION.ToString(),
+                        });
+                        TempData["RenderId"] = "EditHostPlan";
+                        TempData["ManageHostModel"] = model;
+                        return RedirectToAction("Index");
+                    }
+                }
+            }
+            string FileLocationPath = "/Content/userupload/ClubManagement/ClubHost/";
+            string FileLocation;
             if (ConfigurationManager.AppSettings["Phase"] != null
                 && ConfigurationManager.AppSettings["Phase"].ToString().ToUpper() != "DEVELOPMENT")
                 FileLocation = ConfigurationManager.AppSettings["ImageVirtualPath"].ToString() + FileLocationPath;
 
             HttpPostedFileBase file = Request.Files["hostimage"];
-            if (ImagePath == null)
+            if (ImagePath != null)
             {
                 if (string.IsNullOrEmpty(model.ImagePath))
                 {
@@ -310,15 +382,15 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 {
                     string datet = DateTime.Now.ToString("yyyyMMddHHmmssffff");
                     string myfilename = "ClubHostProfileImg_" + datet + ext.ToLower();
-                    imgPath = Path.Combine(Server.MapPath(FileLocation), myfilename);
-                    HostManagementCommon.ImagePath = FileLocationPath + myfilename;
+                    imgPath = Path.Combine(Server.MapPath("~/Content/userupload/ClubManagement/ClubHost/"), myfilename);
+                    HostManagementCommon.ImagePath = "/Content/userupload/ClubManagement/ClubHost/" + myfilename;
                 }
                 else
                 {
                     AddNotificationMessage(new NotificationModel()
                     {
                         NotificationType = NotificationMessage.INFORMATION,
-                        Message = "Invalid Image File Format",
+                        Message = "Image is required",
                         Title = NotificationMessage.INFORMATION.ToString()
                     });
                     TempData["RenderId"] = "EditHostPlan";
@@ -327,51 +399,55 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 }
 
             }
-            HostManagementCommon.ActionUser = Session["username"]?.ToString();
-            if (!string.IsNullOrEmpty(model.HostID)) HostManagementCommon.HostId = model.HostID;
-            HostManagementCommon.HostName = model.HostName;
-            HostManagementCommon.Position = model.Position;
-            HostManagementCommon.Rank = model.Rank;
-            HostManagementCommon.Height = model.Height;
-            HostManagementCommon.Twitter = model.Twitter;
-            HostManagementCommon.Instagram = model.Instagram;
-            HostManagementCommon.TikTok = model.TikTok;
-            HostManagementCommon.DateOfBirth = model.DateOfBirth + '-' + Addmonth + '-' + AddDay;
-            HostManagementCommon.Constellation = model.ConstellationGroup;
-            HostManagementCommon.BloodType = model.BloodType;
-            HostManagementCommon.PreviousOccupation = model.PreviousOccupation;
-            HostManagementCommon.Liquor = model.Liquor;
-            HostManagementCommon.Height = model.Height;
-            HostManagementCommon.AgentId = model.AgentID;
-            HostManagementCommon.Address = model.Address;
-            HostManagementCommon.Line = model.Line;
-            HostManagementCommon.ActionUser = ApplicationUtilities.GetSessionValue("Username").ToString();
-            HostManagementCommon.ActionIP = ApplicationUtilities.GetIP();
-            var serviceResp = _buss.AddClubHost(HostManagementCommon);
-            if (serviceResp != null && serviceResp.Code == ResponseCode.Success)
+            if (ModelState.IsValid)
             {
-                //ImagePath.SaveAs(imgPath);
-                if (ImagePath != null) ApplicationUtilities.ResizeImage(ImagePath, imgPath);
-                AddNotificationMessage(new NotificationModel()
+                HostManagementCommon.ActionUser = Session["username"]?.ToString();
+                if (!string.IsNullOrEmpty(model.HostID)) HostManagementCommon.HostId = model.HostID;
+                HostManagementCommon.HostName = model.HostName;
+                HostManagementCommon.Position = model.Position;
+                HostManagementCommon.Rank = model.Rank;
+                HostManagementCommon.Height = model.Height;
+                HostManagementCommon.Twitter = model.Twitter;
+                HostManagementCommon.Instagram = model.Instagram;
+                HostManagementCommon.TikTok = model.TikTok;
+                HostManagementCommon.DateOfBirth = model.DateOfBirth + '-' + Addmonth + '-' + AddDay;
+                HostManagementCommon.Constellation = model.ConstellationGroup;
+                HostManagementCommon.BloodType = model.BloodType;
+                HostManagementCommon.PreviousOccupation = model.PreviousOccupation;
+                HostManagementCommon.Liquor = model.Liquor;
+                HostManagementCommon.Height = model.Height;
+                HostManagementCommon.AgentId = model.AgentID;
+                HostManagementCommon.Address = model.Address;
+                HostManagementCommon.Line = model.Line;
+                HostManagementCommon.ActionUser = ApplicationUtilities.GetSessionValue("Username").ToString();
+                HostManagementCommon.ActionIP = ApplicationUtilities.GetIP();
+                var serviceResp = _buss.AddClubHost(HostManagementCommon);
+                if (serviceResp != null && serviceResp.Code == ResponseCode.Success)
                 {
-                    NotificationType = NotificationMessage.SUCCESS,
-                    Message = serviceResp.Message,
-                    Title = NotificationMessage.SUCCESS.ToString()
-                });
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                AddNotificationMessage(new NotificationModel()
+                    AddNotificationMessage(new NotificationModel()
+                    {
+                        NotificationType = NotificationMessage.SUCCESS,
+                        Message = serviceResp.Message,
+                        Title = NotificationMessage.SUCCESS.ToString()
+                    });
+                    return RedirectToAction("Index");
+                }
+                else
                 {
-                    NotificationType = NotificationMessage.INFORMATION,
-                    Message = serviceResp.Message,
-                    Title = NotificationMessage.INFORMATION.ToString()
-                });
-                TempData["RenderId"] = "EditHostPlan";
-                TempData["HostManagement"] = model;
-                return RedirectToAction("Index");
+                    AddNotificationMessage(new NotificationModel()
+                    {
+                        NotificationType = NotificationMessage.INFORMATION,
+                        Message = serviceResp.Message,
+                        Title = NotificationMessage.INFORMATION.ToString()
+                    });
+                    TempData["RenderId"] = "EditHostPlan";
+                    TempData["HostManagement"] = model;
+                    return RedirectToAction("Index");
+                }
             }
+            TempData["RenderId"] = "EditHostPlan";
+            TempData["HostManagement"] = model;
+            return RedirectToAction("Index");
         }
 
         //public ActionResult EditHostManagement(string AgentId, string HostId)
@@ -760,7 +836,7 @@ namespace CRS.CLUB.APPLICATION.Controllers
                     this.AddNotificationMessage(new NotificationModel()
                     {
                         NotificationType = NotificationMessage.INFORMATION,
-                        Message = "Invalid image format.",
+                        Message = "Image is required",
                         Title = NotificationMessage.INFORMATION.ToString(),
                     });
                     TempData["GalleryManagementModel"] = Model;

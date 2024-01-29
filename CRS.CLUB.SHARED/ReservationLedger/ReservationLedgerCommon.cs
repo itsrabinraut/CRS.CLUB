@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CRS.CLUB.SHARED.PaginationManagement;
 
 namespace CRS.CLUB.SHARED.ReservationLedger
 {
     public class ReservationLedgerCommon : Common
     {
+        public int SNO { get; set; }
         public string Id { get; set; }
         public string CustomerName { get; set; }
         public string NickName { get; set; }
@@ -20,6 +17,7 @@ namespace CRS.CLUB.SHARED.ReservationLedger
         public string PlanAmount { get; set; }
         public string AdminPayment { get; set; }
         public string CustomerProfileImage { get; set; }
+        public int TotalRecords { get; set; }
     }
     public class ReservationLedgerAnalyticDetailModelCommon : Common
     {
@@ -29,7 +27,7 @@ namespace CRS.CLUB.SHARED.ReservationLedger
         public string TotalVisitor { get; set; }
         public string Premium { get; set; }
     }
-    public class SearchFilterModel
+    public class SearchFilterModel : PaginationFilterCommon
     {
         public string SearchFilter { get; set; }
         public string FromDate { get; set; }

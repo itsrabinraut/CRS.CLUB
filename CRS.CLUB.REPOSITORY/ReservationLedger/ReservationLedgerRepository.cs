@@ -43,6 +43,8 @@ namespace CRS.CLUB.REPOSITORY.ReservationLedger
             sp_name += ",@SearchFilter=" + _dao.FilterString(request.SearchFilter);
             sp_name += ",@FromDate=" + _dao.FilterString(request.FromDate);
             sp_name += ",@ToDate=" + _dao.FilterString(request.ToDate);
+            sp_name += ",@Skip=" + request.Skip;
+            sp_name += ",@Take=" + request.Take;
             var dbResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbResponseInfo != null)
             {
@@ -61,6 +63,8 @@ namespace CRS.CLUB.REPOSITORY.ReservationLedger
                         AdminPayment = dataRow["AdminPayment"].ToString(),
                         CustomerProfileImage = dataRow["CustomerProfileImage"].ToString(),
                         PlanAmount = dataRow["PlanAmount"].ToString(),
+                        SNO = Convert.ToInt32(dataRow["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(dataRow["TotalRecords"].ToString())
                     });
                 }
             }

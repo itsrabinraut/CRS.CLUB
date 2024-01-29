@@ -1,4 +1,6 @@
-﻿namespace CRS.CLUB.SHARED.ReviewManagement
+﻿using CRS.CLUB.SHARED.PaginationManagement;
+
+namespace CRS.CLUB.SHARED.ReviewManagement
 {
     public class ReviewManagementCommon : Common
     {
@@ -13,5 +15,11 @@
         public string RemarkType { get; set; }
         public string Rating { get; set; }
         public string ReviewedOn { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
+    }
+    public class SearchFilterCommonModel : PaginationFilterCommon
+    {
+        public string SearchFilter { get; set; }
     }
 }

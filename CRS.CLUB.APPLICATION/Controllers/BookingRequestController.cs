@@ -3,9 +3,10 @@ using CRS.CLUB.APPLICATION.Models.BookingRequest;
 using CRS.CLUB.BUSINESS.BookingRequest;
 using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.BookingRequest;
+using CRS.CLUB.SHARED.PaginationManagement;
 using System;
 using System.Collections.Generic;
-using System.Web;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CRS.CLUB.APPLICATION.Controllers
@@ -18,19 +19,34 @@ namespace CRS.CLUB.APPLICATION.Controllers
             _business = business;
         }
         [HttpGet]
-        public ActionResult BookingRequestList(CommonBookingRequestList Model)
+        public ActionResult BookingRequestList(CommonBookingRequestList Model, int StartIndex = 0, int PageSize = 10, int StartIndex2 = 0, int PageSize2 = 10, int StartIndex3 = 0, int PageSize3 = 10)
         {
             Session["CurrentURL"] = "/BookingRequest/BookingRequestList";
             string AgentId = Session["AgentId"]?.ToString().DecryptParameter();
             CommonBookingRequestList responseInfo = new CommonBookingRequestList();
+            PaginationFilterCommon AllRequest = new PaginationFilterCommon()
+            {
+                Skip = StartIndex,
+                Take = PageSize,
+            };
+            PaginationFilterCommon ApprovedRequest = new PaginationFilterCommon()
+            {
+                Skip = StartIndex2,
+                Take = PageSize2,
+            };
+            PaginationFilterCommon PendingRequest = new PaginationFilterCommon()
+            {
+                Skip = StartIndex3,
+                Take = PageSize3,
+            };
             var request = Model.MapObject<SearchFilterCommon>();
-            var dbResponse = _business.GetAllBookingRequestList(AgentId, request);
+            var dbResponse = _business.GetAllBookingRequestList(AgentId, request, AllRequest);
             responseInfo.GetAllBookingRequestLists = dbResponse.MapObjects<AllBookingRequestList>();
             List<PendingBookingRequestList> pendinglistInfo = new List<PendingBookingRequestList>();
-            var dbPendingResponse = _business.GetPendingBookingList(AgentId, request);
+            var dbPendingResponse = _business.GetPendingBookingList(AgentId, request, PendingRequest);
             responseInfo.GetPendingBookingRequestLists = dbPendingResponse.MapObjects<PendingBookingRequestList>();
             List<ApprovedBookingRequestList> approvedBookingRequestLists = new List<ApprovedBookingRequestList>();
-            var dbapprovedResponse = _business.GetApprovedBookingList(AgentId, request);
+            var dbapprovedResponse = _business.GetApprovedBookingList(AgentId, request, ApprovedRequest);
             responseInfo.GetApprovedBookingRequestLists = dbapprovedResponse.MapObjects<ApprovedBookingRequestList>();
             var dbResponseInfo = _business.GetBookingRequestAnalytics(AgentId);
             responseInfo.GetBookingRequestAnalyticData = dbResponseInfo.MapObject<BookingRequestAnalyticsModel>();
@@ -48,16 +64,18 @@ namespace CRS.CLUB.APPLICATION.Controllers
             {
                 item.VisitedDate = DateTime.Parse(item.VisitedDate).ToString("yyyy-MM-dd");
             }
-            TempData["OriginalUrl"] = Request.Url.ToString();
-            string originalUrl = TempData["OriginalUrl"] as string;
-            Uri redirectURL = new Uri(originalUrl);
-            string path = redirectURL.AbsolutePath;
-            ViewBag.CurrentUrl = path;
-            string query = redirectURL.Query;
-            var queryParams = HttpUtility.ParseQueryString(query);
-            string offset = queryParams["Offset"];
-            ViewBag.Offset = offset;
-            ViewBag.Limit = Model.Limit ?? "10";
+
+            ViewBag.StartIndex1 = StartIndex;
+            ViewBag.PageSize1 = PageSize;
+            ViewBag.TotalData1 = dbResponse != null && dbResponse.Any() ? dbResponse[0].TotalRecords : 0;
+
+            ViewBag.StartIndex2 = StartIndex2;
+            ViewBag.PageSize2 = PageSize2;
+            ViewBag.TotalData2 = dbapprovedResponse != null && dbapprovedResponse.Any() ? dbapprovedResponse[0].TotalRecords : 0;
+
+            ViewBag.StartIndex3 = StartIndex3;
+            ViewBag.PageSize3 = PageSize3;
+            ViewBag.TotalData3 = dbPendingResponse != null && dbPendingResponse.Any() ? dbPendingResponse[0].TotalRecords : 0;
 
             ViewBag.SearchText = Model.SearchFilter;
             ViewBag.FromDate = Model.FromDate;

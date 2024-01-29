@@ -125,6 +125,10 @@
     <value>Action</value>
     <comment>Review and Rating Management</comment>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+    <comment>Gallery Management</comment>
+  </data>
   <data name="Add New" xml:space="preserve">
     <value>Add New</value>
     <comment>Data Table</comment>
@@ -499,6 +503,10 @@
     <value>Note: Image should be in HEIF format and Maximum file size is  5 MB.</value>
     <comment>Profile Management</comment>
   </data>
+  <data name="InActive" xml:space="preserve">
+    <value>InActive</value>
+    <comment>Gallery Management</comment>
+  </data>
   <data name="Instagram" xml:space="preserve">
     <value>Instagram</value>
     <comment>Host Management</comment>
@@ -740,6 +748,10 @@
   <data name="Plan Price" xml:space="preserve">
     <value>Plan Price</value>
     <comment>Profile Management</comment>
+  </data>
+  <data name="Plan_Ledger" xml:space="preserve">
+    <value>Plan</value>
+    <comment>Reservation Ledger</comment>
   </data>
   <data name="Position" xml:space="preserve">
     <value>Position</value>
@@ -994,6 +1006,14 @@
   </data>
   <data name="Top Ranking Hosts" xml:space="preserve">
     <value>Top Ranking Hosts</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Total Amount" xml:space="preserve">
+    <value>Total Amount</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Total Booking" xml:space="preserve">
+    <value>Total Booking</value>
     <comment>Dashboard</comment>
   </data>
   <data name="Total Bookings" xml:space="preserve">

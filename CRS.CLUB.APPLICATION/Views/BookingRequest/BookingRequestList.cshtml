@@ -2,35 +2,14 @@
 @{
     ViewBag.Title = "Booking Request List";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int countRowAllBookingList = 1;
-    int countRowPendingBookingList = 1;
-    int countRowApproveBookingList = 1;
     string approved = CRS.CLUB.APPLICATION.Resources.Resource.Approved;
     string pending = CRS.CLUB.APPLICATION.Resources.Resource.Pending;
     string reject = CRS.CLUB.APPLICATION.Resources.Resource.Rejected;
     var bookingAnalyticsDetails = ViewBag.BookingRequestAnalytics;
-    int countRow = 0;
     string today = DateTime.Now.ToString("yyyy-MM-dd");
     string tomorrow = DateTime.Now.AddDays(1).ToString("yyyy-MM-dd");
     string dayAfterTomorrow = DateTime.Now.AddDays(2).ToString("yyyy-MM-dd");
-    var GetApprovedBookingRequestLists = Model.GetApprovedBookingRequestLists;
-    var GetPendingBookingLists = Model.GetPendingBookingRequestLists;
-    var GetAllBookingLists = Model.GetAllBookingRequestLists;
-    string ApprovedBookingCount = "0";
-    string PendingBookingCount = "0";
-    string AllBookingCount = "0";
-    if (GetApprovedBookingRequestLists != null && GetApprovedBookingRequestLists.Count > 0)
-    {
-        ApprovedBookingCount = GetApprovedBookingRequestLists[0].RowTotal;
-    }
-    if (GetPendingBookingLists != null && GetPendingBookingLists.Count > 0)
-    {
-        PendingBookingCount = GetPendingBookingLists[0].RowTotal;
-    }
-    if (GetAllBookingLists != null && GetAllBookingLists.Count > 0)
-    {
-        AllBookingCount = GetAllBookingLists[0].RowTotal;
-    }
+
 }
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
 <div class="flex flex-col gap-[32px] pb-4">
@@ -82,7 +61,7 @@
             </div>
         </form>
         <div class="flex gap-[24px]">
-            @*<div class="bg-white ">
+            <div class="bg-white ">
                 <form action="/BookingRequest/BookingRequestList" method="get">
                     <div class="flex tab-container">
                         <button id="tab1Button" class="tab-button tab-link active" name="Today" value="@today">
@@ -96,7 +75,7 @@
                         </button>
                     </div>
                 </form>
-            </div>*@
+            </div>
         </div>
     </div>
     <div class="mb-4 filter_by" style="padding-left:35px">
@@ -214,16 +193,7 @@
         <div class="bg-white">
             <div id="tab1" class="tab-content-plane table-tab">
                 <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                    <div class="flex items-center">
-                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires" onchange="updateSelectedValue()">
-                            @{
-                                var selectedValue = ViewBag.Limit as string;
-                            }
-                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
-                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
-                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
-                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
-                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    <div class="flex items-center select-entries" id="ShowEntries-Id">
                     </div>
                     <div class="export-button" id="btnExportAllBooking">
                         <img src="/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
@@ -231,7 +201,7 @@
                 </div>
                 <div class="relative overflow-x-auto">
                     <!--all booking request table grid section-->
-                    <table class="w-full  text-left club-table" id="table_allBookingRequest" data-total="@AllBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                    <table class="w-full  text-left club-table" id="table_allBookingRequest">
                         <thead class="club-table-thead">
                             <tr>
                                 <th scope="col" class="p-[12px] th_class">
@@ -340,7 +310,7 @@
                             {
                                 <tr class="bg-white border-b ">
                                     <td class="p-[12px]">
-                                        @countRowAllBookingList
+                                        @item.SNO
                                     </td>
                                     <td class="p-[12px]">
                                         @item.CustomerName
@@ -390,38 +360,29 @@
                                         @item.UpdatedDate
                                     </td>
                                 </tr>
-                                countRowAllBookingList++;
                             }
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-club">
-                    <!--<div class="show-entry">
-                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @AllBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    <div class="show-entry" id="Entries-Id">
                     </div>
-                    <div class="flex gap-[12px]">-->
-                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                            </div>*@
-                        <!--<div class="flex gap-[12px]" id="pagination_all">
-
-                        </div>-->
-                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                            </div>*@
-                    <!--</div>-->
+                    <div class="flex gap-[12px]">
+                        <div class="btn btn-secondary-box-shadow" id="prev-btn">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                        </div>
+                        <div class="flex gap-[12px]" id="pagination-id">
+                        </div>
+                        <div class="btn btn-secondary-box-shadow" id="next-btn">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="tab2" class="tab-content-plane table-tab hidden">
                 <!--aproved tab section-->
                 <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                    <div class="flex items-center">
-                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires" onchange="updateSelectedValue()">
-                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
-                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
-                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
-                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
-                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    <div class="flex items-center select-entries" id="ShowEntries-Id-2">
                     </div>
                     <div class="export-button" id="btnApprovedExport">
                         <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
@@ -429,7 +390,7 @@
                 </div>
                 <div class="relative overflow-x-auto">
                     <!--approved booking request table grid section-->
-                    <table class="w-full  text-left club-table" id="table_apporvedBookingRequest" data-total="@ApprovedBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                    <table class="w-full  text-left club-table" id="table_apporvedBookingRequest">
                         <thead class="club-table-thead">
                             <tr>
                                 <th scope="col" class="p-[12px]">
@@ -538,7 +499,7 @@
                             {
                                 <tr class="bg-white border-b ">
                                     <td class="p-[12px]">
-                                        @countRowApproveBookingList
+                                        @item.SNO
                                     </td>
                                     <td class="p-[12px]">
                                         @item.CustomerName
@@ -576,39 +537,29 @@
                                         @item.UpdatedDate
                                     </td>
                                 </tr>
-                                countRowApproveBookingList++;
                             }
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-club">
-                    <!--<div class="show-entry">
-                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @ApprovedBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    <div class="show-entry" id="Entries-Id-2">
                     </div>
-                    <div class="flex gap-[12px]">-->
-                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                            </div>*@
-                        <!--<div class="flex gap-[12px]" id="pagination_approved">
-
-                        </div>-->
-                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                            </div>*@
-                    <!--</div>-->
+                    <div class="flex gap-[12px]">
+                        <div class="btn btn-secondary-box-shadow" id="prev-btn-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                        </div>
+                        <div class="flex gap-[12px]" id="pagination-id-2">
+                        </div>
+                        <div class="btn btn-secondary-box-shadow" id="next-btn-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="tab3" class="tab-content-plane table-tab hidden">
                 <!--pending tab sections-->
                 <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                    <div class="flex items-center">
-                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
-                        <select id="countries" class="select-entires" onchange="updateSelectedValue()">
-                            <option value="10" @(selectedValue == "10" ? "selected" : "")>10</option>
-                            <option value="20" @(selectedValue == "20" ? "selected" : "")>20</option>
-                            <option value="50" @(selectedValue == "50" ? "selected" : "")>50</option>
-                            <option value="100" @(selectedValue == "100" ? "selected" : "")>100</option>
-                        </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    <div class="flex items-center select-entries" id="ShowEntries-Id-3">
                     </div>
                     <div class="export-button" id="btn_pendingBookingRequestExport">
                         <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
@@ -616,7 +567,7 @@
                 </div>
                 <div class="relative overflow-x-auto">
                     <!--pending booking request table grid section-->
-                    <table class="w-full  text-left club-table" id="table_pendingBookingRequest" data-total="@PendingBookingCount" data-currentpage="@ViewBag.Offset" data-url="@ViewBag.CurrentUrl">
+                    <table class="w-full  text-left club-table" id="table_pendingBookingRequest">
                         <thead class="club-table-thead">
                             <tr>
                                 <th scope="col" class="p-[12px]">
@@ -730,7 +681,7 @@
                             {
                                 <tr class="bg-white border-b ">
                                     <td class="p-[12px]">
-                                        @countRowPendingBookingList
+                                        @item.SNO
                                     </td>
                                     <td class="p-[12px]">
                                         @item.CustomerName
@@ -774,26 +725,23 @@
                                         </div>
                                     </td>
                                 </tr>
-                                countRowPendingBookingList++;
                             }
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-club">
-                    <!--<div class="show-entry">
-                        @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of @PendingBookingCount @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                    <div class="show-entry" id="Entries-Id-3">
                     </div>
-                    <div class="flex gap-[12px]">-->
-                        @*<div class="btn btn-secondary-box-shadow " id="previousPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                            </div>*@
-                        <!--<div class="flex gap-[12px]" id="pagination_pending">
-
-                        </div>-->
-                        @*<div class="btn btn-secondary-box-shadow" id="nextPage">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                            </div>*@
-                    <!--</div>-->
+                    <div class="flex gap-[12px]">
+                        <div class="btn btn-secondary-box-shadow" id="prev-btn-3">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                        </div>
+                        <div class="flex gap-[12px]" id="pagination-id-3">
+                        </div>
+                        <div class="btn btn-secondary-box-shadow" id="next-btn-3">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1046,7 +994,7 @@
         });
     </script>
     <script>
-        $('.tab-link').click('click', function () {
+        $('.tab-button-plane').click('click', function () {
             var id = $(this).attr('id');
             var name = $(this).text().trim();
             localStorage.setItem("tablink-id", id);
@@ -1055,40 +1003,68 @@
         $(document).ready(function () {
             var id = localStorage.getItem("tablink-id");
             var name = localStorage.getItem("tablink-name");
-            $('.tab-link').each(function (index) {
+            $('.tab-button-plane').each(function (index) {
                 var valueId = $(this).attr('id').trim();
                 var valueName = $(this).text().trim();
                 if (id == valueId && name == valueName) {
                     $(this).click();
-                    //console.log(valueId + valueName);
                 }
             })
         })
     </script>
 
     <script>
+        $('.tab-button').click('click', function () {
+            var id = $(this).attr('id');
+            var name = $(this).text().trim();
+            localStorage.setItem('date_tab_id', id);
+            localStorage.setItem('date_tab_name', name);
+        });
+        $(document).ready(function () {
+            var id = localStorage.getItem('date_tab_id');
+            var name = localStorage.getItem('date_tab_name');
+            $('.tab-button').each(function (index) {
+                var value_id = $(this).attr('id').trim();
+                var value_name = $(this).text().trim();
+                if (id == value_id && name == value_name) {
+                    $(this).addClass('active');
+                } else {
+                    $(this).removeClass('active');
+                }
+            });
+        });
+    </script>
 
-        @*var totalData = $('#table_allBookingRequest').attr('data-total');
-        var currentPage = $('#table_allBookingRequest').attr('data-currentpage');
-        var currentUrl = $('#table_allBookingRequest').attr('data-url');
-        generatePaginationNumbers(totalData, currentPage, currentUrl, 'pagination_all', '@ViewBag.Limit');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+                const page_size = @ViewBag.PageSize1;
+                const total_data = @ViewBag.TotalData1;
+                const start_index_val = @ViewBag.StartIndex1;
+                let URL = "/BookingRequest/BookingRequestList";
+                let search_filter = '@ViewBag.SearchText';
+                URL = addQueryParam(URL, 'SearchFilter', search_filter);
+                LoadPagination(page_size, total_data, start_index_val, URL);
 
-        function updateSelectedValue() {
-            var selectElement = document.getElementById('countries');
-            var selectedValue = selectElement.options[selectElement.selectedIndex].value;
-            var url = currentUrl + '?Limit=' + selectedValue;
-            window.location.href = url;
-        }
+                const page_size_2 = @ViewBag.PageSize2;
+                const total_data_2 = @ViewBag.TotalData2;
+                const start_index_val_2 = @ViewBag.StartIndex2;
+                let URL_2 = "/BookingRequest/BookingRequestList";
+                let search_filter_2 = '@ViewBag.SearchText';
+                URL_2 = addQueryParam(URL_2, 'SearchFilter', search_filter_2);
+                dynamicStartIndexLabel = "StartIndex2";
+                dynamicPageSizeLabel = "PageSize2";
+                LoadPagination(page_size_2, total_data_2, start_index_val_2, URL_2, 'pagination-id-2', 'prev-btn-2', 'next-btn-2', 'ShowEntries-Id-2', 'Entries-Id-2');
 
-        var approvedTotalData = $('#table_apporvedBookingRequest').attr('data-total');
-        var approvedCurrentPage = $('#table_apporvedBookingRequest').attr('data-currentpage');
-        var approvedCurrentUrl = $('#table_apporvedBookingRequest').attr('data-url');
-        generatePaginationNumbers(approvedTotalData, approvedCurrentPage, approvedCurrentUrl, 'pagination_approved', '@ViewBag.Limit');
-
-        var pendingTotalData = $('#table_pendingBookingRequest').attr('data-total');
-        var pendingCurrentPage = $('#table_pendingBookingRequest').attr('data-currentpage');
-        var pendingCurrentUrl = $('#table_pendingBookingRequest').attr('data-url');
-        generatePaginationNumbers(pendingTotalData, pendingCurrentPage, pendingCurrentUrl, 'pagination_pending', '@ViewBag.Limit');*@
+                const page_size_3 = @ViewBag.PageSize3;
+                const total_data_3 = @ViewBag.TotalData3;
+                const start_index_val_3 = @ViewBag.StartIndex3;
+                let URL_3 = "/BookingRequest/BookingRequestList";
+                let search_filter_3 = '@ViewBag.SearchText';
+                URL_3 = addQueryParam(URL_3, 'SearchFilter', search_filter_3);
+                dynamicStartIndexLabel = "StartIndex2";
+                dynamicPageSizeLabel = "PageSize2";
+                LoadPagination(page_size_3, total_data_3, start_index_val_3, URL_3, 'pagination-id-3', 'prev-btn-3', 'next-btn-3', 'ShowEntries-Id-3', 'Entries-Id-3');
+        });
     </script>
 
 }

@@ -109,12 +109,12 @@ namespace CRS.CLUB.REPOSITORY.ProfileManagement
             sql += ", @InputRole=" + _dao.FilterString(userProfileCommon.InputRole);
             sql += ", @LastOrderTime=" + _dao.FilterString(userProfileCommon.LastOrderTime);
             sql += ", @LastEntrySyokai=" + _dao.FilterString(userProfileCommon.LastEntrySyokai);
-            sql += ", @Holiday=" + _dao.FilterString(userProfileCommon.Holiday);
+            sql += ", @Holiday=N" + _dao.FilterString(userProfileCommon.Holiday);
             sql += ", @Tax=" + _dao.FilterString(userProfileCommon.Tax);
             sql += ", @InputZip=" + _dao.FilterString(userProfileCommon.InputZip);
             sql += ", @InputPrefecture=" + _dao.FilterString(userProfileCommon.InputPrefecture);
             sql += ", @InputCity=N" + _dao.FilterString(userProfileCommon.InputCity);
-            sql += ", @InputStreet=" + _dao.FilterString(userProfileCommon.InputStreet);
+            sql += ", @InputStreet=N" + _dao.FilterString(userProfileCommon.InputStreet);
             sql += ", @InputHouseNo=" + _dao.FilterString(userProfileCommon.InputHouseNo);
             sql += ", @Website=" + _dao.FilterString(userProfileCommon.Website);
             sql += ", @TikTok=" + _dao.FilterString(userProfileCommon.Tiktok);

@@ -1,5 +1,9 @@
 ﻿@model CRS.CLUB.APPLICATION.Models.ClubManagement.HostManagement
-
+<style>
+    element.style {
+        width: 250px;
+    }
+</style>
 <!-- drawer component -->
 <div id="add-new-host"
      class="drawer-close-disable  flex justify-end fixed top-0 right-0 z-40 h-screen overflow-y-auto transition-transform translate-x-full  "
@@ -59,7 +63,7 @@
                                class="block mb-[12px] text-sm font-medium text-secondary-100">
                             @CRS.CLUB.APPLICATION.Resources.Resource.Rank
                         </label>
-                        @Html.TextBoxFor(model => model.Rank, new { @class = "w-full rounded-[4px]", @placeholder = "1", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Rank, new { @class = "w-full rounded-[4px]", @placeholder = "1", @style = "border-radius:4px !important", @onkeypress = "return isNumber(event)", autocomplete = "off" })
                         <span class="validationMessage">
                             @Html.ValidationMessageFor(model => model.Rank)
                         </span>
@@ -84,7 +88,7 @@
                                class="block mb-[12px] text-sm font-medium text-secondary-100">
                             @CRS.CLUB.APPLICATION.Resources.Resource.Twitter
                         </label>
-                        @Html.TextBoxFor(model => model.Twitter, new { @class = "w-full rounded-[4px]", @placeholder = "@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Twitter, new { @class = "w-full rounded-[4px]", @placeholder = "www.twitter.com/username", @style = "border-radius:4px !important", autocomplete = "off" })
                         <span class="validationMessage">
                             @Html.ValidationMessageFor(model => model.Twitter)
                         </span>
@@ -94,7 +98,7 @@
                                class="block mb-[12px] text-sm font-medium text-secondary-100">
                             @CRS.CLUB.APPLICATION.Resources.Resource.Instagram
                         </label>
-                        @Html.TextBoxFor(model => model.Instagram, new { @class = "w-full rounded-[4px]", @placeholder = "www.instagram.com/host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Instagram, new { @class = "w-full rounded-[4px]", @placeholder = "www.instagram.com/username", @style = "border-radius:4px !important", autocomplete = "off" })
                         <span class="validationMessage">
                             @Html.ValidationMessageFor(model => model.Instagram)
                         </span>
@@ -104,7 +108,7 @@
                                class="block mb-[12px] text-sm font-medium text-secondary-100">
                             @CRS.CLUB.APPLICATION.Resources.Resource.Tiktok
                         </label>
-                        @Html.TextBoxFor(model => model.TikTok, new { @class = "w-full rounded-[4px]", @placeholder = "www.tiktok.com/@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.TikTok, new { @class = "w-full rounded-[4px]", @placeholder = "www.tiktok.com/username", @style = "border-radius:4px !important", autocomplete = "off" })
                         <span class="validationMessage">
                             @Html.ValidationMessageFor(model => model.TikTok)
                         </span>
@@ -114,7 +118,7 @@
                                class="block mb-[12px] text-sm font-medium text-secondary-100">
                             @CRS.CLUB.APPLICATION.Resources.Resource.Line
                         </label>
-                        @Html.TextBoxFor(model => model.Line, new { @class = "w-full rounded-[4px]", @placeholder = "www.line.com/@host123", @style = "border-radius:4px !important", @onkeypress = "return isAlphabateOnly(event)", autocomplete = "off" })
+                        @Html.TextBoxFor(model => model.Line, new { @class = "w-full rounded-[4px]", @placeholder = "01785963214", @style = "border-radius:4px !important", @onkeypress = "return isNumber(event)", autocomplete = "off", @maxlength = 11 })
                         <span class="validationMessage">
                             @Html.ValidationMessageFor(model => model.Line)
                         </span>
@@ -139,7 +143,17 @@
                                 <span> @CRS.CLUB.APPLICATION.Resources.Resource.Choose_Images</span>
                             </label>
                             <input id="file_input" type="file" style="display:none;" name="ImagePath">
-                            <p id="file_name_display"> @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen</p>
+                            <p id="file_name_display">
+                                @if (string.IsNullOrEmpty(Model.ImagePath))
+                                {
+                                    @CRS.CLUB.APPLICATION.Resources.Resource.No_File_Choosen
+                                }
+                                else
+                                {
+                                    string fileName = Path.GetFileName(Model.ImagePath);
+                                    @fileName
+                                }
+                            </p>
                         </div>
                         <div class="text-xs text-error mt-[8px]">
                             @CRS.CLUB.APPLICATION.Resources.Resource.ImageNote
@@ -225,10 +239,28 @@
                                    class="block mb-[12px] text-sm font-medium text-secondary-100">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Constellation_Group
                             </label>
-                            @Html.DropDownListFor(model => model.ConstellationGroup, new SelectList(ViewBag.Zodiac, "Value", "Text"))
-                            <span class="validationMessage">
-                                @Html.ValidationMessageFor(model => model.ConstellationGroup)
-                            </span>
+                            <select id="large" class="select-common block w-full" name="ConstellationGroup">
+                                @foreach (var item in ViewBag.Zodiac as IEnumerable<SelectListItem>)
+                                {
+                                    var selectedId = ViewBag.ZodiacDDLKey as string;
+                                    if (item.Value == selectedId)
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            @*@Html.DropDownListFor(model => model.ConstellationGroup, new SelectList(ViewBag.Zodiac, "Value", "Text"))
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.ConstellationGroup)
+                        </span>*@
                         </div>
                         <div class="input-field-common">
                             <label for="email"
@@ -243,7 +275,7 @@
                                    class="block mb-[12px] text-sm font-medium text-secondary-100">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Height
                             </label>
-                            @Html.TextBoxFor(model => model.Height, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Height, @style = "border-radius:4px !important", @onkeypress = "return isNumberOnly(event)", autocomplete = "off", @maxlength = 7 })
+                            @Html.TextBoxFor(model => model.Height, new { @class = "w-full rounded-[4px]", @placeholder = @CRS.CLUB.APPLICATION.Resources.Resource.Height, @style = "border-radius:4px !important", @onkeypress = "return isNumber(event)", autocomplete = "off", @maxlength = 3 })
                             <span class="error">@Html.ValidationMessageFor(model => model.Height)</span>
                         </div>
                         <div class="input-field-common">
@@ -251,10 +283,28 @@
                                    class="block mb-[12px] text-sm font-medium text-secondary-100">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.BloodType
                             </label>
-                            @Html.DropDownListFor(model => model.BloodType, new SelectList(ViewBag.BloodType, "Value", "Text"))
-                            <span class="validationMessage">
-                                @Html.ValidationMessageFor(model => model.BloodType)
-                            </span>
+                            <select id="large" class="select-common block w-full" name="BloodType">
+                                @foreach (var item in ViewBag.BloodType as IEnumerable<SelectListItem>)
+                                {
+                                    var selectedId = ViewBag.BloodTypeDDLKey as string;
+                                    if (item.Value == selectedId)
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            @*@Html.DropDownListFor(model => model.BloodType, new SelectList(ViewBag.BloodType, "Value", "Text"))
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.BloodType)
+                        </span>*@
                         </div>
                     </div>
                     <div class="flex items-center justify-end checkbox-common py-[8px]">
@@ -271,24 +321,60 @@
                                    class="block mb-[12px] text-sm font-medium text-secondary-100">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Former_Job
                             </label>
-                            @Html.DropDownListFor(model => model.PreviousOccupation, new SelectList(ViewBag.PreviousOccupation, "Value", "Text"))
-                            <span class="validationMessage">
-                                @Html.ValidationMessageFor(model => model.PreviousOccupation)
-                            </span>
+                            <select id="large" class="select-common block w-full" name="PreviousOccupation">
+                                @foreach (var item in ViewBag.PreviousOccupation as IEnumerable<SelectListItem>)
+                                {
+                                    var selectedId = ViewBag.PreviousOccupationDDLKey as string;
+                                    if (item.Value == selectedId)
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            @*@Html.DropDownListFor(model => model.PreviousOccupation, new SelectList(ViewBag.PreviousOccupation, "Value", "Text"))
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.PreviousOccupation)
+                        </span>*@
                         </div>
                         <div class="input-field-common">
                             <label for="email"
                                    class="block mb-[12px] text-sm font-medium text-secondary-100">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.LiquorStrength
                             </label>
-                            @Html.DropDownListFor(model => model.Liquor, new SelectList(ViewBag.LiquoreStrength, "Value", "Text"))
-                            <span class="validationMessage">
-                                @Html.ValidationMessageFor(model => model.Liquor)
-                            </span>
+                            <select id="large" class="select-common block w-full" name="Liquor">
+                                @foreach (var item in ViewBag.LiquoreStrength as IEnumerable<SelectListItem>)
+                                {
+                                    var selectedId = ViewBag.LiquoreStrengthDDLKey as string;
+                                    if (item.Value == selectedId)
+                                    {
+                                        <option value="@item.Value" selected>
+                                            @item.Text
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Value">
+                                            @item.Text
+                                        </option>
+                                    }
+                                }
+                            </select>
+                            @*@Html.DropDownListFor(model => model.Liquor, new SelectList(ViewBag.LiquoreStrength, "Value", "Text"))
+                        <span class="validationMessage">
+                            @Html.ValidationMessageFor(model => model.Liquor)
+                        </span>*@
                         </div>
                     </div>
                 </div>
-                <span class="error">@Html.ValidationMessageFor(model => model.ExtraMessage)</span>
+                @*<span class="error">@Html.ValidationMessageFor(model => model.ExtraMessage)</span>*@
                 <div class="flex justify-end py-[16px] ">
                     <div class="flex gap-[24px]">
                         <div class="btn btn-secondary AddHostClear" data-drawer-hide="add-new-host" aria-controls="add-new-host" id="HostCancel">

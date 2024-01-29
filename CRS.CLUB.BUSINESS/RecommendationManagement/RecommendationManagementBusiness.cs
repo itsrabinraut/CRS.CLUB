@@ -1,5 +1,6 @@
 ﻿using CRS.CLUB.REPOSITORY.RecommendationManagement;
 using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using CRS.CLUB.SHARED.RecommendationManagement;
 using System.Collections.Generic;
 
@@ -33,9 +34,9 @@ namespace CRS.CLUB.BUSINESS.RecommendationManagement
             return _repo.DeletSelectedHost(clubId, recommendationHostId, recommendationHostHoldId, hostId, commonRequest);
         }
 
-        public List<ClubHomePageRecommendationReqListModelCommon> GetClubHomePageRecommendationReqList(string agentId)
+        public List<ClubHomePageRecommendationReqListModelCommon> GetClubHomePageRecommendationReqList(string agentId, PaginationFilterCommon request)
         {
-            return _repo.GetClubHomePageRecommendationReqList(agentId);
+            return _repo.GetClubHomePageRecommendationReqList(agentId, request);
         }
 
         public List<ClubMainPageHostRecommendationReqModelCommon> GetClubMainPageHostRecommedationListDetail(string agentId, string recommendationHoldId, string displayId)
@@ -58,14 +59,14 @@ namespace CRS.CLUB.BUSINESS.RecommendationManagement
             return _repo.GetHostListDetail(recommendationHoldId, agentId, displayId);
         }
 
-        public List<ClubMainPageRecommendationReqListModelCommon> GetMainPageRecommendationReqList(string agentid)
+        public List<ClubMainPageRecommendationReqListModelCommon> GetMainPageRecommendationReqList(string agentid, PaginationFilterCommon request)
         {
-            return _repo.GetMainPageRecommendationReqList(agentid);
+            return _repo.GetMainPageRecommendationReqList(agentid, request);
         }
 
-        public List<ClubSearchPageRecommendationReqListModelCommon> GetSearchPageRecommendationReqList(string agentId)
+        public List<ClubSearchPageRecommendationReqListModelCommon> GetSearchPageRecommendationReqList(string agentId, PaginationFilterCommon request)
         {
-            return _repo.GetSearchPageRecommendationReqList(agentId);
+            return _repo.GetSearchPageRecommendationReqList(agentId, request);
         }
 
         public CommonDbResponse ManageHomePageRecommendationReq(ManageClubHomePageRecommendationReqCommon commonModel)

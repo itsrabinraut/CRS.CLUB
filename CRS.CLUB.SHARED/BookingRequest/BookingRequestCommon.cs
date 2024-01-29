@@ -19,8 +19,8 @@ namespace CRS.CLUB.SHARED.BookingRequest
         public string Price { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class ApprovedBookingRequestListCommon : Common
     {
@@ -35,8 +35,8 @@ namespace CRS.CLUB.SHARED.BookingRequest
         public string Price { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class AllBookingRequestListCommon : Common
     {
@@ -51,8 +51,8 @@ namespace CRS.CLUB.SHARED.BookingRequest
         public string Price { get; set; }
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
-        public string RowTotal { get; set; }
-        public string RowNum { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class BookingRequestAnalyticsModelCommon : Common
     {
@@ -73,8 +73,7 @@ namespace CRS.CLUB.SHARED.BookingRequest
         public string Today { get; set; }
         public string Tomorrow { get; set; }
         public string DayAfterTomorrow { get; set; }
-        public string Offset { get; set; } ="1";
-        public string Limit { get; set; } = "10";
+
 
     }
 }

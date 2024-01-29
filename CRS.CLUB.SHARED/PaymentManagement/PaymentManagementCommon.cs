@@ -17,6 +17,8 @@
         public string TransactionDate { get; set; }
         public string PaymentStatus { get; set; }
         public string Remarks { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class PaymentLedgerCommon
     {
@@ -34,5 +36,7 @@
         public string TotalCommissionAmount { get; set; }
         public string AdminPaymentAmount { get; set; }
         public string ReservationType { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
 }

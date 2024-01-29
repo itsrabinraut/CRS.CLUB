@@ -1,5 +1,7 @@
 ﻿using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.BookingRequest;
+using CRS.CLUB.SHARED.PaginationManagement;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -26,7 +28,7 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
             return dbresponse;
         }
 
-        public List<AllBookingRequestListCommon> GetAllBookingRequestList(string AgentId, SearchFilterCommon request)
+        public List<AllBookingRequestListCommon> GetAllBookingRequestList(string AgentId, SearchFilterCommon request, PaginationFilterCommon AllRequest)
         {
             List<AllBookingRequestListCommon> responseinfo = new List<AllBookingRequestListCommon>();
             string sp_name = "EXEC sproc_club_getbookingrequestlist @Flag='gabrl'";
@@ -37,8 +39,8 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
             sp_name += ",@Today=" + _dao.FilterString(request.Today);
             sp_name += ",@Tomorrow=" + _dao.FilterString(request.Tomorrow);
             sp_name += ",@DayAfterTomorrow=" + _dao.FilterString(request.DayAfterTomorrow);
-            //sp_name += ",@Offset=" + _dao.FilterString(request.Offset);
-            //sp_name += ",@Limit=" + _dao.FilterString(request.Limit);
+            sp_name += ",@Skip=" + AllRequest.Skip;
+            sp_name += ",@Take=" + AllRequest.Take;
             var dbResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbResponseInfo != null)
             {
@@ -57,15 +59,15 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
                         Price = row["Price"].ToString(),
                         CreatedDate = row["CreatedDate"].ToString(),
                         UpdatedDate = row["UpdatedDate"].ToString(),
-                        //RowNum = row["RowNum"].ToString(),
-                        //RowTotal = row["RowTotal"].ToString()
+                        SNO = Convert.ToInt32(row["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString())
                     });
                 }
             }
             return responseinfo;
         }
 
-        public List<ApprovedBookingRequestListCommon> GetApprovedBookingList(string AgentId, SearchFilterCommon request)
+        public List<ApprovedBookingRequestListCommon> GetApprovedBookingList(string AgentId, SearchFilterCommon request, PaginationFilterCommon ApprovedRequest)
         {
             List<ApprovedBookingRequestListCommon> approvedlistResponse = new List<ApprovedBookingRequestListCommon>();
             string sp_name = "EXEC sproc_club_getbookingrequestlist @Flag='gapbrl'";
@@ -76,8 +78,8 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
             sp_name += ",@Today=" + _dao.FilterString(request.Today);
             sp_name += ",@Tomorrow=" + _dao.FilterString(request.Tomorrow);
             sp_name += ",@DayAfterTomorrow=" + _dao.FilterString(request.DayAfterTomorrow);
-            //sp_name += ",@Offset=" + _dao.FilterString(request.Offset);
-            //sp_name += ",@Limit=" + _dao.FilterString(request.Limit);
+            sp_name += ",@Skip=" + ApprovedRequest.Skip;
+            sp_name += ",@Take=" + ApprovedRequest.Take;
             var dbApprovedResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbApprovedResponseInfo != null)
             {
@@ -96,8 +98,8 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
                         Price = row["Price"].ToString(),
                         CreatedDate = row["CreatedDate"].ToString(),
                         UpdatedDate = row["UpdatedDate"].ToString(),
-                        //RowNum = row["RowNum"].ToString(),
-                        //RowTotal = row["RowTotal"].ToString()
+                        SNO = Convert.ToInt32(row["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString())
                     });
                 }
             }
@@ -140,7 +142,7 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
             return responseInfo;
         }
 
-        public List<PendingBookingRequestListCommon> GetPendingBookingList(string AgentId, SearchFilterCommon request)
+        public List<PendingBookingRequestListCommon> GetPendingBookingList(string AgentId, SearchFilterCommon request, PaginationFilterCommon PendingRequest)
         {
             List<PendingBookingRequestListCommon> pendingListInfo = new List<PendingBookingRequestListCommon>();
             string sp_name = "EXEC sproc_club_getbookingrequestlist @Flag='gpbrl'";
@@ -151,8 +153,8 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
             sp_name += ",@Today=" + _dao.FilterString(request.Today);
             sp_name += ",@Tomorrow=" + _dao.FilterString(request.Tomorrow);
             sp_name += ",@DayAfterTomorrow=" + _dao.FilterString(request.DayAfterTomorrow);
-            //sp_name += ",@Offset=" + _dao.FilterString(request.Offset);
-            //sp_name += ",@Limit=" + _dao.FilterString(request.Limit);
+            sp_name += ",@Skip=" + PendingRequest.Skip;
+            sp_name += ",@Take=" + PendingRequest.Take;
             var dbPendingResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbPendingResponseInfo != null)
             {
@@ -171,8 +173,8 @@ namespace CRS.CLUB.REPOSITORY.BookingRequest
                         Price = row["Price"].ToString(),
                         CreatedDate = row["CreatedDate"].ToString(),
                         UpdatedDate = row["UpdatedDate"].ToString(),
-                        //RowNum = row["RowNum"].ToString(),
-                        //RowTotal = row["RowTotal"].ToString()
+                        SNO = Convert.ToInt32(row["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString())
                     });
                 }
             }
