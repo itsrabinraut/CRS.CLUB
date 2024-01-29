@@ -16,7 +16,7 @@ namespace CRS.CLUB.APPLICATION.Controllers
         {
             _scheduleBuss = scheduleBuss;
         }
-        [HttpPost, ValidateAntiForgeryToken, OverrideActionFilters]
+        [HttpPost, ValidateAntiForgeryToken]
         public JsonResult ManageSchedule(ClubScheduleModel Request)
         {
             var redirectToUrl = string.Empty;
