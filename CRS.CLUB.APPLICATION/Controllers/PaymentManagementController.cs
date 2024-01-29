@@ -2,7 +2,9 @@
 using CRS.CLUB.APPLICATION.Models.PaymentManagement;
 using CRS.CLUB.BUSINESS.PaymentManagement;
 using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CRS.CLUB.APPLICATION.Controllers
@@ -14,22 +16,36 @@ namespace CRS.CLUB.APPLICATION.Controllers
 
         public PaymentManagementController(IPaymentManagementBusiness business) => this._business = business;
 
-        public ActionResult Index(string searchText = null, string Date = null)
+        public ActionResult Index(string searchText = null, string Date = null, int StartIndex = 0, int PageSize = 10)
         {
             Session["CurrentURL"] = "/PaymentManagement/Index";
             string clubId = ApplicationUtilities.GetSessionValue("AgentId").ToString().DecryptParameter();
+            PaginationFilterCommon request = new PaginationFilterCommon()
+            {
+                Skip = StartIndex,
+                Take = PageSize,
+            };
+
             var paymentManagementModel = new PaymentManagementModel();
             var overview = _business.GetPaymentOverview(clubId);
-            var paymentLog = _business.GetPaymentLog(searchText, clubId, Date);
+            var paymentLog = _business.GetPaymentLog(searchText, clubId, Date, request);
 
             paymentManagementModel.PaymentOverviewModel = overview.MapObject<PaymentOverviewModel>();
             paymentManagementModel.PaymentLogModels = paymentLog.MapObjects<PaymentLogModel>();
             ViewBag.SearchText = searchText;
+            ViewBag.StartIndex1 = StartIndex;
+            ViewBag.PageSize1 = PageSize;
+            ViewBag.TotalData1 = paymentLog != null && paymentLog.Any() ? paymentLog[0].TotalRecords : 0;
             return View(paymentManagementModel);
         }
         [HttpGet]
-        public ActionResult PaymentLedger(string clubId, string searchText = "", string Date = null)
+        public ActionResult PaymentLedger(string clubId, string searchText = "", string Date = null, int StartIndex = 0, int PageSize = 10)
         {
+            PaginationFilterCommon request = new PaginationFilterCommon()
+            {
+                Skip = StartIndex,
+                Take = PageSize,
+            };
             string FileLocationPath = "";
             if (ConfigurationManager.AppSettings["Phase"] != null
                && ConfigurationManager.AppSettings["Phase"].ToString().ToUpper() != "DEVELOPMENT")
@@ -44,7 +60,7 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 });
                 return RedirectToAction("Index", new { Date = Date });
             }
-            var paymentLedgerCommon = _business.GetPaymentLedgerDetail(searchText, clubId, Date);
+            var paymentLedgerCommon = _business.GetPaymentLedgerDetail(searchText, clubId, Date, request);
             var paymentLedgerModel = paymentLedgerCommon.MapObjects<PaymentLedgerModel>();
             foreach (var item in paymentLedgerModel)
             {

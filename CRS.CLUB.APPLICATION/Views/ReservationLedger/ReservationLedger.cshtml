@@ -167,13 +167,7 @@
                 <!--reservation tab section-->
                 <div class="table-tab">
                     <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                        <div class="flex items-center">
-                            @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires">
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">100</option>
-                                </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                        <div class="flex items-center select-entries" id="ShowEntries-Id">
                         </div>
                         <div class="export-button" id="btnExportLedgerToExcel">
                             <img src="~/Content/assets/images/club/download-solid.svg" /> @CRS.CLUB.APPLICATION.Resources.Resource.Export
@@ -203,7 +197,7 @@
                                     </th>
                                     <th scope="col" class="p-[12px]">
                                         <div class="flex">
-                                            @CRS.CLUB.APPLICATION.Resources.Resource.Plan
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Plan_Ledger
                                             <div class="relative pl-[5px]">
                                                 <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
                                                 <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
@@ -257,7 +251,7 @@
                                     </th>
                                     <th scope="col" class="p-[12px]">
                                         <div class="flex ">
-                                            Total Amount
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Total_Amount
                                             <div class="relative pl-[5px]">
                                                 <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
                                                 <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
@@ -267,13 +261,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    int i = 1;
+                                @{                                    
                                     foreach (var item in Model.GetReservationLedgerList)
                                     {
                                         <tr class="bg-white border-b ">
                                             <td class="p-[12px]">
-                                                @i
+                                                @item.SNO
                                             </td>
                                             <td class="p-[12px]">
                                                 <div class="round-image-text gap-[12px]">
@@ -322,44 +315,24 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        i++;
                                     }
                                 }
                             </tbody>
                         </table>
                     </div>
                     <div class="pagination-club">
-                        @*<div class="show-entry">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Showing
-                                1 ~ 5 of 301
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                        <div class="show-entry" id="Entries-Id">
+                        </div>
+                        <div class="flex gap-[12px]">
+                            <div class="btn btn-secondary-box-shadow" id="prev-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
                             </div>
-                            <div class="flex gap-[12px]">
-                                <div class="btn btn-secondary-box-shadow ">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                                </div>
-                                <div class="flex gap-[12px]">
-                                    <div class="pagination-number active">
-                                        1
-                                    </div>
-                                    <div class="pagination-number">
-                                        2
-                                    </div>
-                                    <div class="pagination-number">
-                                        3
-                                    </div>
-                                    <div class="pagination-number">
-                                        ..
-                                    </div>
-                                    <div class="pagination-number">
-                                        10
-                                    </div>
-
-                                </div>
-                                <div class="btn btn-secondary-box-shadow ">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                                </div>
-                            </div>*@
+                            <div class="flex gap-[12px]" id="pagination-id">
+                            </div>
+                            <div class="btn btn-secondary-box-shadow" id="next-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -952,6 +925,27 @@
 
             // initiate drawing the chart
             chart.draw();
+        });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            const page_size = @ViewBag.PageSize;
+            const total_data = @ViewBag.TotalData;
+            const start_index_val = @ViewBag.StartIndex;
+            let URL = "/ReservationLedger/ReservationLedger";
+            let user_status = $('#large').val();
+            let mobile_number = $('#MobileNumber').val();
+            let from_date = $('#FromDate').val();
+            let to_date = $('#ToDate').val();
+            let search_filter = $('#default-search').val();
+
+            URL = addQueryParam(URL, 'FromDate', from_date);
+            URL = addQueryParam(URL, 'ToDate', to_date);
+            URL = addQueryParam(URL, 'Status', user_status);
+            URL = addQueryParam(URL, 'MobileNumber', mobile_number);
+            URL = addQueryParam(URL, 'SearchFilter', search_filter);
+            LoadPagination(page_size, total_data, start_index_val, URL);
         });
     </script>
 }

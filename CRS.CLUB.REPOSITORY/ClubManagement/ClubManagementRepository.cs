@@ -1,5 +1,6 @@
 ﻿using CRS.CLUB.SHARED;
 using CRS.CLUB.SHARED.ClubManagement;
+using CRS.CLUB.SHARED.PaginationManagement;
 using DocumentFormat.OpenXml.EMMA;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Vml;
@@ -31,12 +32,14 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
             return _DAO.ParseCommonDbResponse(SQL);
         }
 
-        public List<ClubManagementCommon> GetClubImages(string AgentId, string GallerySearchFilter)
+        public List<ClubManagementCommon> GetClubImages(string AgentId, PaginationFilterCommon GalleryReq)
         {
             var response = new List<ClubManagementCommon>();
             string SQL = "EXEC sproc_club_management @Flag='cmg'";
             SQL += ",@AgentId=" + _DAO.FilterString(AgentId);
-            SQL += ",@SearchFilter=" + _DAO.FilterString(GallerySearchFilter);
+            SQL += ",@SearchFilter=" + _DAO.FilterString(GalleryReq.SearchFilter);
+            SQL += ",@Skip=" + GalleryReq.Skip;
+            SQL += ",@Take=" + GalleryReq.Take;
             var dbResponse = _DAO.ExecuteDataTable(SQL);
             if (dbResponse != null)
             {
@@ -52,6 +55,8 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
                         Sno = _DAO.ParseColumnValue(item, "Sno").ToString(),
                         CreatedDate = _DAO.ParseColumnValue(item, "CreatedDate").ToString(),
                         UpdatedDate = _DAO.ParseColumnValue(item, "UpdatedDate").ToString(),
+                        SNO = Convert.ToInt32(_DAO.ParseColumnValue(item, "SNO").ToString()),
+                        TotalRecords = Convert.ToInt32(_DAO.ParseColumnValue(item, "TotalRecords").ToString()),
                     });
                 }
             }
@@ -93,12 +98,14 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
 
         #region Host Management
 
-        public List<HostManagementCommon> GetHostList(string AgentID, string HostSearchFilter)
+        public List<HostManagementCommon> GetHostList(string AgentID, PaginationFilterCommon HostReq)
         {
             var response = new List<HostManagementCommon>();
             string SQL = "EXEC sproc_host_management @Flag='ghl'";
             SQL += ",@AgentId=" + _DAO.FilterString(AgentID);
-            SQL += ",@SearchFilter=" + _DAO.FilterString(HostSearchFilter);
+            SQL += ",@SearchFilter=" + _DAO.FilterString(HostReq.SearchFilter);
+            SQL += ",@Skip=" + HostReq.Skip;
+            SQL += ",@Take=" + HostReq.Take;
             var dbResponse = _DAO.ExecuteDataTable(SQL);
             if (dbResponse != null)
             {
@@ -120,6 +127,8 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
                         CreatedDate = _DAO.ParseColumnValue(item, "CreatedDate").ToString(),
                         UpdatedDate = _DAO.ParseColumnValue(item, "UpdatedDate").ToString(),
                         ImagePath = _DAO.ParseColumnValue(item, "ImagePath").ToString(),
+                        SNO = Convert.ToInt32(_DAO.ParseColumnValue(item, "SNO").ToString()),
+                        TotalRecords = Convert.ToInt32(_DAO.ParseColumnValue(item, "TotalRecords").ToString()),
                     });
                 }
             }
@@ -182,8 +191,8 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
             sql += $" @Flag='{flag}'";
             sql += ",@AgentId=" + _DAO.FilterString(common.AgentId);
             sql += ",@HostId=" + _DAO.FilterString(common.HostId);
-            sql += ",@HostName=" + _DAO.FilterString(common.HostName);
-            sql += ",@Position=" + _DAO.FilterString(common.Position);
+            sql += ",@HostName=N" + _DAO.FilterString(common.HostName);
+            sql += ",@Position=N" + _DAO.FilterString(common.Position);
             sql += ",@Rank=" + _DAO.FilterString(common.Rank);
             sql += ",@Height=" + _DAO.FilterString(common.Height);
             sql += ",@TwitterLink=" + _DAO.FilterString(common.Twitter);
@@ -195,7 +204,7 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
             sql += ",@BloodType=" + _DAO.FilterString(common.BloodType);
             sql += ",@PreviousOccupation=" + _DAO.FilterString(common.PreviousOccupation);
             sql += ",@LiquorStrength=" + _DAO.FilterString(common.Liquor);
-            sql += ",@Address=" + _DAO.FilterString(common.Address);
+            sql += ",@Address=N" + _DAO.FilterString(common.Address);
             sql += ",@Line=" + _DAO.FilterString(common.Line);
             sql += ",@ActionUser=" + _DAO.FilterString(common.ActionUser);
             sql += ",@ActionIP=" + _DAO.FilterString(common.ActionIP);
@@ -208,12 +217,14 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
 
         #region Event Management
 
-        public List<EventManagementCommon> GetEventList(string agentId, string SearchFilter)
+        public List<EventManagementCommon> GetEventList(string agentId, PaginationFilterCommon EventReq)
         {
             var response = new List<EventManagementCommon>();
             string SQL = "EXEC sproc_event_management @Flag='gel'";
             SQL += ",@AgentId=" + _DAO.FilterString(agentId);
-            SQL += ",@SearchFilter=" + _DAO.FilterString(SearchFilter);
+            SQL += ",@SearchFilter=" + _DAO.FilterString(EventReq.SearchFilter);
+            SQL += ",@Skip=" + EventReq.Skip;
+            SQL += ",@Take=" + EventReq.Take;
             var dbResponse = _DAO.ExecuteDataTable(SQL);
             if (dbResponse != null)
             {
@@ -228,6 +239,8 @@ namespace CRS.CLUB.REPOSITORY.ClubManagement
                         CreatedDate = _DAO.ParseColumnValue(item, "ActionDate").ToString(),
                         UpdatedDate = _DAO.ParseColumnValue(item, "UpdatedDate").ToString(),
                         EventDate = _DAO.ParseColumnValue(item, "EventDate").ToString(),
+                        SNO = Convert.ToInt32(_DAO.ParseColumnValue(item, "SNO").ToString()),
+                        TotalRecords = Convert.ToInt32(_DAO.ParseColumnValue(item, "TotalRecords").ToString()),
                     });
                 }
             }

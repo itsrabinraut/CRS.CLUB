@@ -405,6 +405,7 @@
     <Content Include="Content\assets\js\anychart-base.min.js" />
     <Content Include="Content\assets\js\anychart-ui.min.js" />
     <Content Include="Content\assets\js\anychat-exports.min.js" />
+    <Content Include="Content\assets\js\custom-pagination-helper.js" />
     <Content Include="Content\assets\js\filter.js" />
     <Content Include="Content\assets\js\jquery.min.js" />
     <Content Include="Content\assets\js\jquery.steps.min.js" />

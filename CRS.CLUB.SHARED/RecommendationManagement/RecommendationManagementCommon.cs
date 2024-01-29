@@ -23,6 +23,8 @@
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
         public string HostName { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
     }
     public class ManageClubSearchPageRecommendationReqCommon : Common
     {
@@ -46,6 +48,8 @@
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
         public string HostName { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
     }
     public class ManageClubHomePageRecommendationReqCommon : Common
     {
@@ -68,6 +72,8 @@
         public string Status { get; set; }
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class ManageClubMainPageRecommendationReqCommon : Common
     {

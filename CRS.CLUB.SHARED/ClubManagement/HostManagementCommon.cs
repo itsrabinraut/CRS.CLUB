@@ -32,6 +32,8 @@ namespace CRS.CLUB.SHARED.ClubManagement
         public string Day { get; set; }
         public string Address { get; set; }
         public string Line { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     #region "Host Gallery Management"
     public class HostGalleryManagementCommon

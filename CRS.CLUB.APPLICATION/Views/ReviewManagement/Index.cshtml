@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var myLanguageCookieValue = Context.Request.Cookies["culture"]?.Value;
 }
-
 <div class="px-8 py-4 flex flex-col gap-8">
     <div class="flex justify-between items-center">
         <div>
@@ -36,7 +35,7 @@
                                    class="input-search block w-full "
                                    placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Search"
                                    value="@ViewBag.SearchText"
-                                   name="searchText">
+                                   name="SearchFilter">
                         </div>
                     }
                     <div class="flex gap-3">
@@ -46,20 +45,11 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="table-tab">
-                    <!--<div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                        <div class="flex items-center">-->
-                            @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
-                            <select id="countries" class="select-entires ">
-                                <option value="5" selected>5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">100</option>
-                            </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
-                        <!--</div>
-                    </div>-->
-
+                    <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
+                        <div class="flex items-center select-entries" id="ShowEntries-Id">
+                        </div>
+                    </div>
                     <div class="relative overflow-x-auto">
                         <table class="w-full  text-left club-table">
                             <thead class="club-table-thead">
@@ -124,13 +114,11 @@
                             <tbody>
 
                                 @{
-                                    int reviewCount = 1;
-
                                     foreach (var review in Model.ReviewsAndRatings)
                                     {
                                         <tr class="bg-white border-b ">
                                             <td class="p-[12px]">
-                                                @reviewCount
+                                                @review.SNO
                                             </td>
                                             <td class="p-[12px]">
                                                 <div class="flex gap-[12px] w-max ">
@@ -196,19 +184,25 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        reviewCount++;
                                     }
                                 }
-
                             </tbody>
                         </table>
-
                     </div>
-                    <!--<div class="pagination-club">-->
-                        @*<div class="show-entry">
-                            @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of 5 @CRS.CLUB.APPLICATION.Resources.Resource.Entries
-                        </div>*@
-                    <!--</div>-->
+                    <div class="pagination-club">
+                        <div class="show-entry" id="Entries-Id">
+                        </div>
+                        <div class="flex gap-[12px]">
+                            <div class="btn btn-secondary-box-shadow" id="prev-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                            </div>
+                            <div class="flex gap-[12px]" id="pagination-id">
+                            </div>
+                            <div class="btn btn-secondary-box-shadow" id="next-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -217,14 +211,6 @@
 @section scripts
 {
     <script type="text/javascript">
-
-        //document.getElementById('default-search').addEventListener('keydown', function (event) {
-        //    event.preventDefault();
-        //    if (event.key === 'Enter') {
-        //        handleSearchChange(this.value);
-        //    }
-        //});
-
         function handleRemoveReviewAndRating(reviewId) {
             $.ajax({
                 url: '/ReviewManagement/RemoveReviewAndRatings',
@@ -242,12 +228,26 @@
                 }
             });
         }
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+            const page_size = @ViewBag.PageSize;
+            const total_data = @ViewBag.TotalData;
+            const start_index_val = @ViewBag.StartIndex;
+            let URL = "/ReviewManagement/Index";
+            let user_status = $('#large').val();
+            let mobile_number = $('#MobileNumber').val();
+            let from_date = $('#FromDate').val();
+            let to_date = $('#ToDate').val();
+            let search_filter = $('#default-search').val();
 
-        //const handleSearchChange = (searchText) => {
-        //    const searchUrl = `/ReviewManagement/Index?searchReviews=${searchText}`;
-        //    location.href = searchUrl;
-        //}
-
+            URL = addQueryParam(URL, 'FromDate', from_date);
+            URL = addQueryParam(URL, 'ToDate', to_date);
+            URL = addQueryParam(URL, 'Status', user_status);
+            URL = addQueryParam(URL, 'MobileNumber', mobile_number);
+            URL = addQueryParam(URL, 'SearchFilter', search_filter);
+            LoadPagination(page_size, total_data, start_index_val, URL);
+        });
     </script>
 }
 

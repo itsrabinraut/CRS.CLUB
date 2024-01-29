@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CRS.CLUB.SHARED.PaginationManagement;
+using System.Collections.Generic;
 
 namespace CRS.CLUB.APPLICATION.Models.ReviewManagement
 {
@@ -19,5 +20,11 @@ namespace CRS.CLUB.APPLICATION.Models.ReviewManagement
         public string RemarkType { get; set; }
         public string Rating { get; set; }
         public string ReviewedOn { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
+    }
+    public class SearchFilterModel
+    {
+        public string SearchFilter { get; set; }
     }
 }

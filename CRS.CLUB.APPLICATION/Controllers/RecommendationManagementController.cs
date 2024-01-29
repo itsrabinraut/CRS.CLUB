@@ -2,9 +2,11 @@
 using CRS.CLUB.APPLICATION.Models.RecommendationManagement;
 using CRS.CLUB.BUSINESS.RecommendationManagement;
 using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using CRS.CLUB.SHARED.RecommendationManagement;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -36,16 +38,22 @@ namespace CRS.CLUB.APPLICATION.Controllers
 
         #region "MANAGE HOME PAGE RECOMMENDATION REQUEST"
         [HttpGet]
-        public ActionResult HomePageRecommendationReqList(string pageid = "")
+        public ActionResult HomePageRecommendationReqList(string pageid = "", int StartIndex = 0, int PageSize = 10)
         {
             RecommendationReqCommonModel responseInfo = new RecommendationReqCommonModel();
             string agentId = ApplicationUtilities.GetSessionValue("AgentId").ToString().DecryptParameter();
-            var dbResponseInfo = _business.GetClubHomePageRecommendationReqList(agentId);
+            PaginationFilterCommon request = new PaginationFilterCommon();
+            request.Skip = StartIndex;
+            request.Take = PageSize;
+            var dbResponseInfo = _business.GetClubHomePageRecommendationReqList(agentId, request);
             responseInfo.GetClubHomePageRecommendationReqList = dbResponseInfo.MapObjects<ClubHomePageRecommendationReqListModel>();
             if (!string.IsNullOrEmpty(pageid)) ViewBag.PageId = pageid;
             TempData["OriginalUrl"] = Request.Url.ToString();
             ViewBag.IsBackAllowed = true;
             ViewBag.BackButtonURL = "/RecommendationManagement/Index";
+            ViewBag.StartIndex = StartIndex;
+            ViewBag.PageSize = PageSize;
+            ViewBag.TotalData = dbResponseInfo != null && dbResponseInfo.Any() ? dbResponseInfo[0].TotalRecords : 0;
             return View(responseInfo);
         }
 
@@ -150,16 +158,22 @@ namespace CRS.CLUB.APPLICATION.Controllers
 
         #region "MANAGE SEARCH PAGE RECOMMENDATION REQUEST"
         [HttpGet]
-        public ActionResult SearchPageRecommendationReqList(string pageid = "")
+        public ActionResult SearchPageRecommendationReqList(string pageid = "", int StartIndex = 0, int PageSize = 10)
         {
             RecommendationReqCommonModel responseInfo = new RecommendationReqCommonModel();
             string agentId = ApplicationUtilities.GetSessionValue("AgentId").ToString().DecryptParameter();
-            var dbSearchPageReqList = _business.GetSearchPageRecommendationReqList(agentId);
+            PaginationFilterCommon request = new PaginationFilterCommon();
+            request.Skip = StartIndex;
+            request.Take = PageSize;
+            var dbSearchPageReqList = _business.GetSearchPageRecommendationReqList(agentId, request);
             responseInfo.GetClubSearchPageRecommendationReqList = dbSearchPageReqList.MapObjects<ClubSearchPageRecommendationReqListModel>();
             if (!string.IsNullOrEmpty(pageid)) ViewBag.PageId = pageid;
             TempData["OriginalUrl"] = Request.Url.ToString();
             ViewBag.IsBackAllowed = true;
             ViewBag.BackButtonURL = "/RecommendationManagement/Index";
+            ViewBag.StartIndex = StartIndex;
+            ViewBag.PageSize = PageSize;
+            ViewBag.TotalData = dbSearchPageReqList != null && dbSearchPageReqList.Any() ? dbSearchPageReqList[0].TotalRecords : 0;
             return View(responseInfo);
         }
         [HttpGet]
@@ -264,11 +278,14 @@ namespace CRS.CLUB.APPLICATION.Controllers
         #endregion
 
         #region "MANAGE MAIN PAGE REQUEST"
-        public ActionResult MainPageRecommendationReqList()
+        public ActionResult MainPageRecommendationReqList(int StartIndex = 0, int PageSize = 10)
         {
             RecommendationReqCommonModel responseInfo = new RecommendationReqCommonModel();
             string agentid = ApplicationUtilities.GetSessionValue("AgentID").ToString().DecryptParameter();
-            var dbResponseInfo = _business.GetMainPageRecommendationReqList(agentid);
+            PaginationFilterCommon request = new PaginationFilterCommon();
+            request.Skip = StartIndex;
+            request.Take = PageSize;
+            var dbResponseInfo = _business.GetMainPageRecommendationReqList(agentid, request);
             responseInfo.GetClubMainPageRecommendationReqList = dbResponseInfo.MapObjects<ClubMainPageRecommendationReqListModel>();
             foreach (var item in responseInfo.GetClubMainPageRecommendationReqList)
             {
@@ -276,8 +293,9 @@ namespace CRS.CLUB.APPLICATION.Controllers
                 item.DisplayId = item.DisplayId.EncryptParameter();
                 item.RecommendationHoldId = item.RecommendationHoldId.EncryptParameter();
             }
-            ViewBag.IsBackAllowed = true;
-            ViewBag.BackButtonURL = "/RecommendationManagement/Index";
+            ViewBag.StartIndex = StartIndex;
+            ViewBag.PageSize = PageSize;
+            ViewBag.TotalData = dbResponseInfo != null && dbResponseInfo.Any() ? dbResponseInfo[0].TotalRecords : 0;
             return View(responseInfo);
         }
         [HttpGet]

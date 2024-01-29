@@ -37,6 +37,8 @@ namespace CRS.CLUB.APPLICATION.Models.RecommendationManagement
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
         public string HostName { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
     }
     public class ManageClubSearchPageRecommendationReq
     {
@@ -60,6 +62,8 @@ namespace CRS.CLUB.APPLICATION.Models.RecommendationManagement
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
         public string HostName { get; set; }
+        public int SNO { get; set; }
+        public int TotalRecords { get; set; }
     }
     public class ManageClubHomePageRecommendationReq
     {
@@ -82,6 +86,8 @@ namespace CRS.CLUB.APPLICATION.Models.RecommendationManagement
         public string Status { get; set; }
         public string RequestedDate { get; set; }
         public string UpdatedDate { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class ManageClubMainPageRecommendationReq
     {

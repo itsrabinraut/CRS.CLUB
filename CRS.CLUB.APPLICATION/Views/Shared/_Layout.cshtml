@@ -397,8 +397,18 @@
             allowClear: true,
             tags: true // создает новые опции на лету
         });
+        $('.menuContainer ').click('click', function () {
+            //localStorage.clear();
+            localStorage.setItem("tablink-id", "");
+            localStorage.setItem("tablink-name", "");
+            localStorage.setItem("tablink-id_dashboard", "");
+            localStorage.setItem("tablink-name_dashboard", "");
+            localStorage.setItem("tablink-id_date", "");
+            localStorage.setItem("tablink-name_date", "");
+            localStorage.setItem('date_tab_id', "");
+            localStorage.setItem('date_tab_name', "");
+        });
     </script>
-
     <script src="~/Content/assets/js/tabs.js"></script>
     <script src="~/Content/assets/js/toogle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -407,9 +417,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
             integrity="sha512-uKQ39gEGiyUJl4AI6L+ekBdGKpGw4xJ55+xyJG7YFlJokPNYegn9KwQ3P8A7aFQAUtUsAQHep+d/lrGqrbPIDQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="~/Content/assets/js/pagination.js"></script>
     <script>
-
     $(function () {
     {
         @if (TempData["Notifications"] != null)
@@ -428,6 +436,15 @@
     </script>
 
     @RenderSection("scripts", required: false)
+
+    <script src="~/Content/assets/js/custom-pagination-helper.js"></script>
+    <script>
+        const ShowingDynamicLabel = '@CRS.CLUB.APPLICATION.Resources.Resource.Showing';
+        const EntriesDynamicLabel = '@CRS.CLUB.APPLICATION.Resources.Resource.Entries';
+        const ShowDynamicLabel = '@CRS.CLUB.APPLICATION.Resources.Resource.Show';
+        var dynamicStartIndexLabel = "StartIndex";
+        var dynamicPageSizeLabel = "PageSize";
+    </script>
 </body>
 </html>
 <!-- #endregion -->

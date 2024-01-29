@@ -52,14 +52,7 @@
                         <!-- table  -->
                         <div class="table-tab">
                             <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                                <div class="flex items-center">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
-                                    <select id="countries" class="select-entires ">
-                                        <option value="5" selected>5</option>
-                                        <option value="10">10</option>
-                                        <option value="15">15</option>
-                                        <option value="20">100</option>
-                                    </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                                <div class="flex items-center select-entries" id="ShowEntries-Id">
                                 </div>
                                 <div class="export-button h-[40px]">
                                     <img src="~/Content/assets/images/club/download-solid.svg">
@@ -268,33 +261,15 @@
 
                             </div>
                             <div class="pagination-club">
-                                <div class="show-entry">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 to 5 of 301 @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                                <div class="show-entry" id="Entries-Id">
                                 </div>
                                 <div class="flex gap-[12px]">
-                                    <div class="btn btn-secondary-box-shadow ">
+                                    <div class="btn btn-secondary-box-shadow" id="prev-btn">
                                         @CRS.CLUB.APPLICATION.Resources.Resource.Previous
                                     </div>
-                                    <div class="flex gap-[12px]">
-                                        <div class="pagination-number active">
-
-                                            1
-                                        </div>
-                                        <div class="pagination-number">
-                                            2
-                                        </div>
-                                        <div class="pagination-number">
-                                            3
-                                        </div>
-                                        <div class="pagination-number">
-                                            ..
-                                        </div>
-                                        <div class="pagination-number">
-                                            10
-                                        </div>
-
+                                    <div class="flex gap-[12px]" id="pagination-id">
                                     </div>
-                                    <div class="btn btn-secondary-box-shadow ">
+                                    <div class="btn btn-secondary-box-shadow" id="next-btn">
                                         @CRS.CLUB.APPLICATION.Resources.Resource.Next
                                     </div>
                                 </div>
@@ -306,4 +281,17 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+                const page_size = @ViewBag.PageSize1;
+                const total_data = @ViewBag.TotalData1;
+                const start_index_val = @ViewBag.StartIndex1;
+                let URL = "/PaymentManagement/Index";
+                let search_filter = '@ViewBag.SearchText';
+                URL = addQueryParam(URL, 'SearchFilter', search_filter);
+                LoadPagination(page_size, total_data, start_index_val, URL);
+        });
+    </script>
+}
 

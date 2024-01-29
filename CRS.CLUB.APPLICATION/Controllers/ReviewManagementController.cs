@@ -2,7 +2,9 @@
 using CRS.CLUB.APPLICATION.Models.ReviewManagement;
 using CRS.CLUB.BUSINESS.ReviewManagement;
 using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.ReviewManagement;
 using System.Configuration;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CRS.CLUB.APPLICATION.Controllers
@@ -12,20 +14,19 @@ namespace CRS.CLUB.APPLICATION.Controllers
         private readonly IReviewManagementBusiness _buss;
         public ReviewManagementController(IReviewManagementBusiness buss) => _buss = buss;
 
-        public ActionResult Index(string searchText = "")
+        public ActionResult Index(SearchFilterCommonModel Request, int StartIndex = 0, int PageSize = 10)
         {
             Session["CurrentUrl"] = "/ReviewManagement/Index";
             var reviewAndRatingsViewModel = new ReviewManagementModel();
-
             string FileLocationPath = "";
             if (ConfigurationManager.AppSettings["Phase"] != null
                && ConfigurationManager.AppSettings["Phase"].ToString().ToUpper() != "DEVELOPMENT")
                 FileLocationPath = ConfigurationManager.AppSettings["ImageVirtualPath"].ToString() + FileLocationPath;
-
+            var dbRequest = Request.MapObject<SearchFilterCommonModel>();
+            dbRequest.Skip = StartIndex;
+            dbRequest.Take = PageSize;
             string agentId = ApplicationUtilities.GetSessionValue("AgentId").ToString().DecryptParameter();
-
-            var reviewCommon = _buss.GetReviews(agentId, searchText: searchText);
-
+            var reviewCommon = _buss.GetReviews(agentId, dbRequest, "");
             if (reviewCommon != null && reviewCommon.Count > 0)
             {
                 reviewAndRatingsViewModel.ReviewsAndRatings = reviewCommon.MapObjects<ReviewModel>();
@@ -35,7 +36,10 @@ namespace CRS.CLUB.APPLICATION.Controllers
                     x.UserImage = FileLocationPath + x.UserImage;
                 });
             }
-            ViewBag.SearchText = searchText;
+            ViewBag.SearchText = Request.SearchFilter;
+            ViewBag.StartIndex = StartIndex;
+            ViewBag.PageSize = PageSize;
+            ViewBag.TotalData = reviewCommon != null && reviewCommon.Any() ? reviewCommon[0].TotalRecords : 0;
             return View(reviewAndRatingsViewModel);
         }
         [HttpPost]

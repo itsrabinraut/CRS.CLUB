@@ -27,6 +27,10 @@
         font-size: 16px;
         font-weight: 400;
     }
+    input.w-full.disabled_class {
+        background: lightgray;
+    }
+    
 </style>
 @using (Html.BeginForm("Index", "ProfileManagement", FormMethod.Post, new { @id = "ManageProfileForm", enctype = "multipart/form-data" }))
 {
@@ -160,14 +164,14 @@
                             <label class="block mb-4 text-sm font-medium text-secondary-100 ">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Email_Address
                             </label>
-                            <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Email_Address" disabled value="@Model.EmailAddress">
+                            <input type="text" class="w-full disabled_class" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Email_Address" disabled value="@Model.EmailAddress">
                         </div>
                         <div class="input-field-common w-[272px]">
                             <label class="block mb-4 text-sm font-medium text-secondary-100 ">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Phone_Number
                             </label>
                             <div class="number-input">
-                                <div class="flag-section">
+                                <div class="flag-section" style="background: lightgray;">
                                     <div class="japan-flag">
                                         <div></div>
                                     </div>
@@ -177,7 +181,7 @@
                                     <div class="line-y">
                                     </div>
                                 </div>
-                                <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Phone_Number" disabled value="@Model.PhoneNumber">
+                                <input type="text" class="w-full disabled_class" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Phone_Number" disabled value="@Model.PhoneNumber">
                             </div>
                         </div>
                     </div>
@@ -262,7 +266,7 @@
                             <label class="block mb-4 text-sm font-medium text-secondary-100 ">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Username
                             </label>
-                            <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Username" value="@Model.UserName" disabled>
+                            <input type="text" class="w-full disabled_class" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Username" value="@Model.UserName" disabled>
                         </div>
                         @if (!string.IsNullOrEmpty(Model.EmailAddress))
                         {
@@ -270,7 +274,7 @@
                                 <label class="block mb-4 text-sm font-medium text-secondary-100 ">
                                     @CRS.CLUB.APPLICATION.Resources.Resource.Email_Address
                                 </label>
-                                <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Email_Address" name="EmailAddress" value="@Model.EmailAddress" disabled>
+                                <input type="text" class="w-full disabled_class" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.Email_Address" name="EmailAddress" value="@Model.EmailAddress" disabled>
                             </div>
                         }
                         else
@@ -383,7 +387,7 @@
                             <label class="block mb-4 text-sm font-medium text-secondary-100 ">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Zip
                             </label>
-                            <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.ZipCode_placeholder" name="InputZip" value="@Model.InputZip">
+                            <input type="text" class="w-full" placeholder="@CRS.CLUB.APPLICATION.Resources.Resource.ZipCode_placeholder" name="InputZip" value="@Model.InputZip" oninput="postalvalidate(this)">
                         </div>
                         <div class="input-field-common w-[272px] prefecture-class">
                             <label class="block mb-4 text-sm font-medium text-secondary-100 ">
@@ -705,6 +709,10 @@
         }
         function amountvalidate(inputElement) {
             inputElement.value = inputElement.value.replace(/\D/g, '');
+        }
+        function postalvalidate(inputElement) {
+            inputElement.value = inputElement.value.replace(/\D/g, '');
+            inputElement.value = inputElement.value.slice(0, 7);
         }
     </script>
 }

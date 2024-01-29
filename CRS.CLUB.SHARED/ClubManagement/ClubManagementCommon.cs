@@ -12,6 +12,8 @@
         public string CreatedDate { get; set; }
         public string UpdatedDate { get; set; }
         public string Action { get; set; }
+        public int TotalRecords { get; set; }
+        public int SNO { get; set; }
     }
     public class AddClubImageCommon : Common
     {

@@ -125,6 +125,10 @@
     <value>アクション</value>
     <comment>Review and Rating Management</comment>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>アクティブ</value>
+    <comment>Gallery Management</comment>
+  </data>
   <data name="Add New" xml:space="preserve">
     <value>新しく追加する</value>
     <comment>Data Table</comment>
@@ -495,6 +499,10 @@
     <value>注: 画像は HEIF 形式である必要があり、最大ファイル サイズは 5 MB です。</value>
     <comment>Profile Management</comment>
   </data>
+  <data name="InActive" xml:space="preserve">
+    <value>非活動</value>
+    <comment>Gallery Management</comment>
+  </data>
   <data name="Instagram" xml:space="preserve">
     <value>インスタグラム</value>
     <comment>Host Management</comment>
@@ -737,6 +745,10 @@
     <value>プラン料金</value>
     <comment>Profile Management</comment>
   </data>
+  <data name="Plan_Ledger" xml:space="preserve">
+    <value>プラン</value>
+    <comment>Reservation Ledger</comment>
+  </data>
   <data name="Position" xml:space="preserve">
     <value>役職</value>
     <comment>Host Management</comment>
@@ -883,7 +895,7 @@
     <value>S.N</value>
   </data>
   <data name="Sales Report" xml:space="preserve">
-    <value>売上グラブ</value>
+    <value>売上報告書</value>
     <comment>Dashboard</comment>
   </data>
   <data name="Saturday" xml:space="preserve">
@@ -998,6 +1010,14 @@
   </data>
   <data name="Top Ranking Hosts" xml:space="preserve">
     <value>トップランキングホスト</value>
+    <comment>Dashboard</comment>
+  </data>
+  <data name="Total Amount" xml:space="preserve">
+    <value>合計金額</value>
+    <comment>Reservation Ledger</comment>
+  </data>
+  <data name="Total Booking" xml:space="preserve">
+    <value>総ショー数</value>
     <comment>Dashboard</comment>
   </data>
   <data name="Total Bookings" xml:space="preserve">

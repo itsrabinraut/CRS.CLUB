@@ -76,15 +76,9 @@
                 </div>
                 <div class="table-tab">
                     <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                        <div class="flex items-center">
-                            @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires">
-                                    <option value="5" selected>5</option>
-                                    <option value="10">10</option>
-                                    <option value="15">15</option>
-                                    <option value="20">100</option>
-                                </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                        <div class="flex items-center select-entries" id="ShowEntries-Id">
                         </div>
-                        <div class="export-button">
+                        <div class="export-button" id="gallery_id">
                             <img src="~/Content/assets/images/club/download-solid.svg" />  @CRS.CLUB.APPLICATION.Resources.Resource.Export
                         </div>
                     </div>
@@ -121,7 +115,7 @@
                                     </th>
                                     <th scope="col" class="p-[12px]">
                                         <div class="flex">
-                                            Status
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Status
                                             <div class="relative pl-[5px]">
                                                 <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
                                                 <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
@@ -159,14 +153,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @{
-                                    var i = 1;
-                                }
                                 @foreach (var item in Model.clubManagement as IEnumerable<CRS.CLUB.APPLICATION.Models.ClubManagement.clubManagement>)
                                 {
-                                    <tr class="bg-white border-b Row_@i">
+                                    <tr class="bg-white border-b Row_">
                                         <td class="p-[12px]">
-                                            @i
+                                            @item.SNO
                                         </td>
                                         <td class="p-[12px]">
                                             @item.Title
@@ -178,13 +169,13 @@
                                             @if (!string.IsNullOrEmpty(item.Status) && item.Status.Trim().ToUpper() == "A")
                                             {
                                                 <div class="approved inline-flex w-max">
-                                                    Active
+                                                    @CRS.CLUB.APPLICATION.Resources.Resource.Active
                                                 </div>
                                             }
                                             else
                                             {
                                                 <div class="rejected inline-flex w-max">
-                                                    In-Active
+                                                    @CRS.CLUB.APPLICATION.Resources.Resource.Active
                                                 </div>
                                             }
                                         </td>
@@ -197,7 +188,7 @@
                                         <td class="p-[12px]">
                                             <div class="flex gap-[7px] justify-center text-[16px] ">
                                                 <div class="EditDetail" data-drawer-target="edit-gallery" data-drawer-show="edit-gallery"
-                                                     data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="@i">
+                                                     data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="">
                                                     <a href="/ClubManagement/EditClubManagement?AgentId=@item.AgentID&clubsno=@item.Sno">
                                                         <i class="fa-regular fa-pen-to-square text-[#989898] cursor-pointer"></i>
                                                     </a>
@@ -209,42 +200,23 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    i++;
                                 }
                             </tbody>
                         </table>
                     </div>
                     <div class="pagination-club">
-                        @*<div class="show-entry">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Showing
-                                1 ~ 5 of 301
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Entries
+                        <div class="show-entry" id="Entries-Id">
+                        </div>
+                        <div class="flex gap-[12px]">
+                            <div class="btn btn-secondary-box-shadow" id="prev-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
                             </div>
-                            <div class="flex gap-[12px]">
-                                <div class="btn btn-secondary-box-shadow ">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                                </div>
-                                <div class="flex gap-[12px]">
-                                    <div class="pagination-number active">
-                                        1
-                                    </div>
-                                    <div class="pagination-number">
-                                        2
-                                    </div>
-                                    <div class="pagination-number">
-                                        3
-                                    </div>
-                                    <div class="pagination-number">
-                                        ..
-                                    </div>
-                                    <div class="pagination-number">
-                                        10
-                                    </div>
-
-                                </div>
-                                <div class="btn btn-secondary-box-shadow ">
-                                    @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                                </div>*@
+                            <div class="flex gap-[12px]" id="pagination-id">
+                            </div>
+                            <div class="btn btn-secondary-box-shadow" id="next-btn">
+                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -273,16 +245,9 @@
             </div>
             <div class="table-tab">
                 <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                    <div class="flex items-center">
-                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;
-                            <select id="countries" class="select-entires">
-                                <option value="5" selected>5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">100</option>
-                            </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    <div class="flex items-center select-entries" id="ShowEntries-Id-2">
                     </div>
-                    <div class="export-button">
+                    <div class="export-button" id="host_id">
                         <img src="~/Content/assets/images/club/download-solid.svg" />  @CRS.CLUB.APPLICATION.Resources.Resource.Export
                     </div>
                 </div>
@@ -366,14 +331,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @{
-                                var k = 1;
-                            }
                             @foreach (var item in Model.HostManagement as IEnumerable<CRS.CLUB.APPLICATION.Models.ClubManagement.HostManagement>)
                             {
                                 <tr class="bg-white border-b ">
                                     <td class="p-[12px]">
-                                        @k
+                                        @item.SNO
                                     </td>
                                     <td class="p-[12px]">
                                         <div class="round-image-text gap-[12px]">
@@ -404,7 +366,7 @@
                                         <div class="flex gap-[7px] justify-center text-[16px] ">
                                             <a href="/ClubManagement/HostGalleryManagement?AgentId=@item.AgentID&HostId=@item.HostID"><i class="las la-image text-[#C8B477] text-[20px] mt-[1px] cursor-pointer"></i></a>
                                             <div class="EditHostDetail" data-drawer-target="edit-host" data-drawer-show="edit-host"
-                                                 data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="@i">
+                                                 data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="">
                                                 <i class="fa-regular fa-pen-to-square text-[#989898] cursor-pointer" onclick="EditHost('@item.AgentID','@item.HostID')"></i>
                                             </div>
                                             <div>
@@ -413,41 +375,25 @@
                                         </div>
                                     </td>
                                 </tr>
-                                k++;
                             }
                         </tbody>
                     </table>
                 </div>
                 <div class="pagination-club">
-                    @*<div class="show-entry">@CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of 301 @CRS.CLUB.APPLICATION.Resources.Resource.Entries</div>
-                        <div class="flex gap-[12px]">
-                            <div class="btn btn-secondary-box-shadow ">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Previous
-                            </div>
-                            <div class="flex gap-[12px]">
-                                <div class="pagination-number active">
-                                    1
-                                </div>
-                                <div class="pagination-number">
-                                    2
-                                </div>
-                                <div class="pagination-number">
-                                    3
-                                </div>
-                                <div class="pagination-number">
-                                    ..
-                                </div>
-                                <div class="pagination-number">
-                                    10
-                                </div>
-                            </div>
-                            <div class="btn btn-secondary-box-shadow ">
-                                @CRS.CLUB.APPLICATION.Resources.Resource.Next
-                            </div>
-                        </div>*@
+                    <div class="show-entry" id="Entries-Id-2">
+                    </div>
+                    <div class="flex gap-[12px]">
+                        <div class="btn btn-secondary-box-shadow" id="prev-btn-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Previous
+                        </div>
+                        <div class="flex gap-[12px]" id="pagination-id-2">
+                        </div>
+                        <div class="btn btn-secondary-box-shadow" id="next-btn-2">
+                            @CRS.CLUB.APPLICATION.Resources.Resource.Next
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
         <div id="tab3" class="tab-content-plane hidden ">
             <div class="flex justify-between pb-[24px] ">
@@ -474,133 +420,111 @@
             </div>
             <div class="table-tab">
                 <div class="px-[16px] py-[12px] flex justify-between entry-export-container">
-                    <div class="flex items-center">
-                        @*@CRS.CLUB.APPLICATION.Resources.Resource.Show&nbsp;<select id="countries" class="select-entires">
-                                <option value="5" selected>5</option>
-                                <option value="10">10</option>
-                                <option value="15">15</option>
-                                <option value="20">100</option>
-                            </select>&nbsp;@CRS.CLUB.APPLICATION.Resources.Resource.Entries*@
+                    <div class="flex items-center select-entries" id="ShowEntries-Id-3">
                     </div>
-                    <div class="export-button">
+                    <div class="export-button" id="event_id">
                         <img src="~/Content/assets/images/club/download-solid.svg" />
                         @CRS.CLUB.APPLICATION.Resources.Resource.Excel
                     </div>
                 </div>
-                <div class="relative overflow-x-auto">
-                    <table class="w-full  text-left club-table">
-                        <thead class="club-table-thead">
-                            <tr>
-                                <th scope="col" class="p-[12px]">
-                                    <div class="flex">
-                                        S.N
-                                        <div class="relative pl-[5px]">
-                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
-                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" class="p-[12px]">
-                                    <div class="flex">
-                                        @CRS.CLUB.APPLICATION.Resources.Resource.Date
-                                        <div class="relative pl-[5px]">
-                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
-                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" class="p-[12px]">
-                                    <div class="flex">
-                                        @CRS.CLUB.APPLICATION.Resources.Resource.Event_Title
-                                        <div class="relative pl-[5px]">
-                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
-                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" class="p-[12px]">
-                                    <div class="flex">
-                                        @CRS.CLUB.APPLICATION.Resources.Resource.Message
-                                        <div class="relative pl-[5px]">
-                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
-                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                                <th scope="col" class="p-[12px]">
-                                    <div class="flex justify-center">
-                                        @CRS.CLUB.APPLICATION.Resources.Resource.Action
-                                        <div class="relative pl-[5px]">
-                                            <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
-                                            <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
-                                        </div>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{
-                                var j = 1;
-                            }
-                            @foreach (var item in Model.EventManagement as IEnumerable<CRS.CLUB.APPLICATION.Models.ClubManagement.EventManagementModel>)
-                            {
-                                <tr class="bg-white border-b ">
-                                    <td class="p-[12px]">
-                                        @j
-                                    </td>
-                                    <td class="p-[12px]">
-                                        @item.EventDate
-                                    </td>
-                                    <td class="p-[12px]">
-                                        @item.EventTitle
-                                    </td>
-                                    <td class="p-[12px]">
-                                        @item.Message
-                                    </td>
-                                    <td class="p-[12px]">
-                                        <div class="flex gap-[7px] justify-center text-[16px] ">
-                                            <div class="EditEventDetail" data-drawer-target="edit-event" data-drawer-show="edit-event"
-                                                 data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="@i">
-                                                <i class="fa-regular fa-pen-to-square text-[#989898] cursor-pointer" onclick="EventEditForm('@item.AgentId','@item.EventId')"></i>
-                                            </div>
-                                            <div>
-                                                <i class="fa-solid fa-trash-can text-primary-100 cursor-pointer" onclick="DeleteEvent('@item.AgentId','@item.EventId')"></i>
+                <div>
+                    <div class="relative overflow-x-auto">
+                        <table class="w-full  text-left club-table">
+                            <thead class="club-table-thead">
+                                <tr>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            S.N
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
                                             </div>
                                         </div>
-                                    </td>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Date
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Event_Title
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Message
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="p-[12px]">
+                                        <div class="flex justify-center">
+                                            @CRS.CLUB.APPLICATION.Resources.Resource.Action
+                                            <div class="relative pl-[5px]">
+                                                <i class="fa-solid fa-chevron-up text-[8px] absolute top-[2px] text-[#545659]"></i>
+                                                <i class="fa-solid fa-chevron-down text-[8px] absolute top-[8px] let-[5px] text-[#c3b6b9]"></i>
+                                            </div>
+                                        </div>
+                                    </th>
                                 </tr>
-                                j++;
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div class="pagination-club">
-                    @*<div class="show-entry"> @CRS.CLUB.APPLICATION.Resources.Resource.Showing 1 ~ 5 of 301 @CRS.CLUB.APPLICATION.Resources.Resource.Entries</div>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.EventManagement as IEnumerable<CRS.CLUB.APPLICATION.Models.ClubManagement.EventManagementModel>)
+                                {
+                                    <tr class="bg-white border-b ">
+                                        <td class="p-[12px]">
+                                            @item.SNO
+                                        </td>
+                                        <td class="p-[12px]">
+                                            @item.EventDate
+                                        </td>
+                                        <td class="p-[12px]">
+                                            @item.EventTitle
+                                        </td>
+                                        <td class="p-[12px]">
+                                            @item.Message
+                                        </td>
+                                        <td class="p-[12px]">
+                                            <div class="flex gap-[7px] justify-center text-[16px] ">
+                                                <div class="EditEventDetail" data-drawer-target="edit-event" data-drawer-show="edit-event"
+                                                     data-drawer-backdrop="false" aria-controls="drawer-disabled-backdrop" id="">
+                                                    <i class="fa-regular fa-pen-to-square text-[#989898] cursor-pointer" onclick="EventEditForm('@item.AgentId','@item.EventId')"></i>
+                                                </div>
+                                                <div>
+                                                    <i class="fa-solid fa-trash-can text-primary-100 cursor-pointer" onclick="DeleteEvent('@item.AgentId','@item.EventId')"></i>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-club">
+                        <div class="show-entry" id="Entries-Id-3">
+                        </div>
                         <div class="flex gap-[12px]">
-                            <div class="btn btn-secondary-box-shadow ">
+                            <div class="btn btn-secondary-box-shadow" id="prev-btn-3">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Previous
                             </div>
-                            <div class="flex gap-[12px]">
-                                <div class="pagination-number active">
-                                    1
-                                </div>
-                                <div class="pagination-number">
-                                    2
-                                </div>
-                                <div class="pagination-number">
-                                    3
-                                </div>
-                                <div class="pagination-number">
-                                    ..
-                                </div>
-                                <div class="pagination-number">
-                                    10
-                                </div>
+                            <div class="flex gap-[12px]" id="pagination-id-3">
                             </div>
-                            <div class="btn btn-secondary-box-shadow ">
+                            <div class="btn btn-secondary-box-shadow" id="next-btn-3">
                                 @CRS.CLUB.APPLICATION.Resources.Resource.Next
                             </div>
-                        </div>*@
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -608,55 +532,54 @@
             @Html.Partial("_ScheduleManagement")
         </div>
     </div>
-</div>
-<div id="modal1" class="modal">
-    <div class="modal-content  max-h-full px-[31px] py-[24px]">
-        <div class="relative h-full py-[24px] w-[334px] px-[31px] bg-white rounded-lg shadow ">
-            <!-- Modal header -->
-            <div class="flex items-start justify-between py-4 ">
-                <h3 class="text-small font-medium text-[#444] ">
-                    @CRS.CLUB.APPLICATION.Resources.Resource.Schedule_Status
-                </h3>
-                <button type="button" onclick="closeModal('modal1')" class="text-secondary-200 bg-transparent hover:text-secondary-100 hover:text-gray-900 ">
-                    <i class="las la-times"></i>
-                </button>
-            </div>
-            <input hidden id="schedule-value-id" value="" />
-            <!-- Modal body -->
-            <div class="select-time-container">
-                <input type="text" class="hidden" name="date" />
-
-                <div id="toggle" class="text-black display-page cursor-pointer ">
-                    <div id="setvalue"> @CRS.CLUB.APPLICATION.Resources.Resource.Select</div>
-                    <div class="display-page-arrow">
-                        <b></b>
-                    </div>
+    <div id="modal1" class="modal">
+        <div class="modal-content  max-h-full px-[31px] py-[24px]">
+            <div class="relative h-full py-[24px] w-[334px] px-[31px] bg-white rounded-lg shadow ">
+                <!-- Modal header -->
+                <div class="flex items-start justify-between py-4 ">
+                    <h3 class="text-small font-medium text-[#444] ">
+                        @CRS.CLUB.APPLICATION.Resources.Resource.Schedule_Status
+                    </h3>
+                    <button type="button" onclick="closeModal('modal1')" class="text-secondary-200 bg-transparent hover:text-secondary-100 hover:text-gray-900 ">
+                        <i class="las la-times"></i>
+                    </button>
                 </div>
-                <div class="toggleDivTime" id="toggleDivTime">
-                    @foreach (var item in ViewBag.ClubScheduleDDL as IEnumerable<SelectListItem>)
-                    {
-                        if (item.Text == "---選択---" || item.Text.Trim().ToLower() == "--- select ---")
+                <input hidden id="schedule-value-id" value="" />
+                <!-- Modal body -->
+                <div class="select-time-container">
+                    <input type="text" class="hidden" name="date" />
+
+                    <div id="toggle" class="text-black display-page cursor-pointer ">
+                        <div id="setvalue"> @CRS.CLUB.APPLICATION.Resources.Resource.Select</div>
+                        <div class="display-page-arrow">
+                            <b></b>
+                        </div>
+                    </div>
+                    <div class="toggleDivTime" id="toggleDivTime">
+                        @foreach (var item in ViewBag.ClubScheduleDDL as IEnumerable<SelectListItem>)
                         {
+                            if (item.Text == "---選択---" || item.Text.Trim().ToLower() == "--- select ---")
+                            {
+
+                            }
+                            else
+                            {
+                                var imgSRC = "/Content/assets/images/" + @item.Text + ".svg";
+                                <div class="flex items-center checkbox-common gap-4 py-[8px] px-[16px]" onclick="MyScheduleFunction('@item.Value');">
+                                    <img src="@imgSRC" class="h-[21px] w-[16px]" />
+                                    <label for=""
+                                           class=" text-sm font-medium flex items-center justify-between w-full text-secondary-100">
+                                        @item.Text
+                                    </label>
+                                </div>
+                            }
 
                         }
-                        else
-                        {
-                            var imgSRC = "/Content/assets/images/" + @item.Text + ".svg";
-                            <div class="flex items-center checkbox-common gap-4 py-[8px] px-[16px]" onclick="MyScheduleFunction('@item.Value');">
-                                <img src="@imgSRC" class="h-[21px] w-[16px]" />
-                                <label for=""
-                                       class=" text-sm font-medium flex items-center justify-between w-full text-secondary-100">
-                                    @item.Text
-                                </label>
-                            </div>
-                        }
-
-                    }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 <!--Manage Gallary-->
 @Html.Partial("_GallaryManagement", _ClubImgModel)
@@ -903,12 +826,25 @@
         }
     </script>
 
+
+
     <script>
+        var _Did = localStorage.getItem("tablink-id_dashboard");
+        var name_id = localStorage.getItem("tablink-name_dashboard");
+        if (_Did != '' && name_id != '') {
+            $(document).ready(function () {
+                $('#tab2Button').click();
+            });
+            localStorage.setItem("tablink-id_dashboard", "");
+            localStorage.setItem("tablink-name_dashboard", "");
+            localStorage.setItem("tablink-name_dashboard", "");
+        }
         $('.tab-link').click('click', function () {
             var id = $(this).attr('id');
             var name = $(this).text().trim();
             localStorage.setItem("tablink-id", id);
             localStorage.setItem("tablink-name", name);
+            tabChanged = true;
         });
         $(document).ready(function () {
             var id = localStorage.getItem("tablink-id");
@@ -918,9 +854,104 @@
                 var valueName = $(this).text().trim();
                 if (id == valueId && name == valueName) {
                     $(this).click();
-                    //console.log(valueId + valueName);
                 }
-            })
-        })
+            });
+        });
+        $(document).ready(function () {
+            $("#gallery_id").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[0], {
+                    name: `gallery_info.xlsx`,
+                    sheet: {
+                        name: 'gallery_info'
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#host_id").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[1], {
+                    name: `host_info.xlsx`,
+                    sheet: {
+                        name: 'host_info'
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $("#event_id").click(function () {
+                let table = document.getElementsByTagName("table");
+                TableToExcel.convert(table[2], {
+                    name: `event_info.xlsx`,
+                    sheet: {
+                        name: 'event_info'
+                    }
+                });
+            });
+        });
     </script>
+
+    <script>
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function isAlphabateOnly(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if ((charCode > 64 && charCode < 91) || (charCode > 96 && charCode < 123) || (charCode == 32)) {
+                return true;
+            }
+            return false;
+        }
+    </script>
+    <script>
+        const fileInput = document.getElementById("file_input_logo");
+        const fileNameDisplay = document.getElementById("file_name_display");
+        fileInput.addEventListener("change", function () {
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.textContent = `${fileInput.files[0].name}`;
+            } else {
+                fileNameDisplay.textContent = "";
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+                const page_size = @ViewBag.PageSize;
+                const total_data = @ViewBag.TotalRecords;
+                const start_index_val = @ViewBag.StartIndex;
+                let URL = "/ClubManagement/Index";
+                let search_filter = '@ViewBag.GallerySearchText';
+                URL = addQueryParam(URL, 'SearchFilter', search_filter);
+                LoadPagination(page_size, total_data, start_index_val, URL);
+
+                const page_size_2 = @ViewBag.PageSize1;
+                const total_data_2 = @ViewBag.TotalRecords1;
+                const start_index_val_2 = @ViewBag.StartIndex1;
+                let URL_2 = "/ClubManagement/Index";
+                let search_filter_2 = '@ViewBag.HostSearchText';
+                URL_2 = addQueryParam(URL_2, 'SearchFilter', search_filter_2);
+                dynamicStartIndexLabel = "StartIndex2";
+                dynamicPageSizeLabel = "PageSize2";
+                LoadPagination(page_size_2, total_data_2, start_index_val_2, URL_2, 'pagination-id-2', 'prev-btn-2', 'next-btn-2', 'ShowEntries-Id-2', 'Entries-Id-2');
+
+                const page_size_3 = @ViewBag.PageSize2;
+                const total_data_3 = @ViewBag.TotalRecords2;
+                const start_index_val_3 = @ViewBag.StartIndex2;
+                let URL_3 = "/ClubManagement/Index";
+                let search_filter_3 = '@ViewBag.SearchText';
+                URL_3 = addQueryParam(URL_3, 'SearchFilter', search_filter_3);
+                dynamicStartIndexLabel = "StartIndex3";
+                dynamicPageSizeLabel = "PageSize3";
+                LoadPagination(page_size_3, total_data_3, start_index_val_3, URL_3, 'pagination-id-3', 'prev-btn-3', 'next-btn-3', 'ShowEntries-Id-3', 'Entries-Id-3');
+        });
+    </script>
+
 }

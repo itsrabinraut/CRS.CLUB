@@ -110,6 +110,7 @@
     <Compile Include="Home\SetNewPasswordCommon.cs" />
     <Compile Include="NotificationManagement\NotificationManagementCommon.cs" />
     <Compile Include="NotificationMessage.cs" />
+    <Compile Include="PaginationManagement\PaginationCommon.cs" />
     <Compile Include="PaymentManagement\PaymentManagementCommon.cs" />
     <Compile Include="ProfileManagement\UserProfileCommon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

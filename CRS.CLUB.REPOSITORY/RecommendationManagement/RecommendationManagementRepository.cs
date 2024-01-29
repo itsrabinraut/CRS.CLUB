@@ -1,6 +1,9 @@
 ﻿using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using CRS.CLUB.SHARED.RecommendationManagement;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -37,11 +40,13 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
         #endregion
 
         #region "CLUB SEARCH PAGE RECOMMENDATION REQUEST"
-        public List<ClubSearchPageRecommendationReqListModelCommon> GetSearchPageRecommendationReqList(string agentId)
+        public List<ClubSearchPageRecommendationReqListModelCommon> GetSearchPageRecommendationReqList(string agentId, PaginationFilterCommon request)
         {
             List<ClubSearchPageRecommendationReqListModelCommon> responseInfo = new List<ClubSearchPageRecommendationReqListModelCommon>();
             string sp_name = "EXEC sproc_club_searchpage_recommendation_management @Flag= 'gspac'";
             sp_name += ",@ClubId=" + _dao.FilterString(agentId);
+            sp_name += ",@Skip=" + request.Skip;
+            sp_name += ",@Take=" + request.Take;
 
             var dbResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbResponseInfo != null)
@@ -60,7 +65,9 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
                         RecommendationHoldId = row["RecommendationHoldId"].ToString(),
                         RequestedDate = row["RequestedDate"].ToString(),
                         Status = row["Status"].ToString(),
-                        UpdatedDate = row["UpdatedDate"].ToString()
+                        UpdatedDate = row["UpdatedDate"].ToString(),
+                        SNO = Convert.ToInt32(row["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString())
                     });
                 }
             }
@@ -91,11 +98,13 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
         #endregion
 
         #region "MANAGE HOME PAGE RECOMMENDATION REQUEST"
-        public List<ClubHomePageRecommendationReqListModelCommon> GetClubHomePageRecommendationReqList(string agentId)
+        public List<ClubHomePageRecommendationReqListModelCommon> GetClubHomePageRecommendationReqList(string agentId, PaginationFilterCommon request)
         {
             List<ClubHomePageRecommendationReqListModelCommon> responseInfo = new List<ClubHomePageRecommendationReqListModelCommon>();
             string sp_name = "EXEC sproc_club_homepage_recommendation_management @Flag = 'ghpac'";
             sp_name += ",@ClubId=" + _dao.FilterString(agentId);
+            sp_name += ",@Skip=" + request.Skip;
+            sp_name += ",@Take=" + request.Take;
 
             var dbResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbResponseInfo != null)
@@ -114,7 +123,9 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
                         RecommendationHoldId = row["RecommendationHoldId"].ToString(),
                         RequestedDate = row["RequestedDate"].ToString(),
                         Status = row["Status"].ToString(),
-                        UpdatedDate = row["UpdatedDate"].ToString()
+                        UpdatedDate = row["UpdatedDate"].ToString(),
+                        SNO = Convert.ToInt32(row["SNO"].ToString()),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString())
                     });
                 }
             }
@@ -144,11 +155,13 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
         #endregion
 
         #region "MANAGE MAIN PAGE RECOMMENDATION REQUEST"
-        public List<ClubMainPageRecommendationReqListModelCommon> GetMainPageRecommendationReqList(string agentid)
+        public List<ClubMainPageRecommendationReqListModelCommon> GetMainPageRecommendationReqList(string agentid, PaginationFilterCommon request)
         {
             List<ClubMainPageRecommendationReqListModelCommon> responseInfo = new List<ClubMainPageRecommendationReqListModelCommon>();
             string sp_name = "EXEC sproc_club_mainpage_recommendation_management @Flag= 'ghpac'";
             sp_name += ",@ClubId=" + _dao.FilterString(agentid);
+            sp_name += ",@Skip=" + request.Skip;
+            sp_name += ",@Take=" + request.Take;
 
             var dbResponseInfo = _dao.ExecuteDataTable(sp_name);
             if (dbResponseInfo != null)
@@ -166,7 +179,9 @@ namespace CRS.CLUB.REPOSITORY.RecommendationManagement
                         RecommendationHoldId = row["RecommendationHoldId"].ToString(),
                         RequestedDate = row["RequestedDate"].ToString(),
                         Status = row["Status"].ToString(),
-                        UpdatedDate = row["UpdatedDate"].ToString()
+                        UpdatedDate = row["UpdatedDate"].ToString(),
+                        TotalRecords = Convert.ToInt32(row["TotalRecords"].ToString()),
+                        SNO = Convert.ToInt32(row["SNO"].ToString())
                     });
                 }
             }

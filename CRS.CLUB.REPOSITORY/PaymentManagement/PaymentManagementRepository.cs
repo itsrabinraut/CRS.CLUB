@@ -1,5 +1,7 @@
 ﻿using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using CRS.CLUB.SHARED.PaymentManagement;
+using System;
 using System.Collections.Generic;
 using System.Data;
 
@@ -10,7 +12,7 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
         private readonly RepositoryDao _dao;
         public PaymentManagementRepository() => _dao = new RepositoryDao();
 
-        public List<PaymentLedgerCommon> GetPaymentLedgerDetail(string searchText, string cId, string date)
+        public List<PaymentLedgerCommon> GetPaymentLedgerDetail(string searchText, string cId, string date, PaginationFilterCommon request)
         {
             var paymentLogs = new List<PaymentLedgerCommon>();
 
@@ -21,7 +23,8 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
                 sql += " ,@SearchField =N" + _dao.FilterString(searchText);
             if (!string.IsNullOrEmpty(date))
                 sql += " ,@Date=" + _dao.FilterString(date);
-
+            sql += ",@Skip=" + request.Skip;
+            sql += ",@Take=" + request.Take;
             var dbResp = _dao.ExecuteDataTable(sql);
             if (dbResp != null && dbResp.Rows.Count > 0)
             {
@@ -44,7 +47,9 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
                             CommissionAmount = dataRow["CommissionAmount"].ToString(),
                             TotalCommissionAmount = dataRow["TotalCommissionAmount"].ToString(),
                             AdminPaymentAmount = dataRow["AdminPaymentAmount"].ToString(),
-                            ReservationType = dataRow["ReservationType"].ToString()
+                            ReservationType = dataRow["ReservationType"].ToString(),
+                            TotalRecords = Convert.ToInt32(dataRow["TotalRecords"].ToString()),
+                            SNO = Convert.ToInt32(dataRow["SNO"].ToString())
                         });
                     }
                 }
@@ -52,7 +57,7 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
             return paymentLogs;
         }
 
-        public List<PaymentLogCommon> GetPaymentLog(string searchText, string clubId, string filterDate)
+        public List<PaymentLogCommon> GetPaymentLog(string searchText, string clubId, string filterDate, PaginationFilterCommon request)
         {
             var paymentLogs = new List<PaymentLogCommon>();
 
@@ -62,7 +67,8 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
                 sql += " ,@Date=" + _dao.FilterString(filterDate);
             if (searchText != null)
                 sql += " ,@SearchField=N" + _dao.FilterString(searchText);
-
+            sql += ",@Skip=" + request.Skip;
+            sql += ",@Take=" + request.Take;
             var dbResp = _dao.ExecuteDataTable(sql);
             if (dbResp != null && dbResp.Rows.Count > 0)
             {
@@ -80,6 +86,8 @@ namespace CRS.CLUB.REPOSITORY.PaymentManagement
                             TotalCommissionAmount = dr["TotalCommissionAmount"].ToString(),
                             TransactionDate = dr["TransactionDate"].ToString(),
                             ReservationId = dr["ReservationId"].ToString(),
+                            TotalRecords = Convert.ToInt32(dr["TotalRecords"].ToString()),
+                            SNO = Convert.ToInt32(dr["SNO"].ToString())
                         });
                     }
                 }

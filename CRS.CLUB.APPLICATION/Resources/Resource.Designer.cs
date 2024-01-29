@@ -79,6 +79,15 @@ namespace CRS.CLUB.APPLICATION.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        public static string Active {
+            get {
+                return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add New.
         /// </summary>
         public static string Add_New {
@@ -943,6 +952,15 @@ namespace CRS.CLUB.APPLICATION.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InActive.
+        /// </summary>
+        public static string InActive {
+            get {
+                return ResourceManager.GetString("InActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instagram.
         /// </summary>
         public static string Instagram {
@@ -1488,6 +1506,15 @@ namespace CRS.CLUB.APPLICATION.Resources {
         public static string Plan {
             get {
                 return ResourceManager.GetString("Plan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Plan.
+        /// </summary>
+        public static string Plan_Ledger {
+            get {
+                return ResourceManager.GetString("Plan_Ledger", resourceCulture);
             }
         }
         
@@ -2091,6 +2118,24 @@ namespace CRS.CLUB.APPLICATION.Resources {
         public static string Top_Ranking_Hosts {
             get {
                 return ResourceManager.GetString("Top Ranking Hosts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Amount.
+        /// </summary>
+        public static string Total_Amount {
+            get {
+                return ResourceManager.GetString("Total Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Booking.
+        /// </summary>
+        public static string Total_Booking {
+            get {
+                return ResourceManager.GetString("Total Booking", resourceCulture);
             }
         }
         

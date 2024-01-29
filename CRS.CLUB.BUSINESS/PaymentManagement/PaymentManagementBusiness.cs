@@ -1,5 +1,6 @@
 ﻿using CRS.CLUB.REPOSITORY.PaymentManagement;
 using CRS.CLUB.SHARED;
+using CRS.CLUB.SHARED.PaginationManagement;
 using CRS.CLUB.SHARED.PaymentManagement;
 using System.Collections.Generic;
 
@@ -10,14 +11,14 @@ namespace CRS.CLUB.BUSINESS.PaymentManagement
         private readonly IPaymentManagementRepository _repo;
         public PaymentManagementBusiness(PaymentManagementRepository repo) => _repo = repo;
 
-        public List<PaymentLedgerCommon> GetPaymentLedgerDetail(string searchText, string cId, string date)
+        public List<PaymentLedgerCommon> GetPaymentLedgerDetail(string searchText, string cId, string date, PaginationFilterCommon request)
         {
-            return _repo.GetPaymentLedgerDetail(searchText, cId, date);
+            return _repo.GetPaymentLedgerDetail(searchText, cId, date, request);
         }
 
-        public List<PaymentLogCommon> GetPaymentLog(string searchText, string clubId, string filterDate)
+        public List<PaymentLogCommon> GetPaymentLog(string searchText, string clubId, string filterDate, PaginationFilterCommon request)
         {
-            return _repo.GetPaymentLog(searchText, clubId, filterDate);
+            return _repo.GetPaymentLog(searchText, clubId, filterDate, request);
         }
 
         public PaymentOverviewCommon GetPaymentOverview(string clubId)
