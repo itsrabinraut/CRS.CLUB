@@ -35,6 +35,9 @@ namespace CRS.CLUB.APPLICATION.Controllers
         public ActionResult Index(string SearchFilter = "", string HostSearchFilter = "", string GallerySearchFilter = "", int StartIndex = 0, int PageSize = 10, int StartIndex1 = 0, int PageSize1 = 10, int StartIndex2 = 0, int PageSize2 = 10)
         {
             Session["CurrentURL"] = "/ClubManagement/Index";
+            var culture = Request.Cookies["culture"]?.Value;
+            culture = string.IsNullOrEmpty(culture) ? "ja" : culture;
+            ViewBag.CultureLang = culture;
             var AgentId = Session["AgentID"]?.ToString().DecryptParameter();
             string FileLocationPath = "";
 
