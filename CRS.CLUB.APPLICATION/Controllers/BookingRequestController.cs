@@ -51,19 +51,7 @@ namespace CRS.CLUB.APPLICATION.Controllers
             var dbResponseInfo = _business.GetBookingRequestAnalytics(AgentId);
             responseInfo.GetBookingRequestAnalyticData = dbResponseInfo.MapObject<BookingRequestAnalyticsModel>();
             var dbClubTimeList = _business.GetClubTimeList(AgentId);
-            responseInfo.GetClubTimeList = dbClubTimeList.MapObjects<ClubTimeInfoModel>();
-            foreach (var item in responseInfo.GetAllBookingRequestLists)
-            {
-                item.VisitedDate = DateTime.Parse(item.VisitedDate).ToString("yyyy-MM-dd");
-            }
-            foreach (var item in responseInfo.GetApprovedBookingRequestLists)
-            {
-                item.VisitedDate = DateTime.Parse(item.VisitedDate).ToString("yyyy-MM-dd");
-            }
-            foreach (var item in responseInfo.GetPendingBookingRequestLists)
-            {
-                item.VisitedDate = DateTime.Parse(item.VisitedDate).ToString("yyyy-MM-dd");
-            }
+            responseInfo.GetClubTimeList = dbClubTimeList.MapObjects<ClubTimeInfoModel>();           
 
             ViewBag.StartIndex1 = StartIndex;
             ViewBag.PageSize1 = PageSize;
